@@ -2,40 +2,284 @@
 <html lang="ko">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>김하영 UI 개발자 포트폴리오</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>김하영 - UI 개발자 포트폴리오</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
-  <header>
-    <h1>UI 개발자 김하영입니다.</h1>
-    <p>핀테크 실무 퍼블리싱 경험을 바탕으로 사용자 흐름을 고려한 UI 구조와 컴포넌트 중심 개발에 강점을 가지고 있습니다.</p>
-  </header>
+  <!-- Canvas Background -->
+  <canvas id="particleCanvas"></canvas>
 
-  <main>
-    <section class="project-section">
-      <h2>📁 프로젝트 목록</h2>
-      <div class="project-list">
-        <button class="project-btn" data-project="wattsup">WattsUp</button>
-        <button class="project-btn" data-project="surveygacha">SurveyGacha</button>
-        <button class="project-btn" data-project="carini">CARINI Web</button>
-        <button class="project-btn" data-project="chatbot">CARINI Chatbot</button>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">KHY</div>
+      <ul class="nav-menu">
+        <li><a href="#home" class="nav-link">Home</a></li>
+        <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+      <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
       </div>
-    </section>
-  </main>
+    </div>
+  </nav>
 
-  <div id="modal" class="modal hidden">
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1 class="hero-title">
+          <span class="gradient-text">김하영</span>
+        </h1>
+        <div class="hero-subtitle">UI Developer</div>
+        <div class="typing-container">
+          <p id="typingText" class="typing-text"></p>
+        </div>
+        <div class="hero-badges">
+          <span class="badge badge-blue">React</span>
+          <span class="badge badge-purple">Next.js</span>
+          <span class="badge badge-pink">TypeScript</span>
+        </div>
+        <div class="hero-buttons">
+          <a href="#projects" class="btn btn-primary">
+            <i class="fas fa-code"></i>
+            프로젝트 보기
+          </a>
+          <a href="#contact" class="btn btn-outline">
+            <i class="fas fa-envelope"></i>
+            연락하기
+          </a>
+        </div>
+      </div>
+      <div class="scroll-indicator">
+        <i class="fas fa-chevron-down"></i>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section id="skills" class="skills-section">
+    <div class="container">
+      <h2 class="section-title">
+        <span class="gradient-text">Skills & Technologies</span>
+      </h2>
+      <div class="skills-grid">
+        <div class="skill-card" data-aos="fade-up" data-aos-delay="0">
+          <div class="skill-icon">
+            <i class="fas fa-code"></i>
+          </div>
+          <h3>Frontend</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">React</span>
+            <span class="skill-tag">Next.js</span>
+            <span class="skill-tag">TypeScript</span>
+            <span class="skill-tag">HTML/CSS</span>
+            <span class="skill-tag">JavaScript</span>
+          </div>
+        </div>
+        <div class="skill-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="skill-icon">
+            <i class="fas fa-palette"></i>
+          </div>
+          <h3>Styling</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">Tailwind CSS</span>
+            <span class="skill-tag">Styled Components</span>
+            <span class="skill-tag">Framer Motion</span>
+            <span class="skill-tag">CSS Animation</span>
+          </div>
+        </div>
+        <div class="skill-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="skill-icon">
+            <i class="fas fa-database"></i>
+          </div>
+          <h3>State Management</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">Zustand</span>
+            <span class="skill-tag">Redux</span>
+            <span class="skill-tag">Context API</span>
+          </div>
+        </div>
+        <div class="skill-card" data-aos="fade-up" data-aos-delay="300">
+          <div class="skill-icon">
+            <i class="fas fa-tools"></i>
+          </div>
+          <h3>Tools & Others</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">Git</span>
+            <span class="skill-tag">Figma</span>
+            <span class="skill-tag">Supabase</span>
+            <span class="skill-tag">API Integration</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="projects-section">
+    <div class="container">
+      <h2 class="section-title">
+        <span class="gradient-text">Featured Projects</span>
+      </h2>
+      <div class="projects-grid">
+        <div class="project-card" data-aos="fade-up" data-aos-delay="0" data-project="wattsup">
+          <div class="project-header">
+            <h3>WattsUp Dashboard</h3>
+            <i class="fas fa-external-link-alt project-link-icon"></i>
+          </div>
+          <p class="project-subtitle">에너지 데이터 실시간 시각화 핀테크 플랫폼</p>
+          <p class="project-description">공공데이터 API와 Kakao Map API를 연동한 에너지 거래 대시보드</p>
+          <div class="project-tech">
+            <span class="tech-tag">Next.js</span>
+            <span class="tech-tag">TypeScript</span>
+            <span class="tech-tag">Recharts</span>
+            <span class="tech-tag">Zustand</span>
+            <span class="tech-tag">Framer Motion</span>
+          </div>
+          <div class="project-footer">
+            <span class="project-role">Front-End Developer</span>
+            <i class="fab fa-github"></i>
+          </div>
+        </div>
+
+        <div class="project-card" data-aos="fade-up" data-aos-delay="100" data-project="surveygacha">
+          <div class="project-header">
+            <h3>SurveyGacha</h3>
+            <i class="fas fa-external-link-alt project-link-icon"></i>
+          </div>
+          <p class="project-subtitle">가챠 시스템이 적용된 설문조사 플랫폼</p>
+          <p class="project-description">설문 참여 시 보상을 제공하는 웹 기반 리서치 서비스</p>
+          <div class="project-tech">
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">Zustand</span>
+            <span class="tech-tag">Supabase</span>
+            <span class="tech-tag">Figma</span>
+          </div>
+          <div class="project-footer">
+            <span class="project-role">Front-End Developer</span>
+            <i class="fab fa-github"></i>
+          </div>
+        </div>
+
+        <div class="project-card" data-aos="fade-up" data-aos-delay="200" data-project="carini">
+          <div class="project-header">
+            <h3>CARINI Web</h3>
+            <i class="fas fa-external-link-alt project-link-icon"></i>
+          </div>
+          <p class="project-subtitle">지도 기반 차량 탐색 플랫폼</p>
+          <p class="project-description">자동차 필터링, 지도 기반 추천, 비교 기능을 제공하는 웹 플랫폼</p>
+          <div class="project-tech">
+            <span class="tech-tag">HTML</span>
+            <span class="tech-tag">CSS</span>
+            <span class="tech-tag">JavaScript</span>
+            <span class="tech-tag">Kakao Map API</span>
+            <span class="tech-tag">Spring Boot</span>
+          </div>
+          <div class="project-footer">
+            <span class="project-role">Front-End Developer</span>
+          </div>
+        </div>
+
+        <div class="project-card" data-aos="fade-up" data-aos-delay="300" data-project="chatbot">
+          <div class="project-header">
+            <h3>CARINI AI Chatbot</h3>
+            <i class="fas fa-external-link-alt project-link-icon"></i>
+          </div>
+          <p class="project-subtitle">AI 기반 차량 추천 챗봇</p>
+          <p class="project-description">사용자 대화를 기반으로 필터링된 차량 정보를 제공하는 챗봇</p>
+          <div class="project-tech">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">MySQL</span>
+            <span class="tech-tag">Kakao Chatbot API</span>
+          </div>
+          <div class="project-footer">
+            <span class="project-role">Front-End & 데이터 설계</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="contact-section">
+    <div class="container">
+      <h2 class="section-title">
+        <span class="gradient-text">Get In Touch</span>
+      </h2>
+      <div class="contact-grid">
+        <div class="contact-card" data-aos="fade-up" data-aos-delay="0">
+          <div class="contact-icon">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <h3>Email</h3>
+          <p>contact@example.com</p>
+        </div>
+        <div class="contact-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="contact-icon">
+            <i class="fas fa-phone"></i>
+          </div>
+          <h3>Phone</h3>
+          <p>+82 10-0000-0000</p>
+        </div>
+        <div class="contact-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="contact-icon">
+            <i class="fas fa-map-marker-alt"></i>
+          </div>
+          <h3>Location</h3>
+          <p>Seoul, Korea</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 Kim Ha-Young. All rights reserved.</p>
+      <div class="social-links">
+        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+        <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal -->
+  <div id="projectModal" class="modal">
     <div class="modal-content">
-      <span id="closeModal" class="close-btn">&times;</span>
-      <div id="modalText"></div>
+      <div class="modal-header">
+        <h3 id="modalTitle"></h3>
+        <span class="modal-close">&times;</span>
+      </div>
+      <div class="modal-body">
+        <p id="modalSubtitle" class="modal-subtitle"></p>
+        <p id="modalDescription" class="modal-description"></p>
+        <div class="modal-section">
+          <h4>기술 스택</h4>
+          <div id="modalTech" class="modal-tech"></div>
+        </div>
+        <div class="modal-section">
+          <h4>담당 역할</h4>
+          <p id="modalRole" class="modal-role"></p>
+          <ul id="modalDetails" class="modal-details"></ul>
+        </div>
+        <div class="modal-actions">
+          <a id="modalGithub" href="#" class="btn btn-primary" target="_blank" style="display: none;">
+            <i class="fab fa-github"></i>
+            GitHub
+          </a>
+        </div>
+      </div>
     </div>
   </div>
-
-  <footer>
-    <p>Copyright ⓒ 2025 Kim Ha-Young</p>
-  </footer>
 
   <script src="script.js"></script>
 </body>
