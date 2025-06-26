@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>김하영 UI 개발자 포트폴리오</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header>
+    <h1>UI 개발자 김하영입니다.</h1>
+    <p>핀테크 실무 퍼블리싱 경험을 바탕으로 사용자 흐름을 고려한 UI 구조와 컴포넌트 중심 개발에 강점을 가지고 있습니다.</p>
+  </header>
+
+  <main>
+    <section class="project-section">
+      <h2>📁 프로젝트 목록</h2>
+      <div class="project-list">
+        <button class="project-btn" data-project="wattsup">WattsUp</button>
+        <button class="project-btn" data-project="surveygacha">SurveyGacha</button>
+        <button class="project-btn" data-project="carini">CARINI Web</button>
+        <button class="project-btn" data-project="chatbot">CARINI Chatbot</button>
+      </div>
+    </section>
+  </main>
+
+  <div id="modal" class="modal hidden">
+    <div class="modal-content">
+      <span id="closeModal" class="close-btn">&times;</span>
+      <div id="modalText"></div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Copyright ⓒ 2025 Kim Ha-Young</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
