@@ -10,8 +10,8 @@ let canvas, // 캔버스 요소
 // 파티클 시스템 초기화 함수
 function initParticles() {
   // DOM에서 캔버스 요소 가져오기
-  canvas = document.getElementById("particleCanvas")
-  ctx = canvas.getContext("2d")
+  canvas = document.getElementById('particleCanvas')
+  ctx = canvas.getContext('2d')
 
   // 초기 설정 및 애니메이션 시작
   resizeCanvas()
@@ -19,7 +19,7 @@ function initParticles() {
   animateParticles()
 
   // 윈도우 리사이즈 이벤트 리스너 등록
-  window.addEventListener("resize", resizeCanvas)
+  window.addEventListener('resize', resizeCanvas)
 }
 
 // 캔버스 크기를 윈도우 크기에 맞게 조정
@@ -63,7 +63,7 @@ function animateParticles() {
     // 파티클 그리기
     ctx.save()
     ctx.globalAlpha = particle.opacity
-    ctx.fillStyle = "#dc2626" // 빨간색
+    ctx.fillStyle = '#dc2626' // 빨간색
     ctx.beginPath()
     ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2)
     ctx.fill()
@@ -92,7 +92,7 @@ function drawConnections() {
         ctx.save()
         // 거리에 따른 투명도 조절 (가까울수록 진함)
         ctx.globalAlpha = ((120 - distance) / 120) * 0.15
-        ctx.strokeStyle = "#dc2626"
+        ctx.strokeStyle = '#dc2626'
         ctx.lineWidth = 1
         ctx.beginPath()
         ctx.moveTo(particle.x, particle.y)
@@ -110,9 +110,9 @@ function drawConnections() {
 
 // 타이핑 애니메이션 시작 함수
 function startTyping() {
-  const element = document.getElementById("typingText")
+  const element = document.getElementById('typingText')
   const text =
-    "핀테크 실무 퍼블리싱 경험을 바탕으로 사용자 흐름을 고려한 UI 구조와 컴포넌트 중심 개발에 강점을 가지고 있습니다."
+    '핀테크 실무 퍼블리싱 경험을 바탕으로 사용자 흐름을 고려한 UI 구조와 컴포넌트 중심 개발에 강점을 가지고 있습니다.'
   let index = 0 // 현재 타이핑 위치
 
   // 80ms마다 한 글자씩 추가
@@ -143,7 +143,7 @@ function initScrollAnimation() {
 
           // 지연 시간 후 애니메이션 클래스 추가
           setTimeout(() => {
-            entry.target.classList.add("aos-animate")
+            entry.target.classList.add('aos-animate')
           }, delay)
 
           // 한 번 애니메이션된 요소는 관찰 중단
