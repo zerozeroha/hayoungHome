@@ -2,29 +2,30 @@
 <html lang="ko">
 
 <head>
-  <!-- 기본 메타 정보 -->
+  <!-- 기본 메타 정보 설정 -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>김하영 - UI 개발자 포트폴리오</title>
 
-  <!-- 스타일시트 및 폰트 -->
+  <!-- 외부 스타일시트 및 폰트 로드 -->
   <link rel="stylesheet" href="style.css">
+  <!-- Font Awesome 아이콘 라이브러리 -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-  <link rel="stylesheet" as="style" crossorigin
-    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable.css" />
+  <!-- Pretendard 폰트 (한국어 최적화 폰트) -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendardvariable.css" />
 </head>
 
 <body>
-  <!-- 배경 파티클 캔버스 -->
+  <!-- 배경 파티클 애니메이션을 위한 캔버스 -->
   <canvas id="particleCanvas"></canvas>
 
-  <!-- 상단 네비게이션 바 -->
+  <!-- 상단 고정 네비게이션 바 -->
   <nav class="navbar">
     <div class="nav-container">
-      <!-- 로고 -->
+      <!-- 로고/브랜드명 -->
       <div class="nav-logo">KHY</div>
 
-      <!-- 네비게이션 메뉴 -->
+      <!-- 데스크톱 네비게이션 메뉴 -->
       <ul class="nav-menu">
         <li><a href="#home" class="nav-link">Home</a></li>
         <li><a href="#skills" class="nav-link">Skills</a></li>
@@ -32,7 +33,7 @@
         <li><a href="#contact" class="nav-link">Contact</a></li>
       </ul>
 
-      <!-- 모바일 햄버거 메뉴 -->
+      <!-- 모바일용 햄버거 메뉴 버튼 -->
       <div class="hamburger">
         <span></span>
         <span></span>
@@ -41,46 +42,57 @@
     </div>
   </nav>
 
-  <!-- 메인 히어로 섹션 -->
+  <!-- 메인 히어로 섹션 (첫 화면) -->
   <section id="home" class="hero">
     <div class="hero-content">
       <div class="hero-text">
-        <!-- 메인 타이틀 -->
+        <!-- 직업/역할 라벨 -->
+        <div class="hero-label">UI DEVELOPER</div>
+
+        <!-- 메인 타이틀 (이름) -->
         <h1 class="hero-title">
-          <span class="gradient-text">김하영</span>
+          <span class="title-main">김하영</span>
+          <span class="title-sub">KIM HA-YOUNG</span>
         </h1>
 
-        <!-- 서브 타이틀 -->
-        <div class="hero-subtitle">UI Developer</div>
-
-        <!-- 타이핑 애니메이션 텍스트 -->
-        <div class="typing-container">
+        <!-- 타이핑 애니메이션이 적용될 설명 텍스트 -->
+        <div class="hero-description">
           <p id="typingText" class="typing-text"></p>
         </div>
 
-        <!-- 기술 스택 배지 -->
-        <div class="hero-badges">
-          <span class="badge badge-primary">React</span>
-          <span class="badge badge-secondary">Next.js</span>
-          <span class="badge badge-accent">TypeScript</span>
+        <!-- 통계/수치 정보 -->
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-number">4+</span>
+            <span class="stat-label">Projects</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">2+</span>
+            <span class="stat-label">Years</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">100%</span>
+            <span class="stat-label">Passion</span>
+          </div>
         </div>
 
         <!-- 액션 버튼들 -->
         <div class="hero-buttons">
           <a href="#projects" class="btn btn-primary">
-            <i class="fas fa-code"></i>
-            프로젝트 보기
+            <span>프로젝트 보기</span>
+            <i class="fas fa-arrow-right"></i>
           </a>
           <a href="#contact" class="btn btn-outline">
+            <span>연락하기</span>
             <i class="fas fa-envelope"></i>
-            연락하기
           </a>
         </div>
       </div>
 
-      <!-- 스크롤 인디케이터 -->
+      <!-- 스크롤 유도 인디케이터 -->
       <div class="scroll-indicator">
-        <i class="fas fa-chevron-down"></i>
+        <div class="scroll-text">SCROLL</div>
+        <div class="scroll-line"></div>
       </div>
     </div>
   </section>
@@ -88,66 +100,67 @@
   <!-- 스킬 섹션 -->
   <section id="skills" class="skills-section">
     <div class="container">
-      <!-- 섹션 타이틀 -->
-      <h2 class="section-title">
-        <span class="gradient-text">Skills & Technologies</span>
-      </h2>
+      <!-- 섹션 헤더 -->
+      <div class="section-header">
+        <h2 class="section-title">SKILLS & EXPERTISE</h2>
+        <p class="section-subtitle">전문 기술과 도구들</p>
+      </div>
 
-      <!-- 스킬 그리드 -->
+      <!-- 스킬 카드 그리드 -->
       <div class="skills-grid">
-        <!-- 프론트엔드 스킬 카드 -->
-        <div class="skill-card" data-aos="fade-up" data-aos-delay="0">
-          <div class="skill-icon">
-            <i class="fas fa-code"></i>
-          </div>
-          <h3>Frontend</h3>
-          <div class="skill-tags">
-            <span class="skill-tag">React</span>
-            <span class="skill-tag">Next.js</span>
-            <span class="skill-tag">TypeScript</span>
-            <span class="skill-tag">HTML/CSS</span>
-            <span class="skill-tag">JavaScript</span>
+        <!-- 프론트엔드 개발 스킬 카드 -->
+        <div class="skill-card" data-aos="fade-up">
+          <div class="skill-number">01</div>
+          <div class="skill-content">
+            <h3>Frontend Development</h3>
+            <div class="skill-tags">
+              <span>React</span>
+              <span>Next.js</span>
+              <span>TypeScript</span>
+              <span>JavaScript</span>
+            </div>
           </div>
         </div>
 
-        <!-- 스타일링 스킬 카드 -->
+        <!-- UI/UX 디자인 스킬 카드 -->
         <div class="skill-card" data-aos="fade-up" data-aos-delay="100">
-          <div class="skill-icon">
-            <i class="fas fa-palette"></i>
-          </div>
-          <h3>Styling</h3>
-          <div class="skill-tags">
-            <span class="skill-tag">Tailwind CSS</span>
-            <span class="skill-tag">Styled Components</span>
-            <span class="skill-tag">Framer Motion</span>
-            <span class="skill-tag">CSS Animation</span>
+          <div class="skill-number">02</div>
+          <div class="skill-content">
+            <h3>UI/UX Design</h3>
+            <div class="skill-tags">
+              <span>Figma</span>
+              <span>CSS Animation</span>
+              <span>Responsive Design</span>
+              <span>User Experience</span>
+            </div>
           </div>
         </div>
 
         <!-- 상태 관리 스킬 카드 -->
         <div class="skill-card" data-aos="fade-up" data-aos-delay="200">
-          <div class="skill-icon">
-            <i class="fas fa-database"></i>
-          </div>
-          <h3>State Management</h3>
-          <div class="skill-tags">
-            <span class="skill-tag">Zustand</span>
-            <span class="skill-tag">Redux</span>
-            <span class="skill-tag">Context API</span>
+          <div class="skill-number">03</div>
+          <div class="skill-content">
+            <h3>State Management</h3>
+            <div class="skill-tags">
+              <span>Zustand</span>
+              <span>Redux</span>
+              <span>Context API</span>
+              <span>Data Flow</span>
+            </div>
           </div>
         </div>
 
-        <!-- 도구 및 기타 스킬 카드 -->
+        <!-- 개발 도구 스킬 카드 -->
         <div class="skill-card" data-aos="fade-up" data-aos-delay="300">
-          <div class="skill-icon">
-            <i class="fas fa-tools"></i>
-          </div>
-          <h3>Tools & Others</h3>
-          <div class="skill-tags">
-            <span class="skill-tag">Git</span>
-            <span class="skill-tag">Figma</span>
-            <span class="skill-tag">Supabase</span>
-            <span class="skill-tag">API Integration</span>
+          <div class="skill-number">04</div>
+          <div class="skill-content">
+            <h3>Development Tools</h3>
+            <div class="skill-tags">
+              <span>Git</span>
+              <span>API Integration</span>
+              <span>Supabase</span>
+              <span>Performance</span>
+            </div>
           </div>
         </div>
       </div>
@@ -157,89 +170,82 @@
   <!-- 프로젝트 섹션 -->
   <section id="projects" class="projects-section">
     <div class="container">
-      <!-- 섹션 타이틀 -->
-      <h2 class="section-title">
-        <span class="gradient-text">Featured Projects</span>
-      </h2>
+      <!-- 섹션 헤더 -->
+      <div class="section-header">
+        <h2 class="section-title">FEATURED WORKS</h2>
+        <p class="section-subtitle">주요 프로젝트들</p>
+      </div>
 
-      <!-- 프로젝트 그리드 -->
+      <!-- 프로젝트 카드 그리드 -->
       <div class="projects-grid">
-        <!-- WattsUp 프로젝트 카드 -->
-        <div class="project-card" data-aos="fade-up" data-aos-delay="0" data-project="wattsup">
-          <div class="project-header">
+        <!-- 메인 프로젝트 카드 (WattsUp) -->
+        <div class="project-card featured" data-aos="fade-up" data-project="wattsup">
+          <div class="project-label">FEATURED PROJECT</div>
+          <div class="project-content">
             <h3>WattsUp Dashboard</h3>
-            <i class="fas fa-external-link-alt project-link-icon"></i>
+            <p class="project-subtitle">에너지 데이터 실시간 시각화 핀테크 플랫폼</p>
+            <p class="project-description">공공데이터 API와 Kakao Map API를 연동한 에너지 거래 대시보드로, 실시간 데이터 시각화와 인터랙티브한 사용자 경험을
+              제공합니다.</p>
+            <div class="project-tech">
+              <span>Next.js</span>
+              <span>TypeScript</span>
+              <span>Recharts</span>
+              <span>Zustand</span>
+            </div>
           </div>
-          <p class="project-subtitle">에너지 데이터 실시간 시각화 핀테크 플랫폼</p>
-          <p class="project-description">공공데이터 API와 Kakao Map API를 연동한 에너지 거래 대시보드</p>
-          <div class="project-tech">
-            <span class="tech-tag">Next.js</span>
-            <span class="tech-tag">TypeScript</span>
-            <span class="tech-tag">Recharts</span>
-            <span class="tech-tag">Zustand</span>
-            <span class="tech-tag">Framer Motion</span>
-          </div>
-          <div class="project-footer">
-            <span class="project-role">Front-End Developer</span>
-            <i class="fab fa-github"></i>
+          <div class="project-link">
+            <i class="fas fa-external-link-alt"></i>
           </div>
         </div>
 
         <!-- SurveyGacha 프로젝트 카드 -->
         <div class="project-card" data-aos="fade-up" data-aos-delay="100" data-project="surveygacha">
-          <div class="project-header">
+          <div class="project-content">
             <h3>SurveyGacha</h3>
-            <i class="fas fa-external-link-alt project-link-icon"></i>
+            <p class="project-subtitle">가챠 시스템 설문조사 플랫폼</p>
+            <p class="project-description">설문 참여 시 보상을 제공하는 웹 기반 리서치 서비스</p>
+            <div class="project-tech">
+              <span>React</span>
+              <span>Zustand</span>
+              <span>Supabase</span>
+            </div>
           </div>
-          <p class="project-subtitle">가챠 시스템이 적용된 설문조사 플랫폼</p>
-          <p class="project-description">설문 참여 시 보상을 제공하는 웹 기반 리서치 서비스</p>
-          <div class="project-tech">
-            <span class="tech-tag">React</span>
-            <span class="tech-tag">Zustand</span>
-            <span class="tech-tag">Supabase</span>
-            <span class="tech-tag">Figma</span>
-          </div>
-          <div class="project-footer">
-            <span class="project-role">Front-End Developer</span>
-            <i class="fab fa-github"></i>
+          <div class="project-link">
+            <i class="fas fa-external-link-alt"></i>
           </div>
         </div>
 
         <!-- CARINI Web 프로젝트 카드 -->
         <div class="project-card" data-aos="fade-up" data-aos-delay="200" data-project="carini">
-          <div class="project-header">
+          <div class="project-content">
             <h3>CARINI Web</h3>
-            <i class="fas fa-external-link-alt project-link-icon"></i>
+            <p class="project-subtitle">지도 기반 차량 탐색 플랫폼</p>
+            <p class="project-description">자동차 필터링, 지도 기반 추천, 비교 기능 제공</p>
+            <div class="project-tech">
+              <span>JavaScript</span>
+              <span>Kakao Map API</span>
+              <span>Spring Boot</span>
+            </div>
           </div>
-          <p class="project-subtitle">지도 기반 차량 탐색 플랫폼</p>
-          <p class="project-description">자동차 필터링, 지도 기반 추천, 비교 기능을 제공하는 웹 플랫폼</p>
-          <div class="project-tech">
-            <span class="tech-tag">HTML</span>
-            <span class="tech-tag">CSS</span>
-            <span class="tech-tag">JavaScript</span>
-            <span class="tech-tag">Kakao Map API</span>
-            <span class="tech-tag">Spring Boot</span>
-          </div>
-          <div class="project-footer">
-            <span class="project-role">Front-End Developer</span>
+          <div class="project-link">
+            <i class="fas fa-external-link-alt"></i>
           </div>
         </div>
 
         <!-- CARINI AI Chatbot 프로젝트 카드 -->
         <div class="project-card" data-aos="fade-up" data-aos-delay="300" data-project="chatbot">
-          <div class="project-header">
+          <div class="project-content">
             <h3>CARINI AI Chatbot</h3>
-            <i class="fas fa-external-link-alt project-link-icon"></i>
+            <p class="project-subtitle">AI 기반 차량 추천 챗봇</p>
+            <p class="project-description">사용자 대화 기반 필터링된 차량 정보 제공</p>
+            <div class="project-tech">
+              <span>Python</span>
+              <span>MySQL</span>
+              <span>Kakao API</span>
+            </div>
           </div>
-          <p class="project-subtitle">AI 기반 차량 추천 챗봇</p>
-          <p class="project-description">사용자 대화를 기반으로 필터링된 차량 정보를 제공하는 챗봇</p>
-          <div class="project-tech">
-            <span class="tech-tag">Python</span>
-            <span class="tech-tag">MySQL</span>
-            <span class="tech-tag">Kakao Chatbot API</span>
-          </div>
-          <div class="project-footer">
-            <span class="project-role">Front-End & 데이터 설계</span>
+          <div class="project-link">
+            <i class="fas fa-external-link-alt"></i>
           </div>
         </div>
       </div>
@@ -249,38 +255,38 @@
   <!-- 연락처 섹션 -->
   <section id="contact" class="contact-section">
     <div class="container">
-      <!-- 섹션 타이틀 -->
-      <h2 class="section-title">
-        <span class="gradient-text">Get In Touch</span>
-      </h2>
+      <!-- 섹션 헤더 -->
+      <div class="section-header">
+        <h2 class="section-title">GET IN TOUCH</h2>
+        <p class="section-subtitle">함께 일하고 싶으시다면</p>
+      </div>
 
-      <!-- 연락처 그리드 -->
-      <div class="contact-grid">
-        <!-- 이메일 카드 -->
-        <div class="contact-card" data-aos="fade-up" data-aos-delay="0">
-          <div class="contact-icon">
-            <i class="fas fa-envelope"></i>
+      <!-- 연락처 콘텐츠 -->
+      <div class="contact-content">
+        <!-- 연락처 정보 -->
+        <div class="contact-info">
+          <div class="contact-item" data-aos="fade-up">
+            <div class="contact-label">EMAIL</div>
+            <div class="contact-value">duddldml3939@google.com</div>
           </div>
-          <h3>Email</h3>
-          <p>duddldml3939@google.com</p>
+          <div class="contact-item" data-aos="fade-up" data-aos-delay="100">
+            <div class="contact-label">PHONE</div>
+            <div class="contact-value">010-8631-0457</div>
+          </div>
+          <div class="contact-item" data-aos="fade-up" data-aos-delay="200">
+            <div class="contact-label">LOCATION</div>
+            <div class="contact-value">Seoul, Korea</div>
+          </div>
         </div>
 
-        <!-- 전화번호 카드 -->
-        <div class="contact-card" data-aos="fade-up" data-aos-delay="100">
-          <div class="contact-icon">
-            <i class="fas fa-phone"></i>
-          </div>
-          <h3>Phone</h3>
-          <p>010-8631-0457</p>
-        </div>
-
-        <!-- 위치 카드 -->
-        <div class="contact-card" data-aos="fade-up" data-aos-delay="200">
-          <div class="contact-icon">
-            <i class="fas fa-map-marker-alt"></i>
-          </div>
-          <h3>Location</h3>
-          <p>Gwanak-gu Seoul, Korea </p>
+        <!-- 연락 유도 섹션 -->
+        <div class="contact-cta" data-aos="fade-up" data-aos-delay="300">
+          <h3>새로운 프로젝트를 시작해보세요</h3>
+          <p>창의적이고 효율적인 솔루션으로 함께하겠습니다.</p>
+          <a href="mailto:duddldml3939@google.com" class="btn btn-primary">
+            <span>이메일 보내기</span>
+            <i class="fas fa-arrow-right"></i>
+          </a>
         </div>
       </div>
     </div>
@@ -289,19 +295,28 @@
   <!-- 푸터 -->
   <footer class="footer">
     <div class="container">
-      <!-- 저작권 정보 -->
-      <p>&copy; 2025 Kim Ha-Young. All rights reserved.</p>
-
-      <!-- 소셜 링크 -->
-      <div class="social-links">
-        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-        <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
+      <div class="footer-content">
+        <!-- 저작권 정보 -->
+        <div class="footer-text">
+          <p>&copy; 2025 Kim Ha-Young. All rights reserved.</p>
+        </div>
+        <!-- 소셜 링크 -->
+        <div class="social-links">
+          <a href="#" class="social-link">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="#" class="social-link">
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a href="mailto:duddldml3939@google.com" class="social-link">
+            <i class="fas fa-envelope"></i>
+          </a>
+        </div>
       </div>
     </div>
   </footer>
 
-  <!-- 프로젝트 상세 모달 -->
+  <!-- 프로젝트 상세 정보 모달 -->
   <div id="projectModal" class="modal">
     <div class="modal-content">
       <!-- 모달 헤더 -->
@@ -309,30 +324,26 @@
         <h3 id="modalTitle"></h3>
         <span class="modal-close">&times;</span>
       </div>
-
       <!-- 모달 바디 -->
       <div class="modal-body">
         <p id="modalSubtitle" class="modal-subtitle"></p>
         <p id="modalDescription" class="modal-description"></p>
-
         <!-- 기술 스택 섹션 -->
         <div class="modal-section">
           <h4>기술 스택</h4>
           <div id="modalTech" class="modal-tech"></div>
         </div>
-
         <!-- 담당 역할 섹션 -->
         <div class="modal-section">
           <h4>담당 역할</h4>
           <p id="modalRole" class="modal-role"></p>
           <ul id="modalDetails" class="modal-details"></ul>
         </div>
-
         <!-- 액션 버튼 -->
         <div class="modal-actions">
-          <a id="modalGithub" href="#" class="btn btn-primary" target="_blank" style="display: none;">
+          <a id="modalGithub" href="#" class="btn btn-primary" target="_blank">
+            <span>GitHub</span>
             <i class="fab fa-github"></i>
-            GitHub
           </a>
         </div>
       </div>
