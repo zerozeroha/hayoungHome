@@ -27,6 +27,7 @@ HTML, CSS, JavaScript를 기반으로 사용자 경험(UX)을 고려한 구조�
 ## 프로젝트 구조
 .
 ├── index.html # 메인 페이지 (시맨틱 마크업 기반)
+
 ├── style.css # 글로벌 스타일, 반응형 및 인터랙션 정의
 ├── script.js # 파티클 애니메이션 및 동작 제어
 └── README.md # 프로젝트 설명서
