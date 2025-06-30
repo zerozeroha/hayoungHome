@@ -118,6 +118,12 @@ body {
   background: var(--color-white);
   overflow-x: hidden;
   /* 가로 스크롤 방지 */
+
+  /* 단어 분리 방지 효과 */
+  word-break: keep-all;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 /* ===================================
@@ -1280,4 +1286,51 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-primary-dark);
+}
+
+/* ===================================
+       텍스트 단어 분리 방지 (한국어 최적화)
+       =================================== */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+div,
+a,
+li,
+.hero-description,
+.typing-text,
+.section-subtitle,
+.project-description,
+.modal-description,
+.contact-value,
+.skill-content,
+.project-content {
+  word-break: keep-all;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* 긴 URL이나 이메일 주소는 예외 처리 */
+.contact-value,
+.modal-tech span,
+.skill-tags span,
+.project-tech span {
+  word-break: break-all;
+  overflow-wrap: anywhere;
+}
+
+/* 코드나 기술 태그는 줄바꿈 허용 */
+code,
+pre,
+.skill-tags,
+.project-tech,
+.modal-tech {
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
