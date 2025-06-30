@@ -503,6 +503,7 @@ body {
   transition: var(--transition-slow);
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 }
 
 /* 스킬 카드 상단 빨간 라인 효과 */
