@@ -123,7 +123,7 @@ function startTyping() {
     } else {
       clearInterval(timer) // 타이핑 완료 시 타이머 정리
     }
-  }, 80)
+  }, 90)
 }
 
 // ===================================
@@ -380,11 +380,12 @@ function initNavbarEffect() {
 
 // DOM 로드 완료 시 모든 기능 초기화
 document.addEventListener('DOMContentLoaded', () => {
+  // DOMContentLoaded : HTML 문서의 기본 구조(문서 객체)가 모두 로드되었을 때 실행되는 이벤트
   initParticles() // 파티클 애니메이션 시작
   startTyping() // 타이핑 애니메이션 시작
   initScrollAnimation() // 스크롤 애니메이션 초기화
   initModal() // 모달 시스템 초기화
-  initMobileNav() // 모바일 네비게이션 초기화
+  initMobileNav() // 모바일 네비게이션 초기화f
   initSmoothScroll() // 부드러운 스크롤 초기화
   initNavbarEffect() // 네비바 효과 초기화
 })

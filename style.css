@@ -319,12 +319,18 @@ body {
   /* 최대 너비 제한 */
   margin-bottom: var(--spacing-12);
   animation: fadeInUp 0.8s ease-out 0.4s both;
+  width: 100%;
+  font-size: 18px;
+  line-height: 1.5;
 }
 
 .typing-text {
   font-size: var(--font-size-xl);
   color: var(--color-gray-600);
   line-height: 1.6;
+  word-break: keep-all;
+  /* 한글 단어 안 끊기 */
+
 }
 
 /* 통계 정보 */
@@ -976,6 +982,9 @@ body {
      반응형 디자인 (모바일)
      =================================== */
 @media (max-width: 768px) {
+  .hero-title {
+    margin-top: 110px;
+  }
 
   /* 모바일 네비게이션 */
   .nav-menu {
