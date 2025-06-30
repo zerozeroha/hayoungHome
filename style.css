@@ -764,7 +764,7 @@ body {
   /* 클릭 가능 표시 */
   position: relative;
   overflow: hidden;
-  border: 2px solid transparent;
+  border: 2px solid var(--color-gray-100);
   width: 100%;
   max-width: 450px;
 }
