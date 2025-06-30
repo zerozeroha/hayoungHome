@@ -113,18 +113,17 @@ function drawConnections() {
 function startTyping() {
   const element = document.getElementById("typingText")
   const text =
-    "핀테크 실무 퍼블리싱 경험을 바탕으로 사용자 흐름을 고려한 UI 구조와 컴포넌트 중심 개발에 강점을 가지고 있습니다."
-  let index = 0 // 현재 타이핑 위치
+    "사용자 중심 UI를 설계하고 개발하는 UI 개발자입니다. 핀테크 실무 경험을 바탕으로 사용자 흐름을 고려한 UI 구조와 컴포넌트 중심 개발에 강점을 가지고 있습니다."
+  let index = 0
 
-  // 80ms마다 한 글자씩 추가
   const timer = setInterval(() => {
     if (index < text.length) {
       element.textContent = text.slice(0, index + 1)
       index++
     } else {
-      clearInterval(timer) // 타이핑 완료 시 타이머 정리
+      clearInterval(timer)
     }
-  }, 90)
+  }, 80)
 }
 
 // ===================================
@@ -134,6 +133,7 @@ function startTyping() {
 // 스크롤 애니메이션 초기화 함수
 function initScrollAnimation() {
   // Intersection Observer 생성
+  // IntersectionObserver : 요소가 뷰포트에 보이기 시작할 때 특정 작업을 실행할 수 있도록 도와주는 API
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -172,54 +172,73 @@ const projectData = {
   wattsup: {
     title: "WattsUp Dashboard",
     subtitle: "에너지 데이터 실시간 시각화 핀테크 플랫폼",
-    description: "공공데이터 API와 Kakao Map API를 연동해 발전소 위치 및 정보를 시각적으로 제공하는 에너지 데이터 거래 대시보드입니다.",
-    tech: ["Next.js", "TypeScript", "Recharts", "Zustand", "Framer Motion"],
+    description: "TurbinCrew와 협력하여 에너지 데이터를 시각화하고 거래할 수 있는 웹 서비스입니다. 한국전력발전소 API와 MongoDB를 활용하여 실시간 데이터 시각화 및 에너지 거래 플랫폼을 구현했습니다.",
+    tech: [
+      "React",
+      "Next.js",
+      "TypeScript",
+      "Tailwind CSS",
+      "Shadcn/ui",
+      "Framer Motion",
+      "Zustand",
+      "React-Fullpage.js",
+    ],
     role: "Front-End Developer",
     details: [
-      "전체 페이지 UI 설계 및 반응형 퍼블리싱",
-      "컴포넌트 기반 구조 설계",
-      "Recharts, Zustand, Framer Motion 등으로 실시간 데이터 시각화 및 인터랙션 구현",
-      "Next.js SSR 적용을 통한 SEO 개선 및 성능 최적화",
+      "웹 전체 Design - Shadcn/ui 및 Tailwind CSS를 활용한 디자인 시스템 구축",
+      "UI/UX 퍼블리싱 - 반응형 Tablet, PC 대응",
+      "메인/전력거래/소개페이지 컴포넌트 설계",
+      "공공데이터 API 연동 및 Recharts를 활용한 데이터 시각화",
+      "Kakao Map API를 활용한 발전소 위치 표시",
+      "Next.js SSR 적용을 통한 SEO 최적화",
     ],
     github: "https://github.com/zerozeroha/WattsUp",
   },
   surveygacha: {
     title: "SurveyGacha",
     subtitle: "가챠 시스템이 적용된 설문조사 플랫폼",
-    description: "설문 참여 시 가챠(보상)를 제공하는 웹 기반 리서치 서비스로, 사용자 몰입도를 높이며 효율적인 데이터 수집을 유도합니다.",
-    tech: ["React", "Zustand", "Supabase", "Figma"],
+    description: "기존 ReviewGacha 프로젝트를 개선하여 사용자 경험을 최적화한 설문 조사 기반 웹 애플리케이션입니다. 사용자가 설문에 참여할수록 보상을 획득하는 시스템으로 데이터 수집을 효과적으로 유도합니다.",
+    tech: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Shadcn/ui", "Zustand", "Supabase", "Figma"],
     role: "Front-End Developer",
     details: [
-      "Figma 디자인 기반 퍼블리싱",
-      "모바일/PC 반응형 UI 구현",
-      "설문 작성 및 응답 흐름 설계",
-      "Zustand 상태관리 및 Supabase 연동을 통한 설문 데이터 처리 구현",
+      "디자이너와 협업하여 Figma 디자인 기반 UI 구현",
+      "반응형 Mobile, PC UI/UX 퍼블리싱",
+      "글 작성/목록 페이지 컴포넌트 설계",
+      "설문조사 페이지 컴포넌트 설계",
+      "Zustand를 활용한 상태관리 최적화",
+      "Supabase 연동을 통한 실시간 데이터 처리",
     ],
     github: "https://github.com/zerozeroha/surveygacha",
   },
   carini: {
     title: "CARINI Web",
     subtitle: "지도 기반 차량 탐색 플랫폼",
-    description: "자동차 필터링, 지도 기반 추천, 비교 기능을 제공하는 차량 탐색 웹 플랫폼입니다.",
-    tech: ["HTML", "CSS", "JavaScript", "Kakao Map API", "Spring Boot"],
+    description: "사용자가 원하는 차량을 쉽고 직관적으로 탐색할 수 있는 웹 서비스입니다. JavaScript 기반의 동적 UI와 Kakao 지도 API를 연동하여 차량 출고 위치 기반 추천 및 비교 기능을 제공합니다.",
+    tech: ["HTML", "CSS", "JavaScript", "Spring Boot", "MySQL", "Kakao Map API"],
     role: "Front-End Developer",
     details: [
-      "HTML/CSS/JS 기반 퍼블리싱",
-      "Kakao Map API 연동으로 지도 기반 시각화",
-      "Spring Boot 백엔드와의 연동 작업",
-      "차량 필터링 및 검색 기능 데이터 처리",
+      "CSS 및 HTML을 활용한 UI/UX 디자인 설계",
+      "JavaScript 기반 동적 UI 및 사용자 인터랙션 구현",
+      "Spring Boot와 MySQL 연동을 통한 데이터 바인딩",
+      "Kakao 지도 API를 활용한 차량 매물 정보 시각화",
+      "차량 필터링 및 검색 기능 최적화",
+      "MySQL 인덱싱 및 쿼리 최적화를 통한 성능 개선",
     ],
+    github: "https://github.com/zerozeroha/CARINI_PROJECT",
   },
   chatbot: {
     title: "CARINI AI Chatbot",
     subtitle: "AI 기반 차량 추천 챗봇",
-    description: "차량 추천, 정보 탐색 기능을 제공하는 챗봇 기반 서비스로, 사용자의 대화 입력을 기반으로 필터링된 차량 정보를 제공합니다.",
-    tech: ["Python", "MySQL", "Kakao Chatbot API"],
-    role: "Front-End & 데이터 설계 지원",
+    description: "카카오 챗봇 API를 활용한 맞춤형 AI 챗봇 서비스입니다. 사용자의 필터링 조건에 맞는 차량 정보를 대화형 인터페이스를 통해 제공하며, 차량 추천 및 세부 정보 확인이 가능합니다.",
+    tech: ["Python", "MySQL", "Kakao Chatbot API", "Jupyter Notebook"],
+    role: "Development",
     details: [
-      "MySQL 기반 차량 데이터베이스 설계",
-      "Python 기반 챗봇 대화 흐름 구성",
-      "카카오 챗봇 API 연동 및 사용자 입력 처리 로직 설계",
+      "MySQL을 활용한 자동차 데이터 테이블 구성 및 최적화",
+      "사용자 입력 기반 맞춤형 자동차 추천 시스템 개발",
+      "카카오 챗봇 API 연동 및 블록 기반 대화 흐름 설계",
+      "자연스러운 챗봇 인터랙션을 위한 질문 패턴 및 응답 로직 최적화",
+      "Jupyter Notebook을 활용한 데이터 분석 및 웹 크롤링",
+      "챗봇과 데이터베이스 간 원활한 통신 구조 설계",
     ],
   },
 }
@@ -286,11 +305,11 @@ function openModal(projectId) {
 
   // GitHub 링크 설정
   const githubBtn = document.getElementById("modalGithub")
-  if (project.github) {
+  if (project.github && typeof project.github === "string" && project.github.trim() !== "") {
     githubBtn.href = project.github
     githubBtn.style.display = "inline-flex"
   } else {
-    githubBtn.style.display = "none" // GitHub 링크가 없으면 숨김
+    githubBtn.style.display = "none"
   }
 
   // 모달 표시 및 스크롤 방지
@@ -380,7 +399,7 @@ function initNavbarEffect() {
 // ===================================
 
 // DOM 로드 완료 시 모든 기능 초기화
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   // DOMContentLoaded : HTML 문서의 기본 구조(문서 객체)가 모두 로드되었을 때 실행되는 이벤트
   initParticles() // 파티클 애니메이션 시작
   startTyping() // 타이핑 애니메이션 시작
