@@ -166,7 +166,6 @@ body {
   background: rgba(255, 255, 255, 0.95);
   /* 반투명 배경 */
   backdrop-filter: blur(20px);
-  /* 블러 효과 */
   border-bottom: 1px solid var(--color-gray-200);
   z-index: 1000;
   /* 최상위 레이어 */
@@ -179,10 +178,9 @@ body {
   padding: 0 var(--spacing-4);
   display: flex;
   justify-content: space-between;
-  /* 양쪽 끝 정렬 */
   align-items: center;
   height: 80px;
-  /* 네비바 높이 */
+
   width: 100%;
 }
 
@@ -190,34 +188,26 @@ body {
 .nav-logo {
   font-size: var(--font-size-2xl);
   font-weight: 900;
-  /* 매우 굵은 폰트 */
   color: var(--color-primary);
   letter-spacing: -0.05em;
-  /* 글자 간격 조정 */
 }
 
 /* 네비게이션 메뉴 */
 .nav-menu {
   display: flex;
   list-style: none;
-  /* 리스트 스타일 제거 */
   gap: var(--spacing-8);
-  /* 메뉴 간격 */
 }
 
 .nav-link {
   color: var(--color-gray-700);
   text-decoration: none;
-  /* 밑줄 제거 */
   font-weight: 600;
   font-size: var(--font-size-sm);
   text-transform: uppercase;
-  /* 대문자 변환 */
   letter-spacing: 0.05em;
-  /* 글자 간격 */
   transition: var(--transition);
   position: relative;
-  /* 가상 요소 위치 기준 */
 }
 
 .nav-link:hover {
@@ -244,7 +234,6 @@ body {
 /* 모바일 햄버거 메뉴 */
 .hamburger {
   display: none;
-  /* 기본적으로 숨김 */
   flex-direction: column;
   cursor: pointer;
   gap: var(--spacing-1);
@@ -262,13 +251,12 @@ body {
          =================================== */
 .hero {
   min-height: 100vh;
-  /* 전체 화면 높이 */
   display: flex;
   align-items: center;
   /* 세로 중앙 정렬 */
   position: relative;
   z-index: 10;
-  background: linear-gradient(135deg, var(--color-white) 0%, var(--color-gray-50) 100%);
+  background: linear-gradient(var(--color-white) 0%, var(--color-gray-50) 100%);
   padding: 0 var(--spacing-4);
 }
 
@@ -291,27 +279,24 @@ body {
   color: var(--color-primary);
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  /* 넓은 글자 간격 */
   margin-bottom: var(--spacing-4);
   animation: fadeInUp 0.8s ease-out;
-  /* 페이드인 애니메이션 */
 }
 
 .hero-title {
   margin-bottom: var(--spacing-8);
   animation: fadeInUp 0.8s ease-out 0.2s both;
-  /* 지연된 애니메이션 */
+  /* 지연된 애니메이션 both	: 시작 전, 종료 후 상태 모두 유지 */
 }
 
 /* 메인 타이틀 (한글 이름) */
 .title-main {
   display: block;
   font-size: clamp(3rem, 10vw, 6rem);
-  /* 반응형 폰트 크기 */
+  /* clamp : 최소 - 기본 - 최대 : 반응형 폰트 크기 */
   font-weight: 900;
   color: var(--color-black);
   line-height: 0.9;
-  /* 줄 간격 조정 */
   letter-spacing: -0.05em;
 }
 
@@ -320,7 +305,6 @@ body {
   display: block;
   font-size: clamp(1rem, 3vw, 2rem);
   font-weight: 300;
-  /* 얇은 폰트 */
   color: var(--color-gray-500);
   letter-spacing: 0.1em;
   margin-top: var(--spacing-2);
@@ -329,12 +313,12 @@ body {
 /* 설명 텍스트 영역 */
 .hero-description {
   max-width: 600px;
-  /* 최대 너비 제한 */
   margin: 0 auto var(--spacing-12);
   animation: fadeInUp 0.8s ease-out 0.4s both;
   width: 100%;
   font-size: 18px;
   line-height: 1.5;
+  /*줄간격*/
 }
 
 .typing-text {
