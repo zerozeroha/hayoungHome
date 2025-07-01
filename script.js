@@ -356,7 +356,7 @@ function initMobileNav() {
 // 부드러운 스크롤 초기화 함수
 function initSmoothScroll() {
   // 앵커 링크(#으로 시작하는 링크)에 부드러운 스크롤 적용
-  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+  document.querySelectorAll("a[href^=\"#\"]").forEach((anchor) => {
     anchor.addEventListener("click", (e) => {
       e.preventDefault() // 기본 앵커 동작 방지
 
