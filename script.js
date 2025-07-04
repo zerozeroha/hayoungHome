@@ -409,3 +409,32 @@ document.addEventListener("DOMContentLoaded", () => {
   initSmoothScroll() // 부드러운 스크롤 초기화
   initNavbarEffect() // 네비바 효과 초기화
 })
+
+// 버튼 클릭 시 Ripple 효과 추가
+document.querySelectorAll(".btn").forEach((btn) => {
+  btn.addEventListener("click", function (e) {
+    const ripple = document.createElement("span");
+    ripple.classList.add("ripple");
+
+    // 위치 계산
+    const rect = btn.getBoundingClientRect();
+    ripple.style.left = `${e.clientX - rect.left}px`;
+    ripple.style.top = `${e.clientY - rect.top}px`;
+
+    this.appendChild(ripple);
+
+    // 600ms 후 제거
+    setTimeout(() => {
+      ripple.remove();
+    }, 600);
+  });
+});
+
+
+// 마우스 따라다니는 원
+const circle = document.getElementById("mouse-circle");
+
+document.addEventListener("mousemove", (e) => {
+  circle.style.top = `${e.clientY}px`;
+  circle.style.left = `${e.clientX}px`;
+});
