@@ -6,6 +6,9 @@
   --primary: #dc2626;
   --primary-dark: #b91c1c;
   --primary-light: #ef4444;
+  --secondary: #3b82f6;
+  --secondary-dark: #1d4ed8;
+  --accent: #f59e0b;
   --white: #ffffff;
   --black: #000000;
   --gray-50: #f9fafb;
@@ -18,6 +21,11 @@
   --gray-700: #374151;
   --gray-800: #1f2937;
   --gray-900: #111827;
+
+  /* 그라디언트 */
+  --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  --gradient-secondary: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-dark) 100%);
+  --gradient-rainbow: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
 
   /* 타이포그래피 */
   --font-xs: 0.75rem;
@@ -46,6 +54,7 @@
   /* 애니메이션 */
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  --bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
   /* 그림자 */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -53,6 +62,7 @@
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  --shadow-3d: 0 10px 30px rgba(0, 0, 0, 0.2);
 
   /* 보더 */
   --radius: 0.5rem;
@@ -80,6 +90,106 @@ body {
   color: var(--gray-900);
   background: var(--white);
   overflow-x: hidden;
+  cursor: none;
+  /* 커스텀 커서 사용 */
+}
+
+/* ===================================
+   커스텀 커서
+   =================================== */
+.cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  background: var(--primary);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  transition: transform 0.1s ease;
+}
+
+.cursor-follower {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--primary);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transition: all 0.3s ease;
+}
+
+/* ===================================
+   로딩 스크린
+   =================================== */
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--gradient-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  transition: opacity 0.5s ease;
+}
+
+.loading-content {
+  text-align: center;
+  color: var(--white);
+}
+
+.loading-logo {
+  font-size: var(--font-4xl);
+  font-weight: 900;
+  margin-bottom: var(--space-8);
+  animation: pulse 2s infinite;
+}
+
+.loading-progress {
+  width: 300px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin-bottom: var(--space-4);
+}
+
+.loading-bar {
+  height: 100%;
+  background: var(--white);
+  border-radius: var(--radius-full);
+  animation: loading 3s ease-in-out;
+}
+
+.loading-text {
+  font-size: var(--font-lg);
+  opacity: 0.8;
+}
+
+@keyframes loading {
+  0% {
+    width: 0%;
+  }
+
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
 }
 
 /* ===================================
@@ -107,7 +217,7 @@ body {
 }
 
 /* ===================================
-   네비게이션 - 헤더 겹침 문제 해결
+   네비게이션
    =================================== */
 .navbar {
   position: fixed;
@@ -136,6 +246,10 @@ body {
   font-weight: 900;
   color: var(--primary);
   letter-spacing: -0.05em;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .nav-menu {
@@ -153,20 +267,22 @@ body {
   letter-spacing: 0.05em;
   transition: var(--transition);
   position: relative;
+  padding: var(--space-2) 0;
 }
 
 .nav-link:hover {
   color: var(--primary);
+  transform: translateY(-2px);
 }
 
 .nav-link::after {
   content: "";
   position: absolute;
-  bottom: -8px;
+  bottom: 0;
   left: 0;
   width: 0;
   height: 2px;
-  background: var(--primary);
+  background: var(--gradient-primary);
   transition: var(--transition);
 }
 
@@ -190,7 +306,7 @@ body {
 }
 
 /* ===================================
-   히어로 섹션 - 헤더 겹침 문제 해결
+   히어로 섹션
    =================================== */
 .hero {
   min-height: 100vh;
@@ -200,7 +316,62 @@ body {
   z-index: 10;
   background: linear-gradient(135deg, var(--white) 0%, var(--gray-50) 100%);
   padding: 80px var(--space-4) 0;
-  /* 상단 패딩 추가로 헤더 겹침 방지 */
+  overflow: hidden;
+}
+
+/* 배경 도형들 */
+.hero-bg-shapes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.shape {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--gradient-rainbow);
+  opacity: 0.1;
+  animation: float 6s ease-in-out infinite;
+}
+
+.shape-1 {
+  width: 300px;
+  height: 300px;
+  top: 10%;
+  right: 10%;
+  animation-delay: 0s;
+}
+
+.shape-2 {
+  width: 200px;
+  height: 200px;
+  bottom: 20%;
+  left: 5%;
+  animation-delay: 2s;
+}
+
+.shape-3 {
+  width: 150px;
+  height: 150px;
+  top: 50%;
+  left: 80%;
+  animation-delay: 4s;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-20px) rotate(180deg);
+  }
 }
 
 .hero-content {
@@ -221,6 +392,25 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.2em;
   margin-bottom: var(--space-4);
+  position: relative;
+}
+
+.hero-label::before,
+.hero-label::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 50px;
+  height: 2px;
+  background: var(--gradient-primary);
+}
+
+.hero-label::before {
+  left: -70px;
+}
+
+.hero-label::after {
+  right: -70px;
 }
 
 .hero-title {
@@ -231,9 +421,13 @@ body {
   display: block;
   font-size: clamp(3rem, 10vw, 6rem);
   font-weight: 900;
-  color: var(--black);
   line-height: 0.9;
   letter-spacing: -0.05em;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: var(--black);
 }
 
 .title-sub {
@@ -257,6 +451,63 @@ body {
   min-height: 80px;
 }
 
+/* 실시간 위젯 */
+.hero-widgets {
+  display: flex;
+  gap: var(--space-6);
+  margin-bottom: var(--space-12);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.widget {
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-lg);
+  border: 2px solid var(--gray-100);
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 180px;
+}
+
+.widget:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-xl);
+  border-color: var(--primary);
+}
+
+.widget-icon {
+  font-size: var(--font-2xl);
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gradient-primary);
+  border-radius: var(--radius-lg);
+}
+
+.widget-content {
+  flex: 1;
+}
+
+.widget-label {
+  font-size: var(--font-xs);
+  color: var(--gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-1);
+}
+
+.widget-value {
+  font-size: var(--font-lg);
+  font-weight: 700;
+  color: var(--black);
+}
+
 /* 통계 섹션 */
 .hero-stats {
   display: flex;
@@ -269,6 +520,19 @@ body {
 .stat-item {
   text-align: center;
   min-width: 120px;
+  position: relative;
+}
+
+.stat-item::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  background: var(--gradient-primary);
+  border-radius: var(--radius-full);
 }
 
 .stat-number {
@@ -289,7 +553,7 @@ body {
   margin-top: var(--space-1);
 }
 
-/* 버튼 - 마우스 겹침 문제 해결 */
+/* 3D 버튼 */
 .hero-buttons {
   display: flex;
   gap: var(--space-4);
@@ -315,24 +579,29 @@ body {
   overflow: hidden;
   min-width: 160px;
   text-align: center;
-  box-shadow: var(--shadow-md);
   cursor: pointer;
-  /* 기본 커서 사용 */
   z-index: 100;
-  /* 다른 요소들보다 위에 배치 */
+}
+
+.btn-3d {
+  box-shadow: var(--shadow-3d);
+  transform: perspective(1000px) rotateX(0deg);
+}
+
+.btn-3d:hover {
+  transform: perspective(1000px) rotateX(-10deg) translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
 .btn-primary {
-  background: var(--primary);
-  color: var(--white);
+  background: var(--gradient-primary);
+  color: var(--black);
   border-color: var(--primary);
 }
 
 .btn-primary:hover {
-  background: var(--primary-dark);
-  border-color: var(--primary-dark);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
+  background: var(--gradient-secondary);
+  border-color: var(--secondary);
 }
 
 .btn-outline {
@@ -342,10 +611,8 @@ body {
 }
 
 .btn-outline:hover {
-  background: var(--primary);
+  background: var(--gradient-primary);
   color: var(--white);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
 }
 
 /* 스크롤 인디케이터 */
@@ -365,6 +632,8 @@ body {
   border: 2px solid var(--gray-400);
   border-radius: 12px;
   position: relative;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
 }
 
 .scroll-wheel {
@@ -411,6 +680,7 @@ body {
 .skills-section,
 .career-section,
 .projects-section,
+.api-demo-section,
 .contact-section {
   padding: var(--space-24) 0;
   position: relative;
@@ -429,8 +699,12 @@ body {
   background: var(--gray-50);
 }
 
-.contact-section {
+.api-demo-section {
   background: var(--white);
+}
+
+.contact-section {
+  background: var(--gray-50);
 }
 
 .section-header {
@@ -444,6 +718,10 @@ body {
   color: var(--black);
   letter-spacing: -0.02em;
   margin-bottom: var(--space-4);
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .section-subtitle {
@@ -453,7 +731,7 @@ body {
 }
 
 /* ===================================
-   스킬 섹션 - 박스 크기 통일
+   스킬 섹션
    =================================== */
 .skills-grid {
   display: grid;
@@ -474,8 +752,7 @@ body {
   width: 100%;
   max-width: 350px;
   box-shadow: var(--shadow-md);
-  height: 300px;
-  /* 고정 높이로 통일 */
+  height: 350px;
   display: flex;
   flex-direction: column;
 }
@@ -487,7 +764,7 @@ body {
   left: 0;
   width: 100%;
   height: 4px;
-  background: var(--primary);
+  background: var(--gradient-primary);
   transform: scaleX(0);
   transform-origin: left;
   transition: var(--transition-slow);
@@ -498,7 +775,7 @@ body {
 }
 
 .skill-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-8px) rotateY(5deg);
   border-color: var(--primary);
   box-shadow: var(--shadow-xl);
 }
@@ -509,6 +786,10 @@ body {
   color: var(--gray-100);
   line-height: 1;
   margin-bottom: var(--space-4);
+  background: var(--gradient-rainbow);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .skill-content {
@@ -521,7 +802,25 @@ body {
   font-size: var(--font-xl);
   font-weight: 700;
   color: var(--black);
+  margin-bottom: var(--space-4);
+}
+
+/* 스킬 프로그레스 바 */
+.skill-progress {
+  width: 100%;
+  height: 8px;
+  background: var(--gray-200);
+  border-radius: var(--radius-full);
+  overflow: hidden;
   margin-bottom: var(--space-6);
+}
+
+.progress-bar {
+  height: 100%;
+  background: var(--gradient-primary);
+  border-radius: var(--radius-full);
+  width: 0%;
+  transition: width 2s ease;
 }
 
 .skill-tags {
@@ -543,8 +842,9 @@ body {
 }
 
 .skill-tags span:hover {
-  background: var(--primary);
+  background: var(--gradient-primary);
   color: var(--white);
+  transform: scale(1.05);
 }
 
 /* ===================================
@@ -562,9 +862,10 @@ body {
   left: 50%;
   top: 0;
   bottom: 0;
-  width: 2px;
-  background: linear-gradient(to bottom, var(--primary), var(--primary-light));
+  width: 4px;
+  background: var(--gradient-primary);
   transform: translateX(-50%);
+  border-radius: var(--radius-full);
 }
 
 .career-item {
@@ -593,7 +894,7 @@ body {
   top: 20px;
   width: 20px;
   height: 20px;
-  background: var(--primary);
+  background: var(--gradient-primary);
   border: 4px solid var(--white);
   border-radius: 50%;
   transform: translateX(-50%);
@@ -608,7 +909,6 @@ body {
   justify-content: center;
   align-items: flex-start;
   padding-top: var(--space-4);
-
 }
 
 .career-date .year {
@@ -617,7 +917,7 @@ body {
   font-size: var(--font-lg);
   font-weight: 700;
   color: var(--white);
-  background: var(--primary);
+  background: var(--gradient-primary);
   padding: var(--space-3) var(--space-5);
   border-radius: var(--radius-lg);
   white-space: nowrap;
@@ -638,7 +938,7 @@ body {
 
 .career-content:hover {
   border-color: var(--primary);
-  transform: translateY(-4px);
+  transform: translateY(-4px) scale(1.02);
   box-shadow: var(--shadow-xl);
 }
 
@@ -689,12 +989,13 @@ body {
 }
 
 .career-skills span:hover {
-  background: var(--primary);
+  background: var(--gradient-primary);
   color: var(--white);
+  transform: scale(1.05);
 }
 
 /* ===================================
-   프로젝트 섹션 - 박스 크기 통일
+   프로젝트 섹션
    =================================== */
 .projects-grid {
   display: grid;
@@ -716,7 +1017,6 @@ body {
   max-width: 450px;
   box-shadow: var(--shadow-md);
   height: 420px;
-  /* 고정 높이로 통일 */
   display: flex;
   flex-direction: column;
 }
@@ -725,12 +1025,11 @@ body {
   grid-column: 1 / -1;
   max-width: 100%;
   height: 380px;
-  /* 메인 프로젝트는 다른 높이 */
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  background: var(--gradient-primary);
   color: var(--white);
   border-color: var(--primary);
 }
@@ -747,7 +1046,7 @@ body {
 }
 
 .project-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-8px) rotateY(5deg);
   box-shadow: var(--shadow-xl);
   border-color: var(--primary);
 }
@@ -810,8 +1109,9 @@ body {
 }
 
 .project-tech span:hover {
-  background: var(--primary);
+  background: var(--gradient-primary);
   color: var(--white);
+  transform: scale(1.05);
 }
 
 .project-tech .more {
@@ -834,6 +1134,228 @@ body {
 
 .project-card.featured:hover .project-link {
   color: var(--white);
+}
+
+/* ===================================
+   API 데모 섹션
+   =================================== */
+.api-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-6);
+}
+
+.api-card {
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-lg);
+  border: 2px solid var(--gray-100);
+  transition: var(--transition);
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.api-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-xl);
+  border-color: var(--primary);
+}
+
+.api-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-4);
+  border-bottom: 2px solid var(--gray-100);
+}
+
+.api-header h3 {
+  font-size: var(--font-lg);
+  font-weight: 700;
+  color: var(--black);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.api-icon {
+  font-size: var(--font-2xl);
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gradient-primary);
+  border-radius: var(--radius-lg);
+  color: var(--white);
+}
+
+.refresh-btn {
+  background: var(--gray-100);
+  border: none;
+  border-radius: var(--radius);
+  padding: var(--space-2);
+  cursor: pointer;
+  transition: var(--transition);
+  color: var(--gray-600);
+}
+
+.refresh-btn:hover {
+  background: var(--primary);
+  color: var(--white);
+  transform: rotate(180deg);
+}
+
+.api-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.loading-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--gray-200);
+  border-top: 4px solid var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.api-data {
+  flex: 1;
+}
+
+.data-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.data-item:last-child {
+  border-bottom: none;
+}
+
+.data-label {
+  font-size: var(--font-sm);
+  color: var(--gray-600);
+  font-weight: 600;
+}
+
+.data-value {
+  font-size: var(--font-base);
+  color: var(--black);
+  font-weight: 700;
+}
+
+.weather-main {
+  text-align: center;
+  margin-bottom: var(--space-4);
+}
+
+.weather-icon-large {
+  font-size: var(--font-5xl);
+  margin-bottom: var(--space-2);
+}
+
+.weather-temp {
+  font-size: var(--font-3xl);
+  font-weight: 900;
+  color: var(--primary);
+  margin-bottom: var(--space-2);
+}
+
+.news-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.news-item {
+  padding: var(--space-3);
+  background: var(--gray-50);
+  border-radius: var(--radius);
+  transition: var(--transition);
+}
+
+.news-item:hover {
+  background: var(--gray-100);
+  transform: translateX(5px);
+}
+
+.news-title {
+  font-size: var(--font-sm);
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: var(--space-1);
+  line-height: 1.4;
+}
+
+.news-date {
+  font-size: var(--font-xs);
+  color: var(--gray-500);
+}
+
+.crypto-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.crypto-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-2);
+  background: var(--gray-50);
+  border-radius: var(--radius);
+  transition: var(--transition);
+}
+
+.crypto-item:hover {
+  background: var(--gray-100);
+}
+
+.crypto-name {
+  font-weight: 600;
+  color: var(--black);
+}
+
+.crypto-price {
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.api-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  color: var(--gray-500);
+  text-align: center;
 }
 
 /* ===================================
@@ -866,7 +1388,7 @@ body {
 
 .contact-item:hover {
   border-color: var(--primary);
-  transform: translateY(-4px);
+  transform: translateY(-4px) rotateY(5deg);
   box-shadow: var(--shadow-lg);
 }
 
@@ -876,7 +1398,7 @@ body {
   justify-content: center;
   width: 60px;
   height: 60px;
-  background: var(--primary);
+  background: var(--gradient-primary);
   color: var(--white);
   border-radius: 50%;
   margin-bottom: var(--space-4);
@@ -903,9 +1425,10 @@ body {
 .contact-cta {
   text-align: center;
   padding: var(--space-8);
-  background: var(--gray-50);
+  background: var(--white);
   border-radius: var(--radius-xl);
   border: 2px solid var(--gray-100);
+  box-shadow: var(--shadow-lg);
 }
 
 .contact-cta h3 {
@@ -957,8 +1480,8 @@ body {
 }
 
 .social-link:hover {
-  background: var(--primary);
-  transform: translateY(-2px);
+  background: var(--gradient-primary);
+  transform: translateY(-2px) scale(1.1);
 }
 
 /* ===================================
@@ -1014,6 +1537,7 @@ body {
 
 .modal-close:hover {
   color: var(--primary);
+  transform: scale(1.1);
 }
 
 .modal-body {
@@ -1063,8 +1587,9 @@ body {
 }
 
 .modal-tech span:hover {
-  background: var(--primary);
+  background: var(--gradient-primary);
   color: var(--white);
+  transform: scale(1.05);
 }
 
 .modal-role {
@@ -1100,9 +1625,60 @@ body {
 }
 
 /* ===================================
+   AOS 애니메이션
+   =================================== */
+[data-aos] {
+  opacity: 0;
+  transition-property: opacity, transform;
+  transition-duration: 0.6s;
+  transition-timing-function: ease;
+}
+
+[data-aos].aos-animate {
+  opacity: 1;
+  transform: none;
+}
+
+[data-aos="fade-up"] {
+  transform: translateY(50px);
+}
+
+[data-aos="fade-down"] {
+  transform: translateY(-50px);
+}
+
+[data-aos="fade-left"] {
+  transform: translateX(50px);
+}
+
+[data-aos="fade-right"] {
+  transform: translateX(-50px);
+}
+
+[data-aos="flip-left"] {
+  transform: rotateY(-90deg);
+}
+
+[data-aos="zoom-in"] {
+  transform: scale(0.8);
+}
+
+[data-aos="fade-in"] {
+  transform: none;
+}
+
+/* ===================================
    반응형 디자인
    =================================== */
 @media (max-width: 768px) {
+  body {
+    cursor: auto;
+  }
+
+  .cursor,
+  .cursor-follower {
+    display: none;
+  }
 
   /* 모바일 네비게이션 */
   .nav-menu {
@@ -1143,8 +1719,22 @@ body {
   /* 모바일 히어로 */
   .hero {
     padding: 100px var(--space-4) var(--space-8);
-    /* 모바일에서 더 많은 상단 패딩 */
     min-height: calc(100vh - 80px);
+  }
+
+  .hero-label::before,
+  .hero-label::after {
+    display: none;
+  }
+
+  .hero-widgets {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .widget {
+    width: 100%;
+    max-width: 300px;
   }
 
   .hero-stats {
@@ -1177,6 +1767,7 @@ body {
   .skills-section,
   .career-section,
   .projects-section,
+  .api-demo-section,
   .contact-section {
     padding: var(--space-16) 0;
   }
@@ -1189,7 +1780,11 @@ body {
   .skill-card {
     max-width: 100%;
     height: auto;
-    min-height: 280px;
+    min-height: 320px;
+  }
+
+  .skill-card:hover {
+    transform: translateY(-5px);
   }
 
   /* 모바일 경력 타임라인 */
@@ -1221,7 +1816,6 @@ body {
   }
 
   .career-date {
-
     width: 100%;
     padding: 0;
     justify-content: flex-start;
@@ -1235,6 +1829,10 @@ body {
     margin-left: var(--space-4);
   }
 
+  .career-content:hover {
+    transform: translateY(-2px) scale(1);
+  }
+
   /* 모바일 프로젝트 */
   .projects-grid {
     grid-template-columns: 1fr;
@@ -1242,7 +1840,7 @@ body {
   }
 
   .project-card {
-    max-width: 90%;
+    max-width: 100%;
     height: auto;
     min-height: 380px;
   }
@@ -1252,10 +1850,29 @@ body {
     min-height: 350px;
   }
 
+  .project-card:hover {
+    transform: translateY(-5px);
+  }
+
+  /* 모바일 API 그리드 */
+  .api-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .api-card {
+    height: auto;
+    min-height: 350px;
+  }
+
   /* 모바일 연락처 */
   .contact-info {
     grid-template-columns: 1fr;
     gap: var(--space-4);
+  }
+
+  .contact-item:hover {
+    transform: translateY(-2px);
   }
 
   /* 모바일 푸터 */
@@ -1293,12 +1910,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--primary);
+  background: var(--gradient-primary);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-dark);
+  background: var(--gradient-secondary);
 }
 
 /* ===================================
@@ -1326,4 +1943,20 @@ li {
   word-break: keep-all;
   word-wrap: break-word;
   overflow-wrap: break-word;
+}
+
+/* ===================================
+   성능 최적화
+   =================================== */
+.hero-bg-shapes,
+.shape {
+  will-change: transform;
+}
+
+.btn-3d,
+.skill-card,
+.project-card,
+.career-content,
+.contact-item {
+  will-change: transform;
 }

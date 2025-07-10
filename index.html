@@ -5,8 +5,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>김하영 - Frontend Developer 포트폴리오</title>
-
-  <!-- 스타일시트 -->
   <link rel="stylesheet" href="style.css">
 
   <!-- 외부 라이브러리 -->
@@ -17,14 +15,30 @@
   <!-- GSAP 라이브러리 -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
 </head>
 
 <body>
+  <!-- 마우스 커서 효과 -->
+  <div id="cursor" class="cursor"></div>
+  <div id="cursor-follower" class="cursor-follower"></div>
+
   <!-- 배경 캔버스 -->
   <canvas id="particleCanvas"></canvas>
 
+  <!-- 로딩 스크린 -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-content">
+      <div class="loading-logo">hayoung.dev</div>
+      <div class="loading-progress">
+        <div class="loading-bar"></div>
+      </div>
+      <div class="loading-text">Loading Portfolio...</div>
+    </div>
+  </div>
+
   <!-- 네비게이션 -->
-  <nav class="navbar">
+  <nav class="navbar" data-aos="fade-down">
     <div class="nav-container">
       <div class="nav-logo">hayoung.dev</div>
 
@@ -33,6 +47,7 @@
         <li><a href="#skills" class="nav-link">SKILLS</a></li>
         <li><a href="#career" class="nav-link">CAREER</a></li>
         <li><a href="#projects" class="nav-link">PROJECTS</a></li>
+        <li><a href="#api-demo" class="nav-link">API DEMO</a></li>
         <li><a href="#contact" class="nav-link">CONTACT</a></li>
       </ul>
 
@@ -46,51 +61,81 @@
 
   <!-- 히어로 섹션 -->
   <section id="home" class="hero">
+    <div class="hero-bg-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+    </div>
+
     <div class="hero-content">
       <div class="hero-text">
-        <div class="hero-label">FRONTEND DEVELOPER</div>
+        <div class="hero-label" data-aos="fade-up" data-aos-delay="200">FRONTEND DEVELOPER</div>
 
-        <h1 class="hero-title">
+        <h1 class="hero-title" data-aos="fade-up" data-aos-delay="400">
           <span class="title-main">김하영</span>
           <span class="title-sub">KIM HA YOUNG</span>
         </h1>
 
-        <div class="hero-description">
-          <p class="typing-text">사용자 중심 UI를 설계하고 개발하는 Frontend 개발자입니다. 핀테크 실무 경험을 바탕으로 사용자 흐름을 고려한 UI 구조와 컴포넌트 중심 개발에
-            강점을 가지고 있습니다.</p>
+        <div class="hero-description" data-aos="fade-up" data-aos-delay="600">
+          <p id="typing-text" class="typing-text"></p>
+        </div>
+
+        <!-- 실시간 데이터 위젯 -->
+        <div class="hero-widgets" data-aos="fade-up" data-aos-delay="800">
+          <div class="widget weather-widget">
+            <div class="widget-icon">🌤️</div>
+            <div class="widget-content">
+              <div class="widget-label">현재 날씨</div>
+              <div id="weather-data" class="widget-value">로딩중...</div>
+            </div>
+          </div>
+          <div class="widget time-widget">
+            <div class="widget-icon">🕐</div>
+            <div class="widget-content">
+              <div class="widget-label">현재 시간</div>
+              <div id="current-time" class="widget-value">--:--</div>
+            </div>
+          </div>
+          <div class="widget visitors-widget">
+            <div class="widget-icon">👥</div>
+            <div class="widget-content">
+              <div class="widget-label">방문자 수</div>
+              <div id="visitor-count" class="widget-value">0</div>
+            </div>
+          </div>
         </div>
 
         <!-- 통계 정보 -->
-        <div class="hero-stats">
+        <div class="hero-stats" data-aos="fade-up" data-aos-delay="1000">
           <div class="stat-item">
-            <span class="stat-number">4+</span>
+            <span class="stat-number" data-count="4">0</span>
             <span class="stat-label">PROJECTS</span>
           </div>
           <div class="stat-item">
-            <span class="stat-number">3+</span>
+            <span class="stat-number" data-count="3">0</span>
             <span class="stat-label">MONTH</span>
           </div>
           <div class="stat-item">
-            <span class="stat-number">100%</span>
+            <span class="stat-number" data-count="100">0</span>
             <span class="stat-label">PASSION</span>
           </div>
         </div>
 
         <!-- 액션 버튼 -->
-        <div class="hero-buttons">
-          <a href="#projects" class="btn btn-primary">
+        <div class="hero-buttons" data-aos="fade-up" data-aos-delay="1200">
+          <a href="#projects" class="btn btn-primary btn-3d">
             <span>프로젝트 보기</span>
             <i class="fas fa-arrow-right"></i>
           </a>
-          <a href="#contact" class="btn btn-outline">
+          <a href="#contact" class="btn btn-outline btn-3d">
             <span>연락하기</span>
             <i class="fas fa-envelope"></i>
           </a>
         </div>
       </div>
 
-      <!-- 스크롤 인디케이터 -->
-      <div class="scroll-indicator">
+      <!-- 3D 스크롤 인디케이터 -->
+      <div class="scroll-indicator" data-aos="fade-in" data-aos-delay="1400">
         <div class="scroll-mouse">
           <div class="scroll-wheel"></div>
         </div>
@@ -102,16 +147,19 @@
   <!-- 스킬 섹션 -->
   <section id="skills" class="skills-section">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header" data-aos="fade-up">
         <h2 class="section-title">SKILLS & EXPERTISE</h2>
         <p class="section-subtitle">전문 기술과 도구들</p>
       </div>
 
       <div class="skills-grid">
-        <div class="skill-card">
+        <div class="skill-card" data-aos="flip-left" data-aos-delay="100">
           <div class="skill-number">01</div>
           <div class="skill-content">
             <h3>Frontend Development</h3>
+            <div class="skill-progress">
+              <div class="progress-bar" data-progress="90"></div>
+            </div>
             <div class="skill-tags">
               <span>React</span>
               <span>Next.js</span>
@@ -122,10 +170,13 @@
           </div>
         </div>
 
-        <div class="skill-card">
+        <div class="skill-card" data-aos="flip-left" data-aos-delay="200">
           <div class="skill-number">02</div>
           <div class="skill-content">
             <h3>Styling & UI Framework</h3>
+            <div class="skill-progress">
+              <div class="progress-bar" data-progress="85"></div>
+            </div>
             <div class="skill-tags">
               <span>Tailwind CSS</span>
               <span>ShadCN</span>
@@ -135,10 +186,13 @@
           </div>
         </div>
 
-        <div class="skill-card">
+        <div class="skill-card" data-aos="flip-left" data-aos-delay="300">
           <div class="skill-number">03</div>
           <div class="skill-content">
             <h3>State Management & Data</h3>
+            <div class="skill-progress">
+              <div class="progress-bar" data-progress="80"></div>
+            </div>
             <div class="skill-tags">
               <span>Zustand</span>
               <span>Jotai</span>
@@ -148,10 +202,13 @@
           </div>
         </div>
 
-        <div class="skill-card">
+        <div class="skill-card" data-aos="flip-left" data-aos-delay="400">
           <div class="skill-number">04</div>
           <div class="skill-content">
             <h3>Tools & Others</h3>
+            <div class="skill-progress">
+              <div class="progress-bar" data-progress="75"></div>
+            </div>
             <div class="skill-tags">
               <span>Python</span>
               <span>Java</span>
@@ -167,13 +224,13 @@
   <!-- 경력 섹션 -->
   <section id="career" class="career-section">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header" data-aos="fade-up">
         <h2 class="section-title">CAREER & EDUCATION</h2>
         <p class="section-subtitle">경력 및 학력</p>
       </div>
 
       <div class="career-timeline">
-        <div class="career-item">
+        <div class="career-item" data-aos="fade-right" data-aos-delay="100">
           <div class="career-date">
             <span class="year">2025.03 - 2025.06</span>
           </div>
@@ -194,7 +251,7 @@
           </div>
         </div>
 
-        <div class="career-item">
+        <div class="career-item" data-aos="fade-left" data-aos-delay="200">
           <div class="career-date">
             <span class="year">2024.11 - 2025.01</span>
           </div>
@@ -216,7 +273,7 @@
           </div>
         </div>
 
-        <div class="career-item">
+        <div class="career-item" data-aos="fade-right" data-aos-delay="300">
           <div class="career-date">
             <span class="year">2024.01 - 2024.07</span>
           </div>
@@ -237,7 +294,7 @@
           </div>
         </div>
 
-        <div class="career-item">
+        <div class="career-item" data-aos="fade-left" data-aos-delay="400">
           <div class="career-date">
             <span class="year">2015.03 - 2022.03</span>
           </div>
@@ -264,14 +321,14 @@
   <!-- 프로젝트 섹션 -->
   <section id="projects" class="projects-section">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header" data-aos="fade-up">
         <h2 class="section-title">FEATURED WORKS</h2>
         <p class="section-subtitle">주요 프로젝트들</p>
       </div>
 
       <div class="projects-grid">
         <!-- 메인 프로젝트 -->
-        <div class="project-card featured" data-project="wattsup">
+        <div class="project-card featured" data-project="wattsup" data-aos="zoom-in" data-aos-delay="100">
           <div class="project-label">FEATURED PROJECT</div>
           <div class="project-content">
             <h3>WattsUp Dashboard</h3>
@@ -292,7 +349,7 @@
         </div>
 
         <!-- 일반 프로젝트들 -->
-        <div class="project-card" data-project="surveygacha">
+        <div class="project-card" data-project="surveygacha" data-aos="fade-up" data-aos-delay="200">
           <div class="project-content">
             <h3>SurveyGacha</h3>
             <p class="project-subtitle">가챠 시스템이 적용된 설문조사 플랫폼</p>
@@ -310,7 +367,7 @@
           </div>
         </div>
 
-        <div class="project-card" data-project="carini">
+        <div class="project-card" data-project="carini" data-aos="fade-up" data-aos-delay="300">
           <div class="project-content">
             <h3>CARINI Web</h3>
             <p class="project-subtitle">지도 기반 차량 탐색 플랫폼</p>
@@ -328,7 +385,7 @@
           </div>
         </div>
 
-        <div class="project-card" data-project="chatbot">
+        <div class="project-card" data-project="chatbot" data-aos="fade-up" data-aos-delay="400">
           <div class="project-content">
             <h3>CARINI AI Chatbot</h3>
             <p class="project-subtitle">AI 기반 차량 추천 챗봇</p>
@@ -348,31 +405,165 @@
     </div>
   </section>
 
+  <!-- API 데모 섹션 -->
+  <section id="api-demo" class="api-demo-section">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <h2 class="section-title">API INTEGRATION DEMO</h2>
+        <p class="section-subtitle">실시간 API 연동 데모</p>
+      </div>
+
+      <div class="api-grid">
+        <!-- 미세먼지 정보 -->
+        <div class="api-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="api-header">
+            <div class="api-icon">🌫️</div>
+            <h3>미세먼지 정보</h3>
+            <button class="refresh-btn" onclick="loadDustData()">
+              <i class="fas fa-sync-alt"></i>
+            </button>
+          </div>
+          <div class="api-content">
+            <div id="dust-loading" class="loading-spinner">
+              <div class="spinner"></div>
+            </div>
+            <div id="dust-data" class="api-data" style="display: none;">
+              <div class="data-item">
+                <span class="data-label">관측소</span>
+                <span id="dust-station" class="data-value">-</span>
+              </div>
+              <div class="data-item">
+                <span class="data-label">PM10</span>
+                <span id="dust-pm10" class="data-value">-</span>
+              </div>
+              <div class="data-item">
+                <span class="data-label">PM2.5</span>
+                <span id="dust-pm25" class="data-value">-</span>
+              </div>
+              <div class="data-item">
+                <span class="data-label">측정시간</span>
+                <span id="dust-time" class="data-value">-</span>
+              </div>
+            </div>
+            <div id="dust-error" class="api-error" style="display: none;">
+              <p>데이터를 불러올 수 없습니다.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 날씨 정보 -->
+        <div class="api-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="api-header">
+            <div class="api-icon">🌤️</div>
+            <h3>날씨 정보</h3>
+            <button class="refresh-btn" onclick="loadWeatherData()">
+              <i class="fas fa-sync-alt"></i>
+            </button>
+          </div>
+          <div class="api-content">
+            <div id="weather-loading" class="loading-spinner">
+              <div class="spinner"></div>
+            </div>
+            <div id="weather-data-detail" class="api-data" style="display: none;">
+              <div class="weather-main">
+                <div id="weather-icon" class="weather-icon-large">🌤️</div>
+                <div id="weather-temp" class="weather-temp">-°C</div>
+              </div>
+              <div class="data-item">
+                <span class="data-label">도시</span>
+                <span id="weather-city" class="data-value">-</span>
+              </div>
+              <div class="data-item">
+                <span class="data-label">습도</span>
+                <span id="weather-humidity" class="data-value">-</span>
+              </div>
+              <div class="data-item">
+                <span class="data-label">풍속</span>
+                <span id="weather-wind" class="data-value">-</span>
+              </div>
+            </div>
+            <div id="weather-error" class="api-error" style="display: none;">
+              <p>데이터를 불러올 수 없습니다.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 뉴스 정보 -->
+        <div class="api-card" data-aos="fade-up" data-aos-delay="300">
+          <div class="api-header">
+            <div class="api-icon">📰</div>
+            <h3>최신 뉴스</h3>
+            <button class="refresh-btn" onclick="loadNewsData()">
+              <i class="fas fa-sync-alt"></i>
+            </button>
+          </div>
+          <div class="api-content">
+            <div id="news-loading" class="loading-spinner">
+              <div class="spinner"></div>
+            </div>
+            <div id="news-data" class="api-data" style="display: none;">
+              <div id="news-list" class="news-list">
+                <!-- 뉴스 아이템들이 동적으로 추가됩니다 -->
+              </div>
+            </div>
+            <div id="news-error" class="api-error" style="display: none;">
+              <p>데이터를 불러올 수 없습니다.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 암호화폐 정보 -->
+        <div class="api-card" data-aos="fade-up" data-aos-delay="400">
+          <div class="api-header">
+            <div class="api-icon">₿</div>
+            <h3>암호화폐 시세</h3>
+            <button class="refresh-btn" onclick="loadCryptoData()">
+              <i class="fas fa-sync-alt"></i>
+            </button>
+          </div>
+          <div class="api-content">
+            <div id="crypto-loading" class="loading-spinner">
+              <div class="spinner"></div>
+            </div>
+            <div id="crypto-data" class="api-data" style="display: none;">
+              <div id="crypto-list" class="crypto-list">
+                <!-- 암호화폐 데이터가 동적으로 추가됩니다 -->
+              </div>
+            </div>
+            <div id="crypto-error" class="api-error" style="display: none;">
+              <p>데이터를 불러올 수 없습니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- 연락처 섹션 -->
   <section id="contact" class="contact-section">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header" data-aos="fade-up">
         <h2 class="section-title">GET IN TOUCH</h2>
         <p class="section-subtitle">함께 일하고 싶으시다면</p>
       </div>
 
       <div class="contact-content">
         <div class="contact-info">
-          <div class="contact-item">
+          <div class="contact-item" data-aos="fade-up" data-aos-delay="100">
             <div class="contact-icon">
               <i class="fas fa-envelope"></i>
             </div>
             <div class="contact-label">EMAIL</div>
             <div class="contact-value">duddldml3939@gmail.com</div>
           </div>
-          <div class="contact-item">
+          <div class="contact-item" data-aos="fade-up" data-aos-delay="200">
             <div class="contact-icon">
               <i class="fab fa-github"></i>
             </div>
             <div class="contact-label">GITHUB</div>
             <div class="contact-value">github.com/zerozeroha</div>
           </div>
-          <div class="contact-item">
+          <div class="contact-item" data-aos="fade-up" data-aos-delay="300">
             <div class="contact-icon">
               <i class="fas fa-map-marker-alt"></i>
             </div>
@@ -381,10 +572,10 @@
           </div>
         </div>
 
-        <div class="contact-cta">
+        <div class="contact-cta" data-aos="fade-up" data-aos-delay="400">
           <h3>새로운 프로젝트를 시작해보세요</h3>
           <p>창의적이고 효율적인 솔루션으로 함께하겠습니다.</p>
-          <a href="mailto:duddldml3939@gmail.com" class="btn btn-primary">
+          <a href="mailto:duddldml3939@gmail.com" class="btn btn-primary btn-3d">
             <span>이메일 보내기</span>
             <i class="fas fa-arrow-right"></i>
           </a>
