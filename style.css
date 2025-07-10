@@ -265,7 +265,6 @@ body {
   font-size: var(--font-sm);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  transition: var(--transition);
   position: relative;
   padding: var(--space-2) 0;
 }
