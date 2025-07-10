@@ -887,7 +887,7 @@ function initButtonEffects() {
 
 async function loadAllAPIData() {
   try {
-    await Promise.all([loadDustData(), loadWeatherData(), loadNewsData(), loadCryptoData()])
+    await Promise.all([loadDustData(), loadWeatherData(), loadNewsData(), ])
   } catch (error) {
     console.error("API 데이터 로딩 중 오류:", error)
   }
@@ -1041,62 +1041,7 @@ function bindNewsData(articles) {
   }
 }
 
-async function loadCryptoData() {
-  try {
-    showLoading("crypto")
 
-    const mockData = {
-      bitcoin: {
-        usd: 45000 + Math.random() * 5000
-      },
-      ethereum: {
-        usd: 2500 + Math.random() * 500
-      },
-      binancecoin: {
-        usd: 300 + Math.random() * 50
-      },
-    }
-
-    bindCryptoData(mockData)
-    showData("crypto")
-  } catch (error) {
-    console.error("암호화폐 데이터 로딩 실패:", error)
-    showError("crypto")
-  }
-}
-
-function bindCryptoData(data) {
-  const cryptoList = document.getElementById("crypto-list")
-  cryptoList.innerHTML = ""
-
-  const cryptoNames = {
-    bitcoin: "Bitcoin",
-    ethereum: "Ethereum",
-    binancecoin: "BNB"
-  }
-
-  Object.entries(data).forEach(([key, value]) => {
-    const cryptoItem = document.createElement("div")
-    cryptoItem.className = "crypto-item"
-
-    cryptoItem.innerHTML = `
-      <span class="crypto-name">${cryptoNames[key]}</span>
-      <span class="crypto-price">$${Math.round(value.usd).toLocaleString()}</span>
-    `
-
-    cryptoList.appendChild(cryptoItem)
-  })
-
-  if (window.gsap) {
-    window.gsap.from(".crypto-item", {
-      duration: 0.6,
-      scale: 0.8,
-      opacity: 0,
-      stagger: 0.1,
-      ease: "back.out(1.7)",
-    })
-  }
-}
 
 function showLoading(section) {
   document.getElementById(`${section}-loading`).style.display = "flex"
