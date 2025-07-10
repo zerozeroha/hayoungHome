@@ -13,7 +13,7 @@ function hideLoadingScreen() {
   if (loadingScreen) {
     if (window.gsap && typeof window.gsap.to === "function") {
       window.gsap.to(loadingScreen, {
-        duration: 0.5,
+        duration: 0.8,
         opacity: 0,
         onComplete: () => {
           loadingScreen.style.display = "none"
@@ -53,7 +53,7 @@ function initializeApp() {
     safeInit(initCounterAnimation, "카운터 애니메이션")
     safeInit(initButtonEffects, "버튼 효과")
 
-    // API 데이터 로드
+    // API 데이터 로드 (날씨와 미세먼지만)
     safeInit(loadAllAPIData, "API 데이터")
 
     console.log("앱 초기화 완료!")
@@ -169,14 +169,11 @@ function animateParticles() {
 
 function initCustomCursor() {
   const cursor = document.getElementById("cursor")
-  const follower = document.getElementById("cursor-follower")
 
-  if (!cursor || !follower) return
+  if (!cursor) return
 
   let mouseX = 0,
     mouseY = 0
-  let followerX = 0,
-    followerY = 0
 
   document.addEventListener("mousemove", (e) => {
     mouseX = e.clientX
@@ -191,32 +188,13 @@ function initCustomCursor() {
     }
   })
 
-  function updateFollower() {
-    followerX += (mouseX - followerX) * 0.1
-    followerY += (mouseY - followerY) * 0.1
-
-    if (window.gsap) {
-      window.gsap.set(follower, {
-        x: followerX - 20,
-        y: followerY - 20,
-      })
-    }
-
-    requestAnimationFrame(updateFollower)
-  }
-  updateFollower()
-
   const hoverElements = document.querySelectorAll("a, button, .btn, .project-card, .skill-card")
   hoverElements.forEach((element) => {
     element.addEventListener("mouseenter", () => {
       if (window.gsap) {
         window.gsap.to(cursor, {
           duration: 0.3,
-          scale: 1.5
-        })
-        window.gsap.to(follower, {
-          duration: 0.3,
-          scale: 1.5
+          scale: 1.5,
         })
       }
     })
@@ -225,11 +203,7 @@ function initCustomCursor() {
       if (window.gsap) {
         window.gsap.to(cursor, {
           duration: 0.3,
-          scale: 1
-        })
-        window.gsap.to(follower, {
-          duration: 0.3,
-          scale: 1
+          scale: 1,
         })
       }
     })
@@ -262,45 +236,60 @@ function initGSAPAnimations() {
 
   // 히어로 섹션 애니메이션
   const heroTl = window.gsap.timeline({
-    delay: 0.5
+    delay: 0.5,
   })
 
   heroTl
     .from(".hero-label", {
       duration: 0.8,
       y: 30,
-      opacity: 0
+      opacity: 0,
     })
-    .from(".title-main", {
-      duration: 1,
-      scale: 0.8,
-      opacity: 0,
-      ease: "back.out(1.7)"
-    }, "-=0.3")
-    .from(".title-sub", {
-      duration: 0.8,
-      y: 20,
-      opacity: 0
-    }, "-=0.5")
-    .from(".hero-widgets .widget", {
-      duration: 0.6,
-      y: 30,
-      opacity: 0,
-      stagger: 0.1
-    }, "-=0.3")
-    .from(".stat-item", {
-      duration: 0.8,
-      scale: 0,
-      opacity: 0,
-      stagger: 0.1,
-      ease: "back.out(1.7)"
-    }, "-=0.3")
-    .from(".btn", {
-      duration: 0.6,
-      y: 30,
-      opacity: 0,
-      stagger: 0.1
-    }, "-=0.3")
+    .from(
+      ".title-main", {
+        duration: 1,
+        scale: 0.8,
+        opacity: 0,
+        ease: "back.out(1.7)",
+      },
+      "-=0.3",
+    )
+    .from(
+      ".title-sub", {
+        duration: 0.8,
+        y: 20,
+        opacity: 0,
+      },
+      "-=0.5",
+    )
+    .from(
+      ".hero-widgets .widget", {
+        duration: 0.6,
+        y: 30,
+        opacity: 0,
+        stagger: 0.1,
+      },
+      "-=0.3",
+    )
+    .from(
+      ".stat-item", {
+        duration: 0.8,
+        scale: 0,
+        opacity: 0,
+        stagger: 0.1,
+        ease: "back.out(1.7)",
+      },
+      "-=0.3",
+    )
+    .from(
+      ".btn", {
+        duration: 0.6,
+        y: 30,
+        opacity: 0,
+        stagger: 0.1,
+      },
+      "-=0.3",
+    )
 
   // 배경 도형 애니메이션
   window.gsap.to(".shape-1", {
@@ -330,24 +319,22 @@ function initGSAPAnimations() {
 function initScrollTriggerAnimations() {
   if (!window.gsap || !window.ScrollTrigger) return
 
-  // 스킬 카드 애니메이션
+  // 스킬 카드 애니메이션 (fade-up으로 변경, 트리거 위치 조정)
   window.gsap.utils.toArray(".skill-card").forEach((card, i) => {
     window.gsap.fromTo(
       card, {
         opacity: 0,
-        y: 50,
-        rotationY: -90
+        y: 80,
       }, {
         opacity: 1,
         y: 0,
-        rotationY: 0,
         duration: 1,
-        delay: i * 0.1,
+        delay: i * 0.15,
         ease: "power2.out",
         scrollTrigger: {
           trigger: card,
-          start: "top 80%",
-          end: "bottom 20%",
+          start: "top 85%",
+          end: "bottom 15%",
           toggleActions: "play none none reverse",
         },
       },
@@ -360,7 +347,7 @@ function initScrollTriggerAnimations() {
       card, {
         opacity: 0,
         scale: 0.8,
-        rotationX: -45
+        rotationX: -45,
       }, {
         opacity: 1,
         scale: 1,
@@ -454,7 +441,7 @@ function initAOSAnimations() {
       })
     }, {
       threshold: 0.1,
-      rootMargin: "0px 0px -50px 0px"
+      rootMargin: "0px 0px -50px 0px",
     },
   )
 
@@ -611,21 +598,23 @@ function openModal(projectId) {
   document.body.style.overflow = "hidden"
 
   if (window.gsap) {
-    window.gsap.fromTo(modal, {
-      opacity: 0
-    }, {
-      duration: 0.3,
-      opacity: 1
-    })
+    window.gsap.fromTo(
+      modal, {
+        opacity: 0,
+      }, {
+        duration: 0.3,
+        opacity: 1,
+      },
+    )
     window.gsap.fromTo(
       ".modal-content", {
         scale: 0.8,
-        y: 50
+        y: 50,
       }, {
         duration: 0.3,
         scale: 1,
         y: 0,
-        ease: "back.out(1.7)"
+        ease: "back.out(1.7)",
       },
     )
   }
@@ -650,23 +639,31 @@ function closeModal() {
 }
 
 // ===================================
-// 부드러운 스크롤
+// 부드러운 스크롤 (수정됨)
 // ===================================
 
 function initSmoothScroll() {
   document.querySelectorAll("a[href^=\"#\"]").forEach((anchor) => {
     anchor.addEventListener("click", (e) => {
       e.preventDefault()
-      const target = document.querySelector(anchor.getAttribute("href"))
+      const targetId = anchor.getAttribute("href")
+      const target = document.querySelector(targetId)
+
       if (target) {
         const offsetTop = target.offsetTop - 80
-        if (window.gsap) {
+
+        // GSAP ScrollTo 플러그인이 있으면 사용, 없으면 기본 스크롤
+        if (window.gsap && window.gsap.plugins && window.gsap.plugins.ScrollToPlugin) {
           window.gsap.to(window, {
             duration: 1,
-            scrollTo: offsetTop,
+            scrollTo: {
+              y: offsetTop,
+              autoKill: false,
+            },
             ease: "power2.inOut",
           })
         } else {
+          // 기본 부드러운 스크롤
           window.scrollTo({
             top: offsetTop,
             behavior: "smooth",
@@ -790,7 +787,7 @@ function initSkillProgress() {
         }
       })
     }, {
-      threshold: 0.5
+      threshold: 0.5,
     },
   )
 
@@ -814,13 +811,13 @@ function initCounterAnimation() {
           if (window.gsap) {
             window.gsap.fromTo(
               counter, {
-                textContent: 0
+                textContent: 0,
               }, {
                 textContent: target,
                 duration: 2,
                 ease: "power2.out",
                 snap: {
-                  textContent: 1
+                  textContent: 1,
                 },
                 onUpdate: function () {
                   const value = Math.ceil(this.targets()[0].textContent)
@@ -846,7 +843,7 @@ function initCounterAnimation() {
         }
       })
     }, {
-      threshold: 0.5
+      threshold: 0.5,
     },
   )
 
@@ -882,12 +879,12 @@ function initButtonEffects() {
 }
 
 // ===================================
-// API 데이터 로딩 시스템
+// API 데이터 로딩 시스템 (날씨와 미세먼지만)
 // ===================================
 
 async function loadAllAPIData() {
   try {
-    await Promise.all([loadDustData(), loadWeatherData(), loadNewsData(), ])
+    await Promise.all([loadDustData(), loadWeatherData()])
   } catch (error) {
     console.error("API 데이터 로딩 중 오류:", error)
   }
@@ -946,10 +943,10 @@ async function loadWeatherData() {
       weather: [{
         main: "Clear",
         description: "맑음",
-        icon: "01d"
-      }],
+        icon: "01d",
+      }, ],
       wind: {
-        speed: (Math.random() * 8 + 2).toFixed(1)
+        speed: (Math.random() * 8 + 2).toFixed(1),
       },
     }
 
@@ -966,7 +963,7 @@ function bindWeatherData(data) {
     Clear: "☀️",
     Clouds: "☁️",
     Rain: "🌧️",
-    Snow: "❄️"
+    Snow: "❄️",
   }
 
   document.getElementById("weather-icon").textContent = iconMap[data.weather[0].main] || "🌤️"
@@ -976,95 +973,34 @@ function bindWeatherData(data) {
   document.getElementById("weather-wind").textContent = `${data.wind.speed} m/s`
 }
 
-async function loadNewsData() {
-  try {
-    showLoading("news")
-    await new Promise((resolve) => setTimeout(resolve, 800))
-
-    const mockNews = [{
-        title: "프론트엔드 개발 트렌드 2025",
-        publishedAt: new Date().toISOString()
-      },
-      {
-        title: "React 19 새로운 기능 소개",
-        publishedAt: new Date(Date.now() - 3600000).toISOString()
-      },
-      {
-        title: "TypeScript 5.0 업데이트",
-        publishedAt: new Date(Date.now() - 7200000).toISOString()
-      },
-      {
-        title: "Next.js 15 성능 개선사항",
-        publishedAt: new Date(Date.now() - 10800000).toISOString()
-      },
-    ]
-
-    bindNewsData(mockNews)
-    showData("news")
-  } catch (error) {
-    console.error("뉴스 데이터 로딩 실패:", error)
-    showError("news")
-  }
-}
-
-function bindNewsData(articles) {
-  const newsList = document.getElementById("news-list")
-  newsList.innerHTML = ""
-
-  articles.forEach((article) => {
-    const newsItem = document.createElement("div")
-    newsItem.className = "news-item"
-
-    const publishedDate = new Date(article.publishedAt).toLocaleDateString("ko-KR", {
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    })
-
-    newsItem.innerHTML = `
-      <div class="news-title">${article.title}</div>
-      <div class="news-date">${publishedDate}</div>
-    `
-
-    newsList.appendChild(newsItem)
-  })
-
-  if (window.gsap) {
-    window.gsap.from(".news-item", {
-      duration: 0.6,
-      x: -30,
-      opacity: 0,
-      stagger: 0.1,
-      ease: "power2.out",
-    })
-  }
-}
-
-
-
 function showLoading(section) {
-  document.getElementById(`${section}-loading`).style.display = "flex"
-  document.getElementById(`${section}-data`).style.display = "none"
-  if (document.getElementById(`${section}-error`)) {
-    document.getElementById(`${section}-error`).style.display = "none"
-  }
+  const loadingElement = document.getElementById(`${section}-loading`)
+  const dataElement = document.getElementById(`${section}-data`)
+  const errorElement = document.getElementById(`${section}-error`)
+
+  if (loadingElement) loadingElement.style.display = "flex"
+  if (dataElement) dataElement.style.display = "none"
+  if (errorElement) errorElement.style.display = "none"
 }
 
 function showData(section) {
-  document.getElementById(`${section}-loading`).style.display = "none"
-  document.getElementById(`${section}-data`).style.display = "block"
-  if (document.getElementById(`${section}-error`)) {
-    document.getElementById(`${section}-error`).style.display = "none"
-  }
+  const loadingElement = document.getElementById(`${section}-loading`)
+  const dataElement = document.getElementById(`${section}-data`)
+  const errorElement = document.getElementById(`${section}-error`)
+
+  if (loadingElement) loadingElement.style.display = "none"
+  if (dataElement) dataElement.style.display = "block"
+  if (errorElement) errorElement.style.display = "none"
 }
 
 function showError(section) {
-  document.getElementById(`${section}-loading`).style.display = "none"
-  document.getElementById(`${section}-data`).style.display = "none"
-  if (document.getElementById(`${section}-error`)) {
-    document.getElementById(`${section}-error`).style.display = "block"
-  }
+  const loadingElement = document.getElementById(`${section}-loading`)
+  const dataElement = document.getElementById(`${section}-data`)
+  const errorElement = document.getElementById(`${section}-error`)
+
+  if (loadingElement) loadingElement.style.display = "none"
+  if (dataElement) dataElement.style.display = "none"
+  if (errorElement) errorElement.style.display = "block"
 }
 
 // ===================================

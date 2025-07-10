@@ -21,7 +21,6 @@
 <body>
   <!-- 마우스 커서 효과 -->
   <div id="cursor" class="cursor"></div>
-  <div id="cursor-follower" class="cursor-follower"></div>
 
   <!-- 배경 캔버스 -->
   <canvas id="particleCanvas"></canvas>
@@ -153,7 +152,7 @@
       </div>
 
       <div class="skills-grid">
-        <div class="skill-card" data-aos="flip-left" data-aos-delay="100">
+        <div class="skill-card" data-aos="fade-up" data-aos-delay="100">
           <div class="skill-number">01</div>
           <div class="skill-content">
             <h3>Frontend Development</h3>
@@ -170,7 +169,7 @@
           </div>
         </div>
 
-        <div class="skill-card" data-aos="flip-left" data-aos-delay="200">
+        <div class="skill-card" data-aos="fade-up" data-aos-delay="200">
           <div class="skill-number">02</div>
           <div class="skill-content">
             <h3>Styling & UI Framework</h3>
@@ -186,7 +185,7 @@
           </div>
         </div>
 
-        <div class="skill-card" data-aos="flip-left" data-aos-delay="300">
+        <div class="skill-card" data-aos="fade-up" data-aos-delay="300">
           <div class="skill-number">03</div>
           <div class="skill-content">
             <h3>State Management & Data</h3>
@@ -202,7 +201,7 @@
           </div>
         </div>
 
-        <div class="skill-card" data-aos="flip-left" data-aos-delay="400">
+        <div class="skill-card" data-aos="fade-up" data-aos-delay="400">
           <div class="skill-number">04</div>
           <div class="skill-content">
             <h3>Tools & Others</h3>
@@ -230,7 +229,7 @@
       </div>
 
       <div class="career-timeline">
-        <div class="career-item" data-aos="fade-right" data-aos-delay="100">
+        <div class="career-item" data-aos="fade-up" data-aos-delay="100">
           <div class="career-date">
             <span class="year">2025.03 - 2025.06</span>
           </div>
@@ -251,7 +250,7 @@
           </div>
         </div>
 
-        <div class="career-item" data-aos="fade-left" data-aos-delay="200">
+        <div class="career-item" data-aos="fade-up" data-aos-delay="200">
           <div class="career-date">
             <span class="year">2024.11 - 2025.01</span>
           </div>
@@ -273,7 +272,7 @@
           </div>
         </div>
 
-        <div class="career-item" data-aos="fade-right" data-aos-delay="300">
+        <div class="career-item" data-aos="fade-up" data-aos-delay="300">
           <div class="career-date">
             <span class="year">2024.01 - 2024.07</span>
           </div>
@@ -294,7 +293,7 @@
           </div>
         </div>
 
-        <div class="career-item" data-aos="fade-left" data-aos-delay="400">
+        <div class="career-item" data-aos="fade-up" data-aos-delay="400">
           <div class="career-date">
             <span class="year">2015.03 - 2022.03</span>
           </div>
@@ -414,45 +413,8 @@
       </div>
 
       <div class="api-grid">
-        <!-- 미세먼지 정보 -->
-        <div class="api-card" data-aos="fade-up" data-aos-delay="100">
-          <div class="api-header">
-            <div class="api-icon">🌫️</div>
-            <h3>미세먼지 정보</h3>
-            <button class="refresh-btn" onclick="loadDustData()">
-              <i class="fas fa-sync-alt"></i>
-            </button>
-          </div>
-          <div class="api-content">
-            <div id="dust-loading" class="loading-spinner">
-              <div class="spinner"></div>
-            </div>
-            <div id="dust-data" class="api-data" style="display: none;">
-              <div class="data-item">
-                <span class="data-label">관측소</span>
-                <span id="dust-station" class="data-value">-</span>
-              </div>
-              <div class="data-item">
-                <span class="data-label">PM10</span>
-                <span id="dust-pm10" class="data-value">-</span>
-              </div>
-              <div class="data-item">
-                <span class="data-label">PM2.5</span>
-                <span id="dust-pm25" class="data-value">-</span>
-              </div>
-              <div class="data-item">
-                <span class="data-label">측정시간</span>
-                <span id="dust-time" class="data-value">-</span>
-              </div>
-            </div>
-            <div id="dust-error" class="api-error" style="display: none;">
-              <p>데이터를 불러올 수 없습니다.</p>
-            </div>
-          </div>
-        </div>
-
         <!-- 날씨 정보 -->
-        <div class="api-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="api-card" data-aos="fade-up" data-aos-delay="100">
           <div class="api-header">
             <div class="api-icon">🌤️</div>
             <h3>날씨 정보</h3>
@@ -483,6 +445,43 @@
               </div>
             </div>
             <div id="weather-error" class="api-error" style="display: none;">
+              <p>데이터를 불러올 수 없습니다.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 미세먼지 정보 -->
+        <div class="api-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="api-header">
+            <div class="api-icon">🌫️</div>
+            <h3>미세먼지 정보</h3>
+            <button class="refresh-btn" onclick="loadDustData()">
+              <i class="fas fa-sync-alt"></i>
+            </button>
+          </div>
+          <div class="api-content">
+            <div id="dust-loading" class="loading-spinner">
+              <div class="spinner"></div>
+            </div>
+            <div id="dust-data" class="api-data" style="display: none;">
+              <div class="data-item">
+                <span class="data-label">관측소</span>
+                <span id="dust-station" class="data-value">-</span>
+              </div>
+              <div class="data-item">
+                <span class="data-label">PM10</span>
+                <span id="dust-pm10" class="data-value">-</span>
+              </div>
+              <div class="data-item">
+                <span class="data-label">PM2.5</span>
+                <span id="dust-pm25" class="data-value">-</span>
+              </div>
+              <div class="data-item">
+                <span class="data-label">측정시간</span>
+                <span id="dust-time" class="data-value">-</span>
+              </div>
+            </div>
+            <div id="dust-error" class="api-error" style="display: none;">
               <p>데이터를 불러올 수 없습니다.</p>
             </div>
           </div>
