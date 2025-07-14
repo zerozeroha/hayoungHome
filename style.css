@@ -1421,7 +1421,7 @@ body {
   width: 100vw;
   height: 100vh;
   background: rgba(30, 30, 30, 0.75);
-  z-index: 2000;
+  z-index: 1000;
   align-items: center;
   justify-content: center;
 }
@@ -1441,11 +1441,7 @@ body {
   margin: 0 auto;
 }
 
-.modal {
-  display: flex;
 
-
-}
 
 
 /* 모바일에서 모달 위치 조정 */
