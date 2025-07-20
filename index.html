@@ -12,9 +12,12 @@
 
   <link rel="stylesheet" href="style.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-  <!-- Pretendard 폰트 -->
-  <link rel="stylesheet" as="style" crossorigin
-    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+  <!-- 폰트 -->
+  <!-- Gowun Dodum (한글용) -->
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+
+  <!-- Inter (영문용) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
   <!-- GSAP 라이브러리 -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -31,25 +34,26 @@
 
   <!-- 로딩 화면 -->
   <div class="loading">
-    <h1 class="loading-text">hayoung.dev</h1>
+    <h1 class="loading-text" lang="en">hayoung.dev</h1>
     <div class="loading-bar">
       <div class="loading-progress"></div>
     </div>
-    <h1 class="loading-text-under">portfolio</h1>
+    <h1 class="loading-text-under" lang="en">portfolio</h1>
   </div>
 
   <!-- 헤더 -->
   <header>
     <nav class="navbar">
       <div class="container">
-        <div class="logo">hayoung.dev</div>
+        <div class="logo"><a href="#home" lang="en">hayoung.dev</a>
+        </div>
 
         <ul class="nav-menu">
-          <li><a href="#home">HOME</a></li>
-          <li><a href="#skills">SKILLS</a></li>
-          <li><a href="#career">CAREER</a></li>
-          <li><a href="#projects">PROJECTS</a></li>
-          <li><a href="#contact">CONTACT</a></li>
+          <li><a href="#home" lang="en">home</a></li>
+          <li><a href="#skills" lang="en">skills</a></li>
+          <li><a href="#career" lang="en">career</a></li>
+          <li><a href="#projects" lang="en">projects</a></li>
+          <li><a href="#contact" lang="en">contact</a></li>
         </ul>
 
         <button class="menu-btn">
@@ -73,10 +77,10 @@
 
       <div class="container">
         <div class="hero-content">
-          <span class="label">FRONTEND DEVELOPER</span>
+          <span class="label" lang="en">FRONTEND DEVELOPER</span>
           <h1 class="hero-title">
             <span class="name-ko">김하영</span>
-            <span class="name-en">KIM HA YOUNG</span>
+            <span class="name-en" lang="en">KIM HA YOUNG</span>
           </h1>
 
           <div class="typing-container">
@@ -87,17 +91,17 @@
           <!-- 실시간 정보 위젯 (새로운 디자인) -->
           <div class="widgets">
             <div class="widget">
-              <div class="widget-icon">🌤️</div>
+              <!-- <div class="widget-icon">🌤️</div> -->
               <div class="widget-info">
-                <span class="widget-label">Weather</span>
-                <span id="weather" class="widget-value">Loading...</span>
+                <span class="widget-label" lang="en">WEATHER</span>
+                <span id="weather" class="widget-value" lang="en">Loading...</span>
               </div>
             </div>
             <div class="widget">
-              <div class="widget-icon">⏰</div>
+              <!-- <div class="widget-icon">⏰</div> -->
               <div class="widget-info">
-                <span class="widget-label">Local Time</span>
-                <span id="time" class="widget-value">00:00</span>
+                <span class="widget-label" lang="en">TIME</span>
+                <span id="time" class="widget-value" lang="en">00:00</span>
               </div>
             </div>
           </div>
@@ -118,7 +122,7 @@
             <div class="mouse">
               <div class="wheel"></div>
             </div>
-            <span>SCROLL</span>
+            <span lang="en">SCROLL</span>
           </div>
         </div>
       </div>
@@ -127,49 +131,49 @@
     <!-- 기술 스택 (파티클 숨김) -->
     <section id="skills" class="skills" data-particles="false">
       <div class="container">
-        <h2 class="section-title">SKILLS & EXPERTISE</h2>
+        <h2 class="section-title" lang="en">SKILLS & EXPERTISE</h2>
         <p class="section-subtitle">전문 기술과 도구들</p>
 
         <div class="skill-grid">
           <div class="skill-card">
-            <div class="skill-number">01</div>
-            <h3>Frontend Development</h3>
+            <div class="skill-number" lang="en">01</div>
+            <h3 lang="en">Frontend Development</h3>
             <div class="skill-bar">
               <div class="skill-progress" data-width="90"></div>
             </div>
             <div class="skill-tags">
-              <span>React</span>
-              <span>Next.js</span>
-              <span>TypeScript</span>
-              <span>JavaScript</span>
+              <span lang="en">React</span>
+              <span lang="en">Next.js</span>
+              <span lang="en">TypeScript</span>
+              <span lang="en">JavaScript</span>
             </div>
           </div>
 
           <div class="skill-card">
-            <div class="skill-number">02</div>
-            <h3>UI/UX & Animation</h3>
+            <div class="skill-number" lang="en">02</div>
+            <h3 lang="en">UI/UX & Animation</h3>
             <div class="skill-bar">
               <div class="skill-progress" data-width="85"></div>
             </div>
             <div class="skill-tags">
-              <span>GSAP</span>
-              <span>Framer Motion</span>
-              <span>Tailwind CSS</span>
-              <span>Canvas</span>
+              <span lang="en">GSAP</span>
+              <span lang="en">Framer Motion</span>
+              <span lang="en">Tailwind CSS</span>
+              <span lang="en">Canvas</span>
             </div>
           </div>
 
           <div class="skill-card">
-            <div class="skill-number">03</div>
-            <h3>Tools & Others</h3>
+            <div class="skill-number" lang="en">03</div>
+            <h3 lang="en">Tools & Others</h3>
             <div class="skill-bar">
               <div class="skill-progress" data-width="80"></div>
             </div>
             <div class="skill-tags">
-              <span>Git</span>
-              <span>Figma</span>
-              <span>Supabase</span>
-              <span>MongoDB</span>
+              <span lang="en">Git</span>
+              <span lang="en">Figma</span>
+              <span lang="en">Supabase</span>
+              <span lang="en">MongoDB</span>
             </div>
           </div>
         </div>
@@ -179,38 +183,43 @@
     <!-- 경력 (파티클 보임) -->
     <section id="career" class="career-section" data-particles="true">
       <div class="container">
-        <h2 class="section-title">CAREER & EDUCATION</h2>
+        <h2 class="section-title" lang="en">CAREER & EDUCATION</h2>
         <p class="section-subtitle">경력 및 학력</p>
 
         <div class="career-timeline">
           <div class="career-item">
-            <div class="career-date"><span class="year">2025.03 - 2025.06</span></div>
             <div class="career-content">
-              <div class="career-type">EXPERIENCE</div>
-              <h3 class="career-title">Web Publishing Assistant</h3>
-              <p class="career-company">TOSS 증권 | 국내주식팀</p>
+              <div class="career-date"><span class="year">2025.03. - 2025.06.</span></div>
+              <div class="career-type" lang="en">CAREER</div>
+              <h3 class="career-title" lang="en">Web Publishing Assistant</h3>
+              <p class="career-company" lang="en">TOSS 증권 | 국내주식팀</p>
               <p class="career-description">내부 인사관리 시스템 화면 설계 및 마크업 담당</p>
-              <div class="career-skills"><span>Datagrip</span><span>UI Publishing</span><span>협업</span></div>
+              <div class="career-skills"><span lang="en">Datagrip</span><span lang="en">UI
+                  Publishing</span><span lang="en">Slack</span><span>협업</span></div>
             </div>
           </div>
           <div class="career-item">
-            <div class="career-date"><span class="year">2024.11 - 2025.01</span></div>
             <div class="career-content">
-              <div class="career-type">EDUCATION</div>
-              <h3 class="career-title">프론트엔드 개발 과정</h3>
+              <div class="career-date"><span class="year">2024.11. - 2025.01.</span></div>
+              <div class="career-type" lang="en">EDUCATION</div>
+              <h3 class="career-title">프론트엔드 개발 과정 수료</h3>
               <p class="career-company">유데미 x 스나이퍼팩토리</p>
-              <p class="career-description">WattsUp Dashboard 프로젝트 최우수상 수상</p>
-              <div class="career-skills"><span>React</span><span>Next.js</span><span>TypeScript</span></div>
+              <p class="career-description" lang="en">WattsUp Dashboard 프로젝트 최우수상 수상</p>
+              <div class="career-skills"><span lang="en">React, Next.js</span><span lang="en">JavaScript,
+                  TypeScript</span><span lang="en">Next.js</span></div>
             </div>
           </div>
           <div class="career-item">
-            <div class="career-date"><span class="year">2015.03 - 2022.03</span></div>
             <div class="career-content">
-              <div class="career-type">EDUCATION</div>
-              <h3 class="career-title">정치외교학과</h3>
-              <p class="career-company">영남대학교</p>
-              <p class="career-description">논리적 사고와 문제 해결 능력 함양</p>
-              <div class="career-skills"><span>논리적 사고</span><span>문제 해결</span><span>커뮤니케이션</span></div>
+              <div class="career-date"><span class="year">2024.01. ~ 2024.07.</span></div>
+              <div class="career-type" lang="en">EDUCATION</div>
+              <h3 class="career-title" lang="en">AI 챗봇 웹서비스 풀스택 개발과정 수료</h3>
+              <p class="career-company" lang="en">A이젠아카데미</p>
+              <p class="career-description">백엔드와 프론트엔드 양방향 이해</p>
+              <div class="career-skills">
+                <span lang="en">HTML</span><span lang="en">CSS</span><span lang="en">JavaScript</span><span
+                  lang="en">MySQL</span><span lang="en">MariaDB</span><span lang="en">Python</span>
+                <span lang="en">Java</span><span lang="en">Spring</span></div>
             </div>
           </div>
         </div>
@@ -220,34 +229,37 @@
     <!-- 프로젝트 (파티클 숨김) -->
     <section id="projects" class="projects-section" data-particles="false">
       <div class="container">
-        <h2 class="section-title">FEATURED WORKS</h2>
+        <h2 class="section-title" lang="en">FEATURED WORKS</h2>
         <p class="section-subtitle">주요 프로젝트들</p>
 
         <div class="projects-grid">
           <div class="project-card">
             <div class="project-content">
-              <h3>WattsUp Dashboard</h3>
+              <h3 lang="en">WattsUp Dashboard</h3>
               <p class="project-subtitle">에너지 데이터 시각화 플랫폼</p>
-              <p class="project-description">한국전력 API를 활용한 실시간 에너지 사용량 모니터링 및 거래 플랫폼</p>
+              <p class="project-description" lang="en">한국전력 API를 활용한 실시간 에너지 사용량 모니터링 및 거래 플랫폼</p>
               <div class="project-tech">
-                <span>React</span><span>Next.js</span><span>TypeScript</span><span>Recharts</span></div>
+                <span lang="en">React</span><span lang="en">Next.js</span><span lang="en">TypeScript</span><span
+                  lang="en">Recharts</span></div>
             </div>
           </div>
           <div class="project-card">
             <div class="project-content">
-              <h3>SurveyGacha</h3>
+              <h3 lang="en">SurveyGacha</h3>
               <p class="project-subtitle">게이미피케이션 설문조사 플랫폼</p>
               <p class="project-description">설문 참여 시 포인트를 획득하여 보상을 받는 재미있는 경험을 제공하는 플랫폼</p>
               <div class="project-tech">
-                <span>React</span><span>TypeScript</span><span>Zustand</span><span>Supabase</span></div>
+                <span lang="en">React</span><span lang="en">TypeScript</span><span lang="en">Zustand</span><span
+                  lang="en">Supabase</span></div>
             </div>
           </div>
           <div class="project-card">
             <div class="project-content">
-              <h3>CARINI Web</h3>
+              <h3 lang="en">CARINI Web</h3>
               <p class="project-subtitle">지도 기반 차량 탐색 플랫폼</p>
-              <p class="project-description">카카오맵 API를 활용하여 사용자 위치 기반으로 주변 중고차 매물을 검색하는 플랫폼</p>
-              <div class="project-tech"><span>JavaScript</span><span>Kakao Map API</span><span>Spring Boot</span></div>
+              <p class="project-description" lang="en">카카오맵 API를 활용하여 사용자 위치 기반으로 주변 중고차 매물을 검색하는 플랫폼</p>
+              <div class="project-tech"><span lang="en">JavaScript</span><span lang="en">Kakao Map API</span><span
+                  lang="en">Spring Boot</span></div>
             </div>
           </div>
         </div>
@@ -257,7 +269,7 @@
     <!-- 연락처 (파티클 보임) -->
     <section id="contact" class="contact" data-particles="true">
       <div class="container">
-        <h2 class="section-title">GET IN TOUCH</h2>
+        <h2 class="section-title" lang="en">GET IN TOUCH</h2>
         <p class="section-subtitle">함께 일하고 싶으시다면</p>
 
         <div class="contact-content">
@@ -265,22 +277,22 @@
             <div class="contact-item">
               <i class="fas fa-envelope"></i>
               <div>
-                <p class="contact-label">EMAIL</p>
-                <a href="mailto:duddldml3939@gmail.com">duddldml3939@gmail.com</a>
+                <p class="contact-label" lang="en">EMAIL</p>
+                <a href="mailto:duddldml3939@gmail.com" lang="en">duddldml3939@gmail.com</a>
               </div>
             </div>
             <div class="contact-item">
               <i class="fab fa-github"></i>
               <div>
-                <p class="contact-label">GITHUB</p>
-                <a href="https://github.com/zerozeroha" target="_blank">github.com/zerozeroha</a>
+                <p class="contact-label" lang="en">GITHUB</p>
+                <a href="https://github.com/zerozeroha" target="_blank" lang="en">github.com/zerozeroha</a>
               </div>
             </div>
             <div class="contact-item">
               <i class="fas fa-map-marker-alt"></i>
               <div>
-                <p class="contact-label">LOCATION</p>
-                <span>Seoul, Korea</span>
+                <p class="contact-label" lang="en">LOCATION</p>
+                <span lang="en">Seoul, Korea</span>
               </div>
             </div>
           </div>
@@ -301,7 +313,7 @@
   <!-- 푸터 -->
   <footer>
     <div class="container">
-      <p>&copy; 2025 Kim Ha Young. All rights reserved.</p>
+      <p lang="en">&copy; 2025 Kim Ha Young. All rights reserved.</p>
       <div class="social-links">
         <a href="https://github.com/zerozeroha" target="_blank">
           <i class="fab fa-github"></i>
@@ -313,7 +325,7 @@
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <script type="module" src="/script.js"></script>
 </body>
 
 </html>

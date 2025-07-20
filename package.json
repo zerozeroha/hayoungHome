@@ -1,0 +1,17 @@
+{
+  "name": "hayounghome",
+  "version": "1.0.0",
+  "description": "김하영의 UI/Frontend 개발자 포트폴리오   실제 실무 수준의 반응형 UI/UX, 컴포넌트 중심 개발, CSS 설계와 인터랙션, GSAP 기반 애니메이션 경험까지 담았습니다.",
+  "main": "script.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^6.3.5"
+  }
+}
