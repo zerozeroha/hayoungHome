@@ -7,7 +7,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: 'index.html',
-        portfolio: 'portfolio로.html'
+        portfolio: 'portfolio.html'
       }
     }
   }
