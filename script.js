@@ -140,23 +140,81 @@ function initTime() {
 }
 
 /**
- * 날씨 정보 (더미 데이터)
+ * 날씨 정보
+ */
+/**
+ * 방법 1: HTML에서 환경변수를 전역변수로 전달
+ * HTML 파일의 <head>에 추가:
+ * <script>
+ *   window.WEATHER_API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
+ * </script>
+ */
+
+/**
+ * 방법 2: Vite의 define을 사용 (vite.config.js 설정 필요)
+ */
+
+/**
+ * 간단한 날씨 정보 가져오기 (환경변수 버전)
  */
 function initWeather() {
   const weatherEl = document.getElementById('weather');
 
-  // 더미 날씨 데이터
-  const weatherData = [
-    '☀️ 22°C 맑음',
-    '⛅ 18°C 구름',
-    '🌧️ 15°C 비',
-    '❄️ 3°C 눈',
-    '🌤️ 25°C 맑음'
-  ];
+  const API_KEY =
+    import.meta.env.VITE_WEATHER_API_KEY;
 
-  // 랜덤 날씨 표시
-  const randomWeather = weatherData[Math.floor(Math.random() * weatherData.length)];
-  weatherEl.textContent = randomWeather;
+  if (!API_KEY) {
+    weatherEl.textContent = '🔐 API 키 누락됨!';
+    console.error('환경변수에서 API 키를 불러올 수 없습니다.');
+    return;
+  }
+
+
+  // API 키 확인
+  if (API_KEY === 'VITE_WEATHER_API_KEY') {
+    weatherEl.textContent = '🔑 API 키를 설정해주세요';
+    console.error('환경변수에서 API 키를 불러올 수 없습니다.');
+    return;
+  }
+
+  console.log('API 키 로드 성공!');
+
+  weatherEl.textContent = '날씨 불러오는 중...';
+
+  // 내 위치 가져오기
+  navigator.geolocation.getCurrentPosition(
+    function (position) {
+      getWeatherData(position.coords.latitude, position.coords.longitude);
+    },
+    function () {
+      weatherEl.textContent = '📍 위치 권한을 허용해주세요';
+    }
+  );
+
+  // 실제 날씨 데이터 가져오는 함수
+  function getWeatherData(lat, lon) {
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=kr`;
+
+    fetch(url)
+      .then(function (response) {
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(function (data) {
+        console.log('날씨 데이터 로드 성공!');
+
+        const temp = Math.round(data.main.temp);
+        const weather = data.weather[0].description;
+
+        weatherEl.textContent = `🌤️ ${temp}°C ${weather}`;
+      })
+      .catch(function (error) {
+        console.error('날씨 API 에러:', error);
+        weatherEl.textContent = '❌ 날씨를 불러올 수 없어요';
+      });
+  }
 }
 
 /**

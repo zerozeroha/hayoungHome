@@ -10,5 +10,8 @@ export default defineConfig({
         portfolio: 'portfolio.html'
       }
     }
+  },
+  define: {
+    __WEATHER_API_KEY__: JSON.stringify(process.env.VITE_WEATHER_API_KEY)
   }
 });
