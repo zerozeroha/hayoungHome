@@ -1,1023 +1,335 @@
-// ===================================
-// 안전한 로딩 및 초기화 시스템
-// ===================================
+// 페이지 로드 완료 시 모든 기능 초기화
+window.addEventListener('DOMContentLoaded', () => {
+  console.log('🚀 포트폴리오 시작!');
 
-// 전역 변수
-let canvas,
-  ctx,
-  particles = []
+  // 2초 후 로딩 화면 숨기기
+  setTimeout(hideLoading, 2000);
 
-// 1. 로딩 스크린 숨김 함수 (GSAP 없으면 바로 display none)
-function hideLoadingScreen() {
-  const loadingScreen = document.getElementById("loading-screen")
-  if (loadingScreen) {
-    if (window.gsap && typeof window.gsap.to === "function") {
-      window.gsap.to(loadingScreen, {
-        duration: 0.8,
-        opacity: 0,
-        onComplete: () => {
-          loadingScreen.style.display = "none"
-        },
-      })
-    } else {
-      // GSAP이 로드 안 됐어도 안전하게!
-      loadingScreen.style.opacity = "0"
-      loadingScreen.style.display = "none"
-    }
-  }
-}
+  // 각 기능 실행
+  initCanvas();
+  initCursor();
+  initTyping();
+  initTime();
+  initWeather();
+  initCounter();
+  initMobileMenu();
+  initSmoothScroll();
+  initAnimations();
+  initParticleToggler(); // 파티클 토글 기능 추가
+});
 
-// 2. 모든 초기화 (실패해도 로딩 무조건 숨기기)
-function initializeApp() {
-  try {
-    console.log("앱 초기화 시작...")
 
-    // GSAP 플러그인 등록 (있으면)
-    if (window.gsap && window.ScrollTrigger && window.TextPlugin) {
-      window.gsap.registerPlugin(window.ScrollTrigger, window.TextPlugin)
-      console.log("GSAP 플러그인 등록 완료")
-    }
-
-    // 각 초기화 함수들을 안전하게 실행
-    safeInit(initParticles, "파티클 시스템")
-    safeInit(initCustomCursor, "커스텀 커서")
-    safeInit(initGSAPAnimations, "GSAP 애니메이션")
-    safeInit(initTypingAnimation, "타이핑 애니메이션")
-    safeInit(initAOSAnimations, "AOS 애니메이션")
-    safeInit(initMobileNav, "모바일 네비게이션")
-    safeInit(initModal, "모달 시스템")
-    safeInit(initSmoothScroll, "부드러운 스크롤")
-    safeInit(initNavbarEffect, "네비바 효과")
-    safeInit(initRealTimeData, "실시간 데이터")
-    safeInit(initSkillProgress, "스킬 프로그레스")
-    safeInit(initCounterAnimation, "카운터 애니메이션")
-    safeInit(initButtonEffects, "버튼 효과")
-
-    // API 데이터 로드 (날씨와 미세먼지만)
-    safeInit(loadAllAPIData, "API 데이터")
-
-    console.log("앱 초기화 완료!")
-  } catch (err) {
-    console.error("초기화 중 오류:", err)
-  }
-}
-
-// 3. 안전한 초기화 헬퍼 함수
-function safeInit(func, name) {
-  try {
-    func()
-    console.log(`${name} 초기화 완료`)
-  } catch (err) {
-    console.error(`${name} 초기화 실패:`, err)
-  }
-}
-
-// 4. DOMContentLoaded에서 모든 작업을 안전하게 처리
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("DOM 로드 완료")
-
-  // 로딩 스크린 반드시 2초 이내 사라지도록
+/**
+ * 1. 로딩 화면 숨기기
+ */
+function hideLoading() {
+  console.log('✅ 로딩 완료');
+  const loading = document.querySelector('.loading');
+  loading.style.opacity = '0';
   setTimeout(() => {
-    try {
-      initializeApp()
-    } finally {
-      hideLoadingScreen() // 무조건 로딩 숨김
-    }
-  }, 2000)
-})
-
-// ===================================
-// 파티클 애니메이션 시스템
-// ===================================
-
-function initParticles() {
-  canvas = document.getElementById("particleCanvas")
-  if (!canvas) return
-
-  ctx = canvas.getContext("2d")
-  resizeCanvas()
-  createParticles()
-  animateParticles()
-  window.addEventListener("resize", resizeCanvas)
+    loading.style.display = 'none';
+  }, 500); // 0.5초 후 완전히 제거
 }
 
-function resizeCanvas() {
-  canvas.width = window.innerWidth
-  canvas.height = window.innerHeight
-}
 
-function createParticles() {
-  particles = []
-  const particleCount = window.innerWidth < 768 ? 30 : 50
+/**
+ * 2. Canvas 파티클 효과
+ */
+function initCanvas() {
+  console.log('🎨 Canvas 파티클 시작');
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  const particles = [];
+  let particleCount = 50;
 
+  // 캔버스 크기를 화면에 맞게 설정
+  function setCanvasSize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  setCanvasSize();
+  window.addEventListener('resize', setCanvasSize);
+
+  // 파티클 객체 생성
   for (let i = 0; i < particleCount; i++) {
     particles.push({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.5,
-      vy: (Math.random() - 0.5) * 0.5,
-      size: Math.random() * 3 + 1,
-      opacity: Math.random() * 0.5 + 0.1,
-      color: `hsl(${Math.random() * 60 + 340}, 70%, 60%)`,
-    })
+      size: Math.random() * 2 + 1,
+      speedX: (Math.random() - 0.5) * 0.5,
+      speedY: (Math.random() - 0.5) * 0.5,
+    });
   }
+
+  // 파티클 그리기 및 애니메이션
+  function drawParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach(p => {
+      p.x += p.speedX;
+      p.y += p.speedY;
+
+      // 화면 경계를 벗어나면 방향 전환
+      if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+      if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+
+      // 파티클 원 그리기
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(220, 38, 38, 0.5)';
+      ctx.fill();
+    });
+
+    requestAnimationFrame(drawParticles);
+  }
+
+  drawParticles();
 }
 
-function animateParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-  particles.forEach((particle, i) => {
-    particle.x += particle.vx
-    particle.y += particle.vy
-
-    if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1
-    if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1
-
-    ctx.save()
-    ctx.globalAlpha = particle.opacity
-    ctx.fillStyle = particle.color
-    ctx.beginPath()
-    ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2)
-    ctx.fill()
-    ctx.restore()
-
-    particles.slice(i + 1).forEach((other) => {
-      const dx = particle.x - other.x
-      const dy = particle.y - other.y
-      const distance = Math.sqrt(dx * dx + dy * dy)
-
-      if (distance < 150) {
-        ctx.save()
-        ctx.globalAlpha = ((150 - distance) / 150) * 0.2
-        ctx.strokeStyle = particle.color
-        ctx.lineWidth = 1
-        ctx.beginPath()
-        ctx.moveTo(particle.x, particle.y)
-        ctx.lineTo(other.x, other.y)
-        ctx.stroke()
-        ctx.restore()
-      }
-    })
-  })
-
-  requestAnimationFrame(animateParticles)
+/**
+ * 3. 커스텀 커서
+ */
+function initCursor() {
+  console.log('🖱️ 커스텀 커서 시작');
+  const cursor = document.querySelector('.cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
 }
 
-// ===================================
-// 커스텀 커서 시스템
-// ===================================
 
-function initCustomCursor() {
-  const cursor = document.getElementById("cursor")
-
-  if (!cursor) return
-
-  let mouseX = 0,
-    mouseY = 0
-
-  document.addEventListener("mousemove", (e) => {
-    mouseX = e.clientX
-    mouseY = e.clientY
-
-    if (window.gsap) {
-      window.gsap.to(cursor, {
-        duration: 0,
-        x: mouseX - 10,
-        y: mouseY - 10,
-      })
-    }
-  })
-
-  const hoverElements = document.querySelectorAll("a, button, .btn, .project-card, .skill-card")
-  hoverElements.forEach((element) => {
-    element.addEventListener("mouseenter", () => {
-      if (window.gsap) {
-        window.gsap.to(cursor, {
-          duration: 0.3,
-          scale: 1.5,
-        })
-      }
-    })
-
-    element.addEventListener("mouseleave", () => {
-      if (window.gsap) {
-        window.gsap.to(cursor, {
-          duration: 0.3,
-          scale: 1,
-        })
-      }
-    })
-  })
-}
-
-// ===================================
-// GSAP 애니메이션 시스템
-// ===================================
-
-function initGSAPAnimations() {
-  if (!window.gsap) return
-
-  // 네비게이션 애니메이션
-  window.gsap.from(".nav-logo", {
-    duration: 1,
-    y: -50,
-    opacity: 0,
-    ease: "bounce.out",
-  })
-
-  window.gsap.from(".nav-link", {
-    duration: 0.8,
-    y: -30,
-    opacity: 0,
-    stagger: 0.1,
-    delay: 0.5,
-    ease: "power2.out",
-  })
-
-  // 히어로 섹션 애니메이션
-  const heroTl = window.gsap.timeline({
-    delay: 0.5,
-  })
-
-  heroTl
-    .from(".hero-label", {
-      duration: 0.8,
-      y: 30,
-      opacity: 0,
-    })
-    .from(
-      ".title-main", {
-        duration: 1,
-        scale: 0.8,
-        opacity: 0,
-        ease: "back.out(1.7)",
-      },
-      "-=0.3",
-    )
-    .from(
-      ".title-sub", {
-        duration: 0.8,
-        y: 20,
-        opacity: 0,
-      },
-      "-=0.5",
-    )
-    .from(
-      ".hero-widgets .widget", {
-        duration: 0.6,
-        y: 30,
-        opacity: 0,
-        stagger: 0.1,
-      },
-      "-=0.3",
-    )
-    .from(
-      ".stat-item", {
-        duration: 0.8,
-        scale: 0,
-        opacity: 0,
-        stagger: 0.1,
-        ease: "back.out(1.7)",
-      },
-      "-=0.3",
-    )
-    .from(
-      ".btn", {
-        duration: 0.6,
-        y: 30,
-        opacity: 0,
-        stagger: 0.1,
-      },
-      "-=0.3",
-    )
-
-  // 배경 도형 애니메이션
-  window.gsap.to(".shape-1", {
-    duration: 20,
-    rotation: 360,
-    repeat: -1,
-    ease: "none",
-  })
-
-  window.gsap.to(".shape-2", {
-    duration: 15,
-    rotation: -360,
-    repeat: -1,
-    ease: "none",
-  })
-
-  window.gsap.to(".shape-3", {
-    duration: 25,
-    rotation: 360,
-    repeat: -1,
-    ease: "none",
-  })
-
-  initScrollTriggerAnimations()
-}
-
-function initScrollTriggerAnimations() {
-  if (!window.gsap || !window.ScrollTrigger) return
-
-  // 스킬 카드 애니메이션 (fade-up으로 변경, 트리거 위치 조정)
-  window.gsap.utils.toArray(".skill-card").forEach((card, i) => {
-    window.gsap.fromTo(
-      card, {
-        opacity: 0,
-        y: 80,
-      }, {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        delay: i * 0.15,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: card,
-          start: "top 85%",
-          end: "bottom 15%",
-          toggleActions: "play none none reverse",
-        },
-      },
-    )
-  })
-
-  // 프로젝트 카드 애니메이션
-  window.gsap.utils.toArray(".project-card").forEach((card, i) => {
-    window.gsap.fromTo(
-      card, {
-        opacity: 0,
-        scale: 0.8,
-        rotationX: -45,
-      }, {
-        opacity: 1,
-        scale: 1,
-        rotationX: 0,
-        duration: 1,
-        delay: i * 0.1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: card,
-          start: "top 80%",
-          end: "bottom 20%",
-          toggleActions: "play none none reverse",
-        },
-      },
-    )
-  })
-}
-
-// ===================================
-// 타이핑 애니메이션
-// ===================================
-
-function initTypingAnimation() {
-  const typingElement = document.getElementById("typing-text")
-  if (!typingElement) return
-
+/**
+ * 4. 타이핑 효과
+ */
+function initTyping() {
+  console.log('⌨️ 타이핑 효과 시작');
   const texts = [
-    "사용자 중심 UI를 설계하고 개발하는 Frontend 개발자입니다.",
-    "핀테크 실무 경험을 바탕으로 사용자 흐름을 고려한 UI 구조와 컴포넌트 중심 개발에 강점을 가지고 있습니다.",
-    "React, Next.js, TypeScript를 활용한 현대적인 웹 애플리케이션 개발을 전문으로 합니다.",
-  ]
+    '사용자 경험을 중요하게 생각하는 프론트엔드 개발자입니다.',
+    'React와 Next.js로 인터랙티브한 웹을 만듭니다.',
+    'GSAP와 Canvas로 역동적인 UI를 구현합니다.'
+  ];
+  let textIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
+  const typingSpeed = 100;
+  const pauseTime = 2000;
+  const typingElement = document.getElementById('typing-text');
 
-  let currentTextIndex = 0
+  function type() {
+    const currentText = texts[textIndex];
+    let displayText;
 
-  function typeText() {
-    const currentText = texts[currentTextIndex]
-
-    if (window.gsap && window.TextPlugin) {
-      window.gsap.to(typingElement, {
-        duration: currentText.length * 0.05,
-        text: currentText,
-        ease: "none",
-        onComplete: () => {
-          setTimeout(() => {
-            currentTextIndex = (currentTextIndex + 1) % texts.length
-            window.gsap.to(typingElement, {
-              duration: 0.5,
-              text: "",
-              ease: "none",
-              onComplete: typeText,
-            })
-          }, 3000)
-        },
-      })
+    if (isDeleting) {
+      // 글자 삭제
+      displayText = currentText.substring(0, charIndex--);
     } else {
-      // GSAP TextPlugin이 없으면 간단한 타이핑 효과
-      let i = 0
-      typingElement.textContent = ""
-      const timer = setInterval(() => {
-        typingElement.textContent += currentText[i]
-        i++
-        if (i >= currentText.length) {
-          clearInterval(timer)
-          setTimeout(() => {
-            currentTextIndex = (currentTextIndex + 1) % texts.length
-            typeText()
-          }, 3000)
-        }
-      }, 50)
+      // 글자 타이핑
+      displayText = currentText.substring(0, charIndex++);
     }
-  }
 
-  setTimeout(typeText, 2000)
-}
+    typingElement.textContent = displayText;
 
-// ===================================
-// AOS 스크롤 애니메이션
-// ===================================
-
-function initAOSAnimations() {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const delay = entry.target.dataset.aosDelay || 0
-          setTimeout(() => {
-            entry.target.classList.add("aos-animate")
-          }, delay)
-          observer.unobserve(entry.target)
-        }
-      })
-    }, {
-      threshold: 0.1,
-      rootMargin: "0px 0px -50px 0px",
-    },
-  )
-
-  document.querySelectorAll("[data-aos]").forEach((el) => {
-    observer.observe(el)
-  })
-}
-
-// ===================================
-// 모바일 네비게이션
-// ===================================
-
-function initMobileNav() {
-  const hamburger = document.querySelector(".hamburger")
-  const navMenu = document.querySelector(".nav-menu")
-  const navLinks = document.querySelectorAll(".nav-link")
-
-  if (!hamburger || !navMenu) return
-
-  hamburger.addEventListener("click", () => {
-    hamburger.classList.toggle("active")
-    navMenu.classList.toggle("active")
-  })
-
-  navLinks.forEach((link) => {
-    link.addEventListener("click", () => {
-      hamburger.classList.remove("active")
-      navMenu.classList.remove("active")
-    })
-  })
-}
-
-// ===================================
-// 모달 시스템
-// ===================================
-
-const projectData = {
-  wattsup: {
-    title: "WattsUp Dashboard",
-    subtitle: "에너지 데이터 실시간 시각화 핀테크 플랫폼",
-    description: "TurbinCrew와 협력하여 에너지 데이터를 시각화하고 거래할 수 있는 웹 서비스입니다.",
-    tech: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Shadcn/ui", "Framer Motion", "Zustand"],
-    role: "Front-End Developer",
-    details: [
-      "웹 전체 Design - Shadcn/ui 및 Tailwind CSS를 활용한 디자인 시스템 구축",
-      "UI/UX 퍼블리싱 - 반응형 Tablet, PC 대응",
-      "메인/전력거래/소개페이지 컴포넌트 설계",
-      "공공데이터 API 연동 및 Recharts를 활용한 데이터 시각화",
-    ],
-    github: "https://github.com/zerozeroha/WattsUp",
-  },
-  surveygacha: {
-    title: "SurveyGacha",
-    subtitle: "가챠 시스템이 적용된 설문조사 플랫폼",
-    description: "기존 ReviewGacha 프로젝트를 개선하여 사용자 경험을 최적화한 설문 조사 기반 웹 애플리케이션입니다.",
-    tech: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Shadcn/ui", "Zustand", "Supabase"],
-    role: "Front-End Developer",
-    details: [
-      "디자이너와 협업하여 Figma 디자인 기반 UI 구현",
-      "반응형 Mobile, PC UI/UX 퍼블리싱",
-      "설문조사 페이지 컴포넌트 설계",
-      "Zustand를 활용한 상태관리 최적화",
-    ],
-    github: "https://github.com/zerozeroha/surveygacha",
-  },
-  carini: {
-    title: "CARINI Web",
-    subtitle: "지도 기반 차량 탐색 플랫폼",
-    description: "사용자가 원하는 차량을 쉽고 직관적으로 탐색할 수 있는 웹 서비스입니다.",
-    tech: ["HTML", "CSS", "JavaScript", "Spring Boot", "MySQL", "Kakao Map API"],
-    role: "Front-End Developer",
-    details: [
-      "CSS 및 HTML을 활용한 UI/UX 디자인 설계",
-      "JavaScript 기반 동적 UI 및 사용자 인터랙션 구현",
-      "Kakao 지도 API를 활용한 차량 매물 정보 시각화",
-    ],
-    github: "https://github.com/zerozeroha/CARINI_PROJECT",
-  },
-  chatbot: {
-    title: "CARINI AI Chatbot",
-    subtitle: "AI 기반 차량 추천 챗봇",
-    description: "카카오 챗봇 API를 활용한 맞춤형 AI 챗봇 서비스입니다.",
-    tech: ["Python", "MySQL", "Kakao Chatbot API", "Jupyter Notebook"],
-    role: "Development",
-    details: [
-      "MySQL을 활용한 자동차 데이터 테이블 구성 및 최적화",
-      "사용자 입력 기반 맞춤형 자동차 추천 시스템 개발",
-      "카카오 챗봇 API 연동 및 블록 기반 대화 흐름 설계",
-    ],
-  },
-}
-
-function initModal() {
-  const modal = document.getElementById("projectModal")
-  const closeBtn = document.querySelector(".modal-close")
-
-  if (!modal || !closeBtn) return
-
-  document.querySelectorAll(".project-card").forEach((card) => {
-    card.addEventListener("click", () => {
-      const projectId = card.dataset.project
-      openModal(projectId)
-    })
-  })
-
-  closeBtn.addEventListener("click", closeModal)
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) closeModal()
-  })
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && modal.style.display === "block") {
-      closeModal()
+    // 타이핑/삭제 상태 변경 로직
+    if (!isDeleting && charIndex > currentText.length) {
+      isDeleting = true;
+      setTimeout(type, pauseTime);
+      return;
+    } else if (isDeleting && charIndex < 0) {
+      isDeleting = false;
+      textIndex = (textIndex + 1) % texts.length;
     }
-  })
-}
 
-function openModal(projectId) {
-  const project = projectData[projectId]
-  if (!project) return
-
-  const modal = document.getElementById("projectModal")
-
-  document.getElementById("modalTitle").textContent = project.title
-  document.getElementById("modalSubtitle").textContent = project.subtitle
-  document.getElementById("modalDescription").textContent = project.description
-  document.getElementById("modalRole").textContent = project.role
-
-  const techContainer = document.getElementById("modalTech")
-  techContainer.innerHTML = ""
-  project.tech.forEach((tech) => {
-    const span = document.createElement("span")
-    span.textContent = tech
-    techContainer.appendChild(span)
-  })
-
-  const detailsList = document.getElementById("modalDetails")
-  detailsList.innerHTML = ""
-  project.details.forEach((detail) => {
-    const li = document.createElement("li")
-    li.textContent = detail
-    detailsList.appendChild(li)
-  })
-
-  const githubBtn = document.getElementById("modalGithub")
-  if (project.github) {
-    githubBtn.href = project.github
-    githubBtn.style.display = "inline-flex"
-  } else {
-    githubBtn.style.display = "none"
+    setTimeout(type, typingSpeed);
   }
 
-  modal.style.display = "block"
-  document.body.style.overflow = "hidden"
-
-  if (window.gsap) {
-    window.gsap.fromTo(
-      modal, {
-        opacity: 0,
-      }, {
-        duration: 0.3,
-        opacity: 1,
-      },
-    )
-    window.gsap.fromTo(
-      ".modal-content", {
-        scale: 0.8,
-        y: 50,
-      }, {
-        duration: 0.3,
-        scale: 1,
-        y: 0,
-        ease: "back.out(1.7)",
-      },
-    )
-  }
+  type();
 }
 
-function closeModal() {
-  const modal = document.getElementById("projectModal")
 
-  if (window.gsap) {
-    window.gsap.to(modal, {
-      duration: 0.3,
-      opacity: 0,
-      onComplete: () => {
-        modal.style.display = "none"
-        document.body.style.overflow = "auto"
-      },
-    })
-  } else {
-    modal.style.display = "none"
-    document.body.style.overflow = "auto"
+/**
+ * 5. 위젯: 현재 시간
+ */
+function initTime() {
+  console.log('⏰ 시간 표시 시작');
+  const timeEl = document.getElementById('time');
+
+  function updateTime() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    timeEl.textContent = `${hours}:${minutes}`;
   }
+  updateTime();
+  setInterval(updateTime, 1000 * 30); // 30초마다 업데이트
 }
 
-// ===================================
-// 부드러운 스크롤 (수정됨)
-// ===================================
 
+/**
+ * 6. 위젯: 날씨 (더미 데이터)
+ */
+function initWeather() {
+  console.log('🌤️ 날씨 위젯 시작');
+  const weatherData = ['22°C 맑음', '18°C 흐림', '25°C 구름'];
+  const randomWeather = weatherData[Math.floor(Math.random() * weatherData.length)];
+  document.getElementById('weather').textContent = randomWeather;
+}
+
+
+/**
+ * 7. 위젯: 카운터 애니메이션
+ */
+function initCounter() {
+  console.log('🔢 카운터 애니메이션 시작');
+  const counters = document.querySelectorAll('.counter');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const counter = entry.target;
+        const target = +counter.dataset.target; // '+'로 숫자형 변환
+
+        gsap.to(counter, {
+          innerText: target,
+          duration: 2,
+          ease: 'power2.out',
+          snap: {
+            innerText: 1
+          }, // 정수 단위로 스냅
+          onUpdate: () => {
+            counter.innerText = Math.ceil(gsap.getProperty(counter, "innerText"));
+          }
+        });
+
+        observer.unobserve(counter); // 한번 실행 후 관찰 중지
+      }
+    });
+  }, {
+    threshold: 0.5
+  });
+
+  counters.forEach(counter => observer.observe(counter));
+}
+
+
+/**
+ * 8. 모바일 메뉴 (햄버거 버튼)
+ */
+function initMobileMenu() {
+  console.log('📱 모바일 메뉴 시작');
+  const menuBtn = document.querySelector('.menu-btn');
+  const navMenu = document.querySelector('.nav-menu');
+
+  menuBtn.addEventListener('click', () => {
+    navMenu.classList.toggle('active');
+    // 햄버거 버튼 모양 변경
+    menuBtn.classList.toggle('active');
+  });
+}
+
+
+/**
+ * 9. 부드러운 스크롤
+ */
 function initSmoothScroll() {
-  document.querySelectorAll("a[href^=\"#\"]").forEach((anchor) => {
-    anchor.addEventListener("click", (e) => {
-      e.preventDefault()
-      const targetId = anchor.getAttribute("href")
-      const target = document.querySelector(targetId)
+  console.log('🎢 부드러운 스크롤 시작');
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href');
+      const targetElement = document.querySelector(targetId);
 
-      if (target) {
-        const offsetTop = target.offsetTop - 80
-
-        // GSAP ScrollTo 플러그인이 있으면 사용, 없으면 기본 스크롤
-        if (window.gsap && window.gsap.plugins && window.gsap.plugins.ScrollToPlugin) {
-          window.gsap.to(window, {
-            duration: 1,
-            scrollTo: {
-              y: offsetTop,
-              autoKill: false,
-            },
-            ease: "power2.inOut",
-          })
-        } else {
-          // 기본 부드러운 스크롤
-          window.scrollTo({
-            top: offsetTop,
-            behavior: "smooth",
-          })
-        }
+      if (targetElement) {
+        window.scrollTo({
+          top: targetElement.offsetTop - 60, // 네비게이션바 높이만큼 빼주기
+          behavior: 'smooth'
+        });
       }
-    })
-  })
+    });
+  });
 }
 
-// ===================================
-// 네비바 스크롤 효과
-// ===================================
+/**
+ * 10. 스크롤 기반 애니메이션 (GSAP & ScrollTrigger)
+ */
+function initAnimations() {
+  console.log('✨ GSAP 애니메이션 시작');
 
-function initNavbarEffect() {
-  const navbar = document.querySelector(".navbar")
-  if (!navbar) return
+  // GSAP 플러그인 등록
+  gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 100) {
-      navbar.style.background = "rgba(255, 255, 255, 0.98)"
-      navbar.style.boxShadow = "0 4px 20px rgba(0, 0, 0, 0.1)"
-    } else {
-      navbar.style.background = "rgba(255, 255, 255, 0.95)"
-      navbar.style.boxShadow = "none"
-    }
-  })
-}
+  // 배경 도형 회전
+  gsap.to(".shape", {
+    rotation: 360,
+    duration: 20,
+    repeat: -1,
+    ease: "none"
+  });
 
-// ===================================
-// 실시간 데이터 시스템
-// ===================================
-
-function initRealTimeData() {
-  updateCurrentTime()
-  updateVisitorCount()
-  loadWeatherWidget()
-
-  setInterval(updateCurrentTime, 1000)
-  setInterval(updateVisitorCount, 10000)
-  setInterval(loadWeatherWidget, 600000)
-}
-
-function updateCurrentTime() {
-  const timeElement = document.getElementById("current-time")
-  if (!timeElement) return
-
-  const now = new Date()
-  const timeString = now.toLocaleTimeString("ko-KR", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  })
-
-  timeElement.textContent = timeString
-}
-
-function updateVisitorCount() {
-  const visitorElement = document.getElementById("visitor-count")
-  if (!visitorElement) return
-
-  let count = localStorage.getItem("visitorCount") || 0
-  count = Number.parseInt(count) + Math.floor(Math.random() * 3) + 1
-  localStorage.setItem("visitorCount", count)
-
-  if (window.gsap) {
-    window.gsap.to(visitorElement, {
-      duration: 0.5,
-      scale: 1.1,
-      yoyo: true,
-      repeat: 1,
-      onComplete: () => {
-        visitorElement.textContent = count.toLocaleString()
+  // 스킬 프로그레스바
+  document.querySelectorAll('.skill-progress').forEach(progress => {
+    const width = progress.getAttribute('data-width');
+    gsap.from(progress, {
+      scrollTrigger: {
+        trigger: progress.closest('.skill-card'),
+        start: 'top 80%',
       },
-    })
-  } else {
-    visitorElement.textContent = count.toLocaleString()
-  }
-}
+      width: '0%',
+      duration: 1.5,
+      ease: 'power2.out'
+    });
+    gsap.to(progress, {
+      scrollTrigger: {
+        trigger: progress.closest('.skill-card'),
+        start: 'top 80%',
+      },
+      width: width + '%',
+      duration: 1.5,
+      ease: 'power2.out'
+    });
+  });
 
-function loadWeatherWidget() {
-  const weatherElement = document.getElementById("weather-data")
-  if (!weatherElement) return
-
-  const mockWeather = {
-    temp: Math.floor(Math.random() * 20) + 5,
-    condition: ["맑음", "흐림", "비", "눈"][Math.floor(Math.random() * 4)],
-  }
-
-  weatherElement.textContent = `${mockWeather.temp}°C ${mockWeather.condition}`
-}
-
-// ===================================
-// 스킬 프로그레스 바 애니메이션
-// ===================================
-
-function initSkillProgress() {
-  const progressBars = document.querySelectorAll(".progress-bar")
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const progressBar = entry.target
-          const progress = progressBar.dataset.progress
-
-          if (window.gsap) {
-            window.gsap.to(progressBar, {
-              duration: 2,
-              width: `${progress}%`,
-              ease: "power2.out",
-              delay: 0.5,
-            })
-          } else {
-            setTimeout(() => {
-              progressBar.style.width = `${progress}%`
-            }, 500)
-          }
-
-          observer.unobserve(progressBar)
-        }
-      })
-    }, {
-      threshold: 0.5,
-    },
-  )
-
-  progressBars.forEach((bar) => observer.observe(bar))
-}
-
-// ===================================
-// 카운터 애니메이션
-// ===================================
-
-function initCounterAnimation() {
-  const counters = document.querySelectorAll(".stat-number[data-count]")
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const counter = entry.target
-          const target = Number.parseInt(counter.dataset.count)
-
-          if (window.gsap) {
-            window.gsap.fromTo(
-              counter, {
-                textContent: 0,
-              }, {
-                textContent: target,
-                duration: 2,
-                ease: "power2.out",
-                snap: {
-                  textContent: 1,
-                },
-                onUpdate: function () {
-                  const value = Math.ceil(this.targets()[0].textContent)
-                  counter.textContent = target === 100 ? `${value}%` : `${value}+`
-                },
-              },
-            )
-          } else {
-            // GSAP 없이 간단한 카운터
-            let current = 0
-            const increment = target / 100
-            const timer = setInterval(() => {
-              current += increment
-              if (current >= target) {
-                current = target
-                clearInterval(timer)
-              }
-              counter.textContent = target === 100 ? `${Math.ceil(current)}%` : `${Math.ceil(current)}+`
-            }, 20)
-          }
-
-          observer.unobserve(counter)
-        }
-      })
-    }, {
-      threshold: 0.5,
-    },
-  )
-
-  counters.forEach((counter) => observer.observe(counter))
-}
-
-// ===================================
-// 버튼 효과
-// ===================================
-
-function initButtonEffects() {
-  document.querySelectorAll(".btn").forEach((btn) => {
-    btn.addEventListener("mouseenter", () => {
-      if (window.gsap) {
-        window.gsap.to(btn, {
-          duration: 0.3,
-          scale: 1.05,
-          ease: "power2.out",
-        })
-      }
-    })
-
-    btn.addEventListener("mouseleave", () => {
-      if (window.gsap) {
-        window.gsap.to(btn, {
-          duration: 0.3,
-          scale: 1,
-          ease: "power2.out",
-        })
-      }
-    })
-  })
-}
-
-// ===================================
-// API 데이터 로딩 시스템 (날씨와 미세먼지만)
-// ===================================
-
-async function loadAllAPIData() {
-  try {
-    await Promise.all([loadDustData(), loadWeatherData()])
-  } catch (error) {
-    console.error("API 데이터 로딩 중 오류:", error)
-  }
-}
-
-async function loadDustData() {
-  try {
-    showLoading("dust")
-
-    // Mock 데이터로 대체 (CORS 문제 방지)
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-
-    const mockData = {
-      stationName: "종로구",
-      pm10Value: Math.floor(Math.random() * 100) + 20,
-      pm25Value: Math.floor(Math.random() * 50) + 10,
-      dataTime: new Date().toLocaleString("ko-KR"),
-    }
-
-    bindDustData(mockData)
-    showData("dust")
-  } catch (error) {
-    console.error("미세먼지 데이터 로딩 실패:", error)
-    showError("dust")
-  }
-}
-
-function bindDustData(data) {
-  document.getElementById("dust-station").textContent = data.stationName || "-"
-  document.getElementById("dust-pm10").textContent = data.pm10Value ? `${data.pm10Value} ㎍/㎥` : "-"
-  document.getElementById("dust-pm25").textContent = data.pm25Value ? `${data.pm25Value} ㎍/㎥` : "-"
-  document.getElementById("dust-time").textContent = data.dataTime || "-"
-
-  if (window.gsap) {
-    window.gsap.from("#dust-data .data-item", {
-      duration: 0.6,
-      y: 20,
+  // 섹션 카드 나타나는 효과
+  const cards = document.querySelectorAll('.skill-card, .career-item, .project-card');
+  cards.forEach(card => {
+    gsap.from(card, {
+      scrollTrigger: {
+        trigger: card,
+        start: 'top 90%',
+      },
       opacity: 0,
-      stagger: 0.1,
-      ease: "power2.out",
-    })
-  }
+      y: 40,
+      duration: 0.8,
+      ease: 'power2.out'
+    });
+  });
 }
 
-async function loadWeatherData() {
-  try {
-    showLoading("weather")
-    await new Promise((resolve) => setTimeout(resolve, 1000))
 
-    const mockData = {
-      name: "서울",
-      main: {
-        temp: Math.floor(Math.random() * 25) + 5,
-        humidity: Math.floor(Math.random() * 40) + 40,
-      },
-      weather: [{
-        main: "Clear",
-        description: "맑음",
-        icon: "01d",
-      }, ],
-      wind: {
-        speed: (Math.random() * 8 + 2).toFixed(1),
-      },
-    }
+/**
+ * 11. 섹션별 파티클 효과 토글 (NEW ✨)
+ */
+function initParticleToggler() {
+  console.log('💡 파티클 토글 기능 시작');
+  const particleCanvas = document.getElementById('particles');
 
-    bindWeatherData(mockData)
-    showData("weather")
-  } catch (error) {
-    console.error("날씨 데이터 로딩 실패:", error)
-    showError("weather")
-  }
-}
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      // 섹션이 50% 이상 보일 때
+      if (entry.isIntersecting) {
+        // html의 data-particles 속성값 확인 (true/false)
+        const showParticles = entry.target.dataset.particles === 'true';
+        // 조건에 따라 파티클 캔버스의 투명도 조절
+        particleCanvas.style.opacity = showParticles ? '0.6' : '0';
+      }
+    });
+  }, {
+    threshold: 0.5
+  }); // 섹션이 50% 보일 때 감지
 
-function bindWeatherData(data) {
-  const iconMap = {
-    Clear: "☀️",
-    Clouds: "☁️",
-    Rain: "🌧️",
-    Snow: "❄️",
-  }
-
-  document.getElementById("weather-icon").textContent = iconMap[data.weather[0].main] || "🌤️"
-  document.getElementById("weather-temp").textContent = `${Math.round(data.main.temp)}°C`
-  document.getElementById("weather-city").textContent = data.name
-  document.getElementById("weather-humidity").textContent = `${data.main.humidity}%`
-  document.getElementById("weather-wind").textContent = `${data.wind.speed} m/s`
-}
-
-function showLoading(section) {
-  const loadingElement = document.getElementById(`${section}-loading`)
-  const dataElement = document.getElementById(`${section}-data`)
-  const errorElement = document.getElementById(`${section}-error`)
-
-  if (loadingElement) loadingElement.style.display = "flex"
-  if (dataElement) dataElement.style.display = "none"
-  if (errorElement) errorElement.style.display = "none"
-}
-
-function showData(section) {
-  const loadingElement = document.getElementById(`${section}-loading`)
-  const dataElement = document.getElementById(`${section}-data`)
-  const errorElement = document.getElementById(`${section}-error`)
-
-  if (loadingElement) loadingElement.style.display = "none"
-  if (dataElement) dataElement.style.display = "block"
-  if (errorElement) errorElement.style.display = "none"
-}
-
-function showError(section) {
-  const loadingElement = document.getElementById(`${section}-loading`)
-  const dataElement = document.getElementById(`${section}-data`)
-  const errorElement = document.getElementById(`${section}-error`)
-
-  if (loadingElement) loadingElement.style.display = "none"
-  if (dataElement) dataElement.style.display = "none"
-  if (errorElement) errorElement.style.display = "block"
-}
-
-// ===================================
-// 전역 에러 처리
-// ===================================
-
-window.addEventListener("error", (e) => {
-  console.error("JavaScript 오류:", e.error)
-})
-
-window.addEventListener("load", () => {
-  console.log("모든 리소스 로딩 완료")
-})
-
-// GSAP 로딩 확인
-if (typeof window.gsap === "undefined") {
-  console.warn("GSAP 라이브러리가 로드되지 않았습니다. 기본 애니메이션으로 대체됩니다.")
-} else {
-  console.log("GSAP 라이브러리 로드 완료")
+  // 모든 섹션을 관찰 대상으로 등록
+  document.querySelectorAll('section').forEach(section => {
+    observer.observe(section);
+  });
 }
