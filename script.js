@@ -1,11 +1,8 @@
-// 페이지 로드 완료 시 모든 기능 초기화
+// 페이지 로드 완료 시 초기화
 window.addEventListener('DOMContentLoaded', function () {
   console.log('🚀 포트폴리오 시작!');
 
-  // 2초 후 로딩 화면 숨기기
-  setTimeout(hideLoading, 2000);
-
-  // 각 기능 실행
+  // 기능들 초기화
   initCanvas();
   initCursor();
   initTyping();
@@ -18,22 +15,9 @@ window.addEventListener('DOMContentLoaded', function () {
 });
 
 /**
- * 1. 로딩 화면 숨기기
- */
-function hideLoading() {
-  console.log('✅ 로딩 완료');
-  const loading = document.querySelector('.loading');
-  loading.style.opacity = '0';
-  setTimeout(function () {
-    loading.style.display = 'none';
-  }, 500);
-}
-
-/**
- * 2. Canvas 파티클 효과
+ * Canvas 파티클 효과
  */
 function initCanvas() {
-  console.log('🎨 Canvas 파티클 시작');
   const canvas = document.getElementById('particles');
   const ctx = canvas.getContext('2d');
   const particles = [];
@@ -58,7 +42,7 @@ function initCanvas() {
     });
   }
 
-  // 파티클 그리기 함수
+  // 파티클 그리기
   function drawParticles() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -74,7 +58,7 @@ function initCanvas() {
       // 파티클 그리기
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(220, 38, 38, 0.5)';
+      ctx.fillStyle = 'rgba(184, 133, 133, 0.5)';
       ctx.fill();
     });
 
@@ -84,10 +68,9 @@ function initCanvas() {
 }
 
 /**
- * 3. 커스텀 커서
+ * 커스텀 커서
  */
 function initCursor() {
-  console.log('🖱️ 커스텀 커서 시작');
   const cursor = document.querySelector('.cursor');
 
   document.addEventListener('mousemove', function (e) {
@@ -97,12 +80,12 @@ function initCursor() {
 }
 
 /**
- * 4. 타이핑 효과
+ * 타이핑 효과
  */
 function initTyping() {
-  console.log('⌨️ 타이핑 효과 시작');
   const texts = [
     '사용자 경험을 중요하게 생각하는 프론트엔드 개발자입니다.',
+    '탄탄한 HTML CSS JAVASCRIPT 코딩',
     'React와 Next.js로 인터랙티브한 웹을 만듭니다.',
     'GSAP와 Canvas로 역동적인 UI를 구현합니다.'
   ];
@@ -140,10 +123,9 @@ function initTyping() {
 }
 
 /**
- * 5. 위젯: 현재 시간
+ * 현재 시간 표시
  */
 function initTime() {
-  console.log('⏰ 시간 표시 시작');
   const timeEl = document.getElementById('time');
 
   function updateTime() {
@@ -154,65 +136,36 @@ function initTime() {
   }
 
   updateTime();
-  // 30초마다 시간 업데이트
-  setInterval(updateTime, 1000 * 30);
+  setInterval(updateTime, 30000); // 30초마다 업데이트
 }
 
 /**
- * 6. 위젯: 날씨 (더미 데이터)
+ * 날씨 정보 (더미 데이터)
  */
-document.addEventListener('DOMContentLoaded', function () {
-  const API_KEY =
-    import.meta.env.VITE_WEATHER_API_KEY;
+function initWeather() {
+  const weatherEl = document.getElementById('weather');
 
+  // 더미 날씨 데이터
+  const weatherData = [
+    '☀️ 22°C 맑음',
+    '⛅ 18°C 구름',
+    '🌧️ 15°C 비',
+    '❄️ 3°C 눈',
+    '🌤️ 25°C 맑음'
+  ];
 
-  // 위치 정보를 요청해요
-  navigator.geolocation.getCurrentPosition(function (position) {
-    const latitude = position.coords.latitude;
-    const longitude = position.coords.longitude;
-
-    // 날씨 정보 요청 URL 만들기
-    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric&lang=kr`;
-
-    // 날씨 정보 불러오기
-    fetch(url)
-      .then(function (response) {
-        return response.json(); // JSON 데이터로 바꾸기
-      })
-      .then(function (data) {
-        // 필요한 정보 꺼내기
-        const temp = Math.round(data.main.temp); // 온도
-        const desc = data.weather[0].description; // 날씨 설명
-        const iconCode = data.weather[0].icon; // 아이콘 코드
-        const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
-
-        // 화면에 출력하기
-        const weatherDiv = document.getElementById('weather');
-        weatherDiv.innerHTML = `
-          <img src="${iconUrl}" alt="${desc}" style="height:24px; vertical-align:middle;">
-          <span>${temp}°C ${desc}</span>
-        `;
-      })
-      .catch(function (error) {
-        console.log('날씨 정보를 가져오는 중 오류 발생:', error);
-        document.getElementById('weather').textContent = '날씨 정보 오류';
-      });
-
-  }, function (error) {
-    console.log('위치 정보를 가져올 수 없습니다:', error);
-    document.getElementById('weather').textContent = '위치 권한 필요';
-  });
-});
+  // 랜덤 날씨 표시
+  const randomWeather = weatherData[Math.floor(Math.random() * weatherData.length)];
+  weatherEl.textContent = randomWeather;
+}
 
 /**
- * 7. 모바일 메뉴 (햄버거 버튼)
+ * 모바일 메뉴
  */
 function initMobileMenu() {
-  console.log('📱 모바일 메뉴 시작');
   const menuBtn = document.querySelector('.menu-btn');
   const navMenu = document.querySelector('.nav-menu');
 
-  // 햄버거 버튼 클릭 시 메뉴 토글
   menuBtn.addEventListener('click', function () {
     navMenu.classList.toggle('active');
     menuBtn.classList.toggle('active');
@@ -228,10 +181,9 @@ function initMobileMenu() {
 }
 
 /**
- * 8. 부드러운 스크롤
+ * 부드러운 스크롤
  */
 function initSmoothScroll() {
-  console.log('🎢 부드러운 스크롤 시작');
   document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
     anchor.addEventListener('click', function (e) {
       e.preventDefault();
@@ -240,7 +192,7 @@ function initSmoothScroll() {
 
       if (targetElement) {
         window.scrollTo({
-          top: targetElement.offsetTop - 70, // 네비게이션 높이만큼 여백
+          top: targetElement.offsetTop - 70,
           behavior: 'smooth'
         });
       }
@@ -249,15 +201,13 @@ function initSmoothScroll() {
 }
 
 /**
- * 9. 스크롤 기반 애니메이션 (GSAP & ScrollTrigger)
+ * GSAP 애니메이션
  */
 function initAnimations() {
-  console.log('✨ GSAP 애니메이션 시작');
-
   // GSAP 플러그인 등록
   gsap.registerPlugin(ScrollTrigger);
 
-  // 배경 도형 회전 애니메이션
+  // 배경 도형 회전
   gsap.to(".shape", {
     rotation: 360,
     duration: 20,
@@ -297,13 +247,11 @@ function initAnimations() {
 }
 
 /**
- * 10. 섹션별 파티클 효과 토글
+ * 섹션별 파티클 효과 토글
  */
 function initParticleToggler() {
-  console.log('💡 파티클 토글 기능 시작');
   const particleCanvas = document.getElementById('particles');
 
-  // 교차 관찰자로 섹션 감지
   const observer = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
       if (entry.isIntersecting) {
@@ -312,10 +260,10 @@ function initParticleToggler() {
       }
     });
   }, {
-    threshold: 0.5 // 섹션의 50%가 보일 때 트리거
+    threshold: 0.5
   });
 
-  // 모든 섹션을 관찰 대상에 추가
+  // 모든 섹션을 관찰
   document.querySelectorAll('section').forEach(function (section) {
     observer.observe(section);
   });
