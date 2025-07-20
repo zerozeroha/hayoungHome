@@ -17,28 +17,23 @@ body {
   overflow-x: hidden;
 }
 
-/* 모든 a 태그 기본 스타일 */
 a {
   text-decoration: none;
   color: inherit;
 }
 
-/* 모든 list 기본 스타일 */
 ul,
 li {
   list-style: none;
 }
 
-
-/* 공용 컨테이너 */
 .container {
   max-width: 1100px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
-
-/* 파티클 캔버스 - 항상 맨 뒤 */
+/* 파티클 캔버스 */
 #particles {
   position: fixed;
   top: 0;
@@ -47,10 +42,8 @@ li {
   height: 100%;
   pointer-events: none;
   z-index: -1;
-  /* 다른 요소들 뒤로 보내기 */
   opacity: 0.6;
   transition: opacity 0.6s ease-in-out;
-  /* 부드러운 전환 효과 */
 }
 
 /* 커스텀 커서 */
@@ -85,16 +78,21 @@ button:hover~.cursor {
 }
 
 .loading-text {
-  font-size: 44px;
+  font-size: 34px;
   margin-bottom: 26px;
-  animation: pulse 1s infinite;
+  animation: pulse 1.5s infinite;
+}
+
+.loading-text-under {
+  font-size: 28px;
+  margin-top: 26px;
 }
 
 .loading-bar {
-  width: 200px;
-  height: 5px;
+  width: 280px;
+  height: 6px;
   background: #fff3;
-  border-radius: 3px;
+  border-radius: 20px;
 }
 
 .loading-progress {
@@ -178,6 +176,7 @@ button:hover~.cursor {
   width: 100%;
 }
 
+/* 햄버거 메뉴 버튼 (버그 수정) */
 .menu-btn {
   display: none;
   flex-direction: column;
@@ -185,6 +184,12 @@ button:hover~.cursor {
   background: none;
   border: none;
   cursor: pointer;
+  padding: 10px;
+  /* 클릭 영역 확보 */
+  position: relative;
+  /* z-index 적용을 위해 */
+  z-index: 10001;
+  /* 커서(9999)보다 위에 오도록 설정 */
 }
 
 .menu-btn span {
@@ -192,14 +197,28 @@ button:hover~.cursor {
   height: 2px;
   background: #333;
   transition: all .3s;
+  border-radius: 2px;
 }
+
+/* 햄버거 메뉴 활성화 시 X 모양으로 변경 */
+.menu-btn.active span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.menu-btn.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-btn.active span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
 
 /* 섹션 공통 */
 section {
   padding: 100px 0;
   position: relative;
   background-color: transparent;
-  /* 파티클이 보이도록 투명 처리 */
 }
 
 .section-title {
@@ -269,38 +288,53 @@ section {
   }
 }
 
+/* 위젯 (새로운 Glassmorphism 디자인) */
 .widgets {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
+  display: inline-flex;
+  /* 내용물 크기에 맞게 */
+  gap: 12px;
+  margin-top: 40px;
   margin-bottom: 34px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 12px 20px;
+  border-radius: 50px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .widget {
-  background: #fafafa;
-  border-radius: 12px;
-  padding: 18px 24px;
-  min-width: 90px;
   display: flex;
   align-items: center;
-  gap: 9px;
-  box-shadow: 0 2px 8px #0000000a;
+  gap: 10px;
+}
+
+.widget:not(:last-child) {
+  padding-right: 12px;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .widget-icon {
-  font-size: 21px;
+  font-size: 20px;
+}
+
+.widget-info {
+  text-align: left;
 }
 
 .widget-label {
-  font-size: 13px;
-  color: #999;
+  font-size: 12px;
+  color: #555;
+  display: block;
 }
 
 .widget-value {
-  font-size: 17px;
-  font-weight: bold;
-  color: #222;
+  font-size: 16px;
+  font-weight: 600;
+  color: #111;
 }
+
 
 .buttons {
   display: flex;

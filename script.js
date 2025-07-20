@@ -11,11 +11,11 @@ window.addEventListener('DOMContentLoaded', () => {
   initTyping();
   initTime();
   initWeather();
-  initCounter();
   initMobileMenu();
   initSmoothScroll();
   initAnimations();
-  initParticleToggler(); // 파티클 토글 기능 추가
+  initParticleToggler();
+  // initCounter(); // 카운터 기능이 삭제되어 주석 처리 또는 삭제
 });
 
 
@@ -28,7 +28,7 @@ function hideLoading() {
   loading.style.opacity = '0';
   setTimeout(() => {
     loading.style.display = 'none';
-  }, 500); // 0.5초 후 완전히 제거
+  }, 500);
 }
 
 
@@ -42,7 +42,6 @@ function initCanvas() {
   const particles = [];
   let particleCount = 50;
 
-  // 캔버스 크기를 화면에 맞게 설정
   function setCanvasSize() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -50,7 +49,6 @@ function initCanvas() {
   setCanvasSize();
   window.addEventListener('resize', setCanvasSize);
 
-  // 파티클 객체 생성
   for (let i = 0; i < particleCount; i++) {
     particles.push({
       x: Math.random() * canvas.width,
@@ -61,28 +59,20 @@ function initCanvas() {
     });
   }
 
-  // 파티클 그리기 및 애니메이션
   function drawParticles() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
     particles.forEach(p => {
       p.x += p.speedX;
       p.y += p.speedY;
-
-      // 화면 경계를 벗어나면 방향 전환
       if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
       if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
-
-      // 파티클 원 그리기
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
       ctx.fillStyle = 'rgba(220, 38, 38, 0.5)';
       ctx.fill();
     });
-
     requestAnimationFrame(drawParticles);
   }
-
   drawParticles();
 }
 
@@ -119,19 +109,12 @@ function initTyping() {
 
   function type() {
     const currentText = texts[textIndex];
-    let displayText;
-
-    if (isDeleting) {
-      // 글자 삭제
-      displayText = currentText.substring(0, charIndex--);
-    } else {
-      // 글자 타이핑
-      displayText = currentText.substring(0, charIndex++);
-    }
+    let displayText = isDeleting ?
+      currentText.substring(0, charIndex--) :
+      currentText.substring(0, charIndex++);
 
     typingElement.textContent = displayText;
 
-    // 타이핑/삭제 상태 변경 로직
     if (!isDeleting && charIndex > currentText.length) {
       isDeleting = true;
       setTimeout(type, pauseTime);
@@ -140,10 +123,8 @@ function initTyping() {
       isDeleting = false;
       textIndex = (textIndex + 1) % texts.length;
     }
-
     setTimeout(type, typingSpeed);
   }
-
   type();
 }
 
@@ -162,7 +143,7 @@ function initTime() {
     timeEl.textContent = `${hours}:${minutes}`;
   }
   updateTime();
-  setInterval(updateTime, 1000 * 30); // 30초마다 업데이트
+  setInterval(updateTime, 1000 * 30);
 }
 
 
@@ -178,43 +159,7 @@ function initWeather() {
 
 
 /**
- * 7. 위젯: 카운터 애니메이션
- */
-function initCounter() {
-  console.log('🔢 카운터 애니메이션 시작');
-  const counters = document.querySelectorAll('.counter');
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const counter = entry.target;
-        const target = +counter.dataset.target; // '+'로 숫자형 변환
-
-        gsap.to(counter, {
-          innerText: target,
-          duration: 2,
-          ease: 'power2.out',
-          snap: {
-            innerText: 1
-          }, // 정수 단위로 스냅
-          onUpdate: () => {
-            counter.innerText = Math.ceil(gsap.getProperty(counter, "innerText"));
-          }
-        });
-
-        observer.unobserve(counter); // 한번 실행 후 관찰 중지
-      }
-    });
-  }, {
-    threshold: 0.5
-  });
-
-  counters.forEach(counter => observer.observe(counter));
-}
-
-
-/**
- * 8. 모바일 메뉴 (햄버거 버튼)
+ * 7. 모바일 메뉴 (햄버거 버튼)
  */
 function initMobileMenu() {
   console.log('📱 모바일 메뉴 시작');
@@ -223,14 +168,13 @@ function initMobileMenu() {
 
   menuBtn.addEventListener('click', () => {
     navMenu.classList.toggle('active');
-    // 햄버거 버튼 모양 변경
     menuBtn.classList.toggle('active');
   });
 }
 
 
 /**
- * 9. 부드러운 스크롤
+ * 8. 부드러운 스크롤
  */
 function initSmoothScroll() {
   console.log('🎢 부드러운 스크롤 시작');
@@ -242,7 +186,7 @@ function initSmoothScroll() {
 
       if (targetElement) {
         window.scrollTo({
-          top: targetElement.offsetTop - 60, // 네비게이션바 높이만큼 빼주기
+          top: targetElement.offsetTop - 60,
           behavior: 'smooth'
         });
       }
@@ -251,15 +195,12 @@ function initSmoothScroll() {
 }
 
 /**
- * 10. 스크롤 기반 애니메이션 (GSAP & ScrollTrigger)
+ * 9. 스크롤 기반 애니메이션 (GSAP & ScrollTrigger)
  */
 function initAnimations() {
   console.log('✨ GSAP 애니메이션 시작');
-
-  // GSAP 플러그인 등록
   gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
-  // 배경 도형 회전
   gsap.to(".shape", {
     rotation: 360,
     duration: 20,
@@ -267,18 +208,8 @@ function initAnimations() {
     ease: "none"
   });
 
-  // 스킬 프로그레스바
   document.querySelectorAll('.skill-progress').forEach(progress => {
     const width = progress.getAttribute('data-width');
-    gsap.from(progress, {
-      scrollTrigger: {
-        trigger: progress.closest('.skill-card'),
-        start: 'top 80%',
-      },
-      width: '0%',
-      duration: 1.5,
-      ease: 'power2.out'
-    });
     gsap.to(progress, {
       scrollTrigger: {
         trigger: progress.closest('.skill-card'),
@@ -290,7 +221,6 @@ function initAnimations() {
     });
   });
 
-  // 섹션 카드 나타나는 효과
   const cards = document.querySelectorAll('.skill-card, .career-item, .project-card');
   cards.forEach(card => {
     gsap.from(card, {
@@ -308,7 +238,7 @@ function initAnimations() {
 
 
 /**
- * 11. 섹션별 파티클 효과 토글 (NEW ✨)
+ * 10. 섹션별 파티클 효과 토글
  */
 function initParticleToggler() {
   console.log('💡 파티클 토글 기능 시작');
@@ -316,19 +246,15 @@ function initParticleToggler() {
 
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
-      // 섹션이 50% 이상 보일 때
       if (entry.isIntersecting) {
-        // html의 data-particles 속성값 확인 (true/false)
         const showParticles = entry.target.dataset.particles === 'true';
-        // 조건에 따라 파티클 캔버스의 투명도 조절
         particleCanvas.style.opacity = showParticles ? '0.6' : '0';
       }
     });
   }, {
     threshold: 0.5
-  }); // 섹션이 50% 보일 때 감지
+  });
 
-  // 모든 섹션을 관찰 대상으로 등록
   document.querySelectorAll('section').forEach(section => {
     observer.observe(section);
   });
