@@ -31,7 +31,6 @@ body {
 }
 
 body {
-  font-family: 'Orbitron', sans-serif;
   background-color: #121212;
   color: var(--text-primary);
   overflow-x: hidden;
@@ -39,6 +38,27 @@ body {
   letter-spacing: -0.3px;
   word-break: keep-all;
 }
+
+
+/* 기본 폰트 (본문, UI 전반) */
+body {
+  font-family: 'Inter', 'Pretendard', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* 타이틀에만 Orbitron */
+h1,
+h2,
+.label,
+.title,
+.number {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  text-transform: uppercase;
+}
+
 
 a {
   text-decoration: none;
@@ -208,12 +228,35 @@ section {
   text-align: center;
 }
 
+/* 히어로 섹션의 label 부분에 fade in 애니메이션 추가 */
 .hero-content .label {
   color: var(--primary-color);
   font-weight: bold;
   letter-spacing: 1.5px;
   margin-bottom: 16px;
   display: block;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 1.2s ease 0.5s forwards;
+}
+
+/* 페이드 인 업 애니메이션 키프레임 추가 */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.label {
+  font-size: 46px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
 }
 
 .hero-title {
@@ -385,47 +428,6 @@ section {
   letter-spacing: 2px;
 }
 
-/* 배경 도형 */
-.bg-shapes {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: -1;
-}
-
-.shape {
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0.13;
-}
-
-.shape-1 {
-  width: 240px;
-  height: 240px;
-  background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-  top: 11%;
-  right: 9%;
-}
-
-.shape-2 {
-  width: 140px;
-  height: 140px;
-  background: linear-gradient(45deg, #45b7d1, #96ceb4);
-  bottom: 15%;
-  left: 7%;
-}
-
-.shape-3 {
-  width: 100px;
-  height: 100px;
-  background: linear-gradient(45deg, #feca57, #ee5a6f);
-  top: 54%;
-  left: 80%;
-}
-
 /* 그리드 */
 .skill-grid,
 .projects-grid {
@@ -546,13 +548,14 @@ section {
 }
 
 .career-date {
-  font-weight: bold;
+  font-weight: 900;
   color: var(--primary-color);
   margin-bottom: 0.5rem;
 }
 
 .career-type {
   font-size: 0.8rem;
+  font-weight: 600;
   color: var(--text-light);
   margin-bottom: 0.5rem;
   text-transform: uppercase;
