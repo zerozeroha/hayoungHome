@@ -139,23 +139,9 @@ function initTime() {
   setInterval(updateTime, 30000); // 30초마다 업데이트
 }
 
-/**
- * 날씨 정보
- */
-/**
- * 방법 1: HTML에서 환경변수를 전역변수로 전달
- * HTML 파일의 <head>에 추가:
- * <script>
- *   window.WEATHER_API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
- * </script>
- */
 
 /**
- * 방법 2: Vite의 define을 사용 (vite.config.js 설정 필요)
- */
-
-/**
- * 간단한 날씨 정보 가져오기 (환경변수 버전)
+ * 날씨
  */
 function initWeather() {
   const weatherEl = document.getElementById('weather');
@@ -163,22 +149,16 @@ function initWeather() {
   const API_KEY =
     import.meta.env.VITE_WEATHER_API_KEY;
 
-  if (!API_KEY) {
-    weatherEl.textContent = '🔐 API 키 누락됨!';
-    console.error('환경변수에서 API 키를 불러올 수 없습니다.');
-    return;
-  }
-
-
   // API 키 확인
-  if (API_KEY === 'VITE_WEATHER_API_KEY') {
-    weatherEl.textContent = '🔑 API 키를 설정해주세요';
-    console.error('환경변수에서 API 키를 불러올 수 없습니다.');
+  if (!API_KEY || API_KEY === undefined) {
+    weatherEl.textContent = '🌤️ 서울 날씨';
+    console.warn('API 키가 설정되지 않았습니다. .env 파일을 확인하세요.');
     return;
   }
 
   console.log('API 키 로드 성공!');
 
+  // 로딩 메시지
   weatherEl.textContent = '날씨 불러오는 중...';
 
   // 내 위치 가져오기
