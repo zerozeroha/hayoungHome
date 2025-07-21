@@ -21,7 +21,8 @@ function initCanvas() {
   const canvas = document.getElementById('particles');
   const ctx = canvas.getContext('2d');
   const particles = [];
-  let particleCount = 50;
+  // 모바일에서는 파티클 수 줄여서 성능 최적화
+  let particleCount = window.innerWidth < 768 ? 25 : 50;
 
   // 캔버스 크기 설정
   function setCanvasSize() {
@@ -68,10 +69,14 @@ function initCanvas() {
 }
 
 /**
- * 커스텀 커서
+ * 커스텀 커서 (데스크톱에서만)
  */
 function initCursor() {
+  // 모바일/태블릿에서는 커서 기능 비활성화
+  if (window.innerWidth < 1024) return;
+
   const cursor = document.querySelector('.cursor');
+  if (!cursor) return;
 
   document.addEventListener('mousemove', function (e) {
     cursor.style.left = e.clientX + 'px';
@@ -96,6 +101,8 @@ function initTyping() {
   const typingSpeed = 100;
   const pauseTime = 2000;
   const typingElement = document.getElementById('typing-text');
+
+  if (!typingElement) return;
 
   function type() {
     const currentText = texts[textIndex];
@@ -127,6 +134,7 @@ function initTyping() {
  */
 function initTime() {
   const timeEl = document.getElementById('time');
+  if (!timeEl) return;
 
   function updateTime() {
     const now = new Date();
@@ -139,12 +147,12 @@ function initTime() {
   setInterval(updateTime, 30000); // 30초마다 업데이트
 }
 
-
 /**
  * 날씨
  */
 function initWeather() {
   const weatherEl = document.getElementById('weather');
+  if (!weatherEl) return;
 
   const API_KEY =
     import.meta.env.VITE_WEATHER_API_KEY;
@@ -204,9 +212,23 @@ function initMobileMenu() {
   const menuBtn = document.querySelector('.menu-btn');
   const navMenu = document.querySelector('.nav-menu');
 
-  menuBtn.addEventListener('click', function () {
+  // 요소가 존재하는지 확인
+  if (!menuBtn || !navMenu) {
+    console.log('메뉴 요소를 찾을 수 없습니다.');
+    return;
+  }
+
+  console.log('모바일 메뉴 초기화 완료');
+
+  // 햄버거 버튼 클릭 이벤트
+  menuBtn.addEventListener('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+
     navMenu.classList.toggle('active');
     menuBtn.classList.toggle('active');
+
+    console.log('메뉴 토글:', navMenu.classList.contains('active'));
   });
 
   // 메뉴 항목 클릭 시 메뉴 닫기
@@ -214,7 +236,27 @@ function initMobileMenu() {
     link.addEventListener('click', function () {
       navMenu.classList.remove('active');
       menuBtn.classList.remove('active');
+      console.log('메뉴 닫기');
     });
+  });
+
+  // 메뉴 외부 클릭 시 닫기 (단, 햄버거 버튼은 제외)
+  document.addEventListener('click', function (e) {
+    if (!menuBtn.contains(e.target) && !navMenu.contains(e.target)) {
+      if (navMenu.classList.contains('active')) {
+        navMenu.classList.remove('active');
+        menuBtn.classList.remove('active');
+        console.log('외부 클릭으로 메뉴 닫기');
+      }
+    }
+  });
+
+  // 화면 크기 변경 시 메뉴 리셋
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 768) {
+      navMenu.classList.remove('active');
+      menuBtn.classList.remove('active');
+    }
   });
 }
 
@@ -242,16 +284,15 @@ function initSmoothScroll() {
  * GSAP 애니메이션
  */
 function initAnimations() {
+  // GSAP가 로드되지 않은 경우 기본 애니메이션으로 대체
+  if (typeof gsap === 'undefined') {
+    console.log('GSAP가 로드되지 않았습니다. 기본 애니메이션을 사용합니다.');
+    initBasicAnimations();
+    return;
+  }
+
   // GSAP 플러그인 등록
   gsap.registerPlugin(ScrollTrigger);
-
-  // 배경 도형 회전
-  gsap.to(".shape", {
-    rotation: 360,
-    duration: 20,
-    repeat: -1,
-    ease: "none"
-  });
 
   // 스킬바 진행률 애니메이션
   document.querySelectorAll('.skill-progress').forEach(function (progress) {
@@ -285,10 +326,49 @@ function initAnimations() {
 }
 
 /**
+ * 기본 애니메이션 (GSAP 없이)
+ */
+function initBasicAnimations() {
+  // 스크롤 시 요소 등장 애니메이션
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+
+        // 스킬바 애니메이션
+        const skillProgress = entry.target.querySelector('.skill-progress');
+        if (skillProgress) {
+          const width = skillProgress.getAttribute('data-width');
+          setTimeout(() => {
+            skillProgress.style.width = width + '%';
+          }, 200);
+        }
+      }
+    });
+  }, observerOptions);
+
+  // 애니메이션 대상 요소들
+  const animateElements = document.querySelectorAll('.skill-card, .career-item, .project-card');
+  animateElements.forEach(function (el) {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(40px)';
+    el.style.transition = 'all 0.8s ease';
+    observer.observe(el);
+  });
+}
+
+/**
  * 섹션별 파티클 효과 토글
  */
 function initParticleToggler() {
   const particleCanvas = document.getElementById('particles');
+  if (!particleCanvas) return;
 
   const observer = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
@@ -306,3 +386,27 @@ function initParticleToggler() {
     observer.observe(section);
   });
 }
+
+// 화면 크기 변경 시 파티클 수 재조정
+window.addEventListener('resize', function () {
+  // 디바운스 처리
+  clearTimeout(window.resizeTimeout);
+  window.resizeTimeout = setTimeout(function () {
+    // 필요시 캔버스 다시 초기화
+    if (window.innerWidth !== window.lastWidth) {
+      window.lastWidth = window.innerWidth;
+      initCanvas();
+    }
+  }, 250);
+});
+
+// 페이지 가시성 변경 시 애니메이션 일시정지 (성능 최적화)
+document.addEventListener('visibilitychange', function () {
+  if (document.hidden) {
+    // 페이지가 숨겨지면 애니메이션 일시정지
+    console.log('페이지 숨김 - 애니메이션 일시정지');
+  } else {
+    // 페이지가 다시 보이면 애니메이션 재시작
+    console.log('페이지 표시 - 애니메이션 재시작');
+  }
+});
