@@ -12,6 +12,7 @@ window.addEventListener('DOMContentLoaded', function () {
   initSmoothScroll();
   initAnimations();
   initParticleToggler();
+  initProjectPopup();
 });
 
 /**
@@ -281,9 +282,14 @@ function initSmoothScroll() {
 }
 
 /**
- * GSAP 애니메이션
+ * GSAP 애니메이션 - 마우스 호버 기반으로 변경
  */
 function initAnimations() {
+  // 모든 스킬바를 초기에 0%로 설정
+  document.querySelectorAll('.skill-progress').forEach(function (progress) {
+    progress.style.width = '0%';
+  });
+
   // GSAP가 로드되지 않은 경우 기본 애니메이션으로 대체
   if (typeof gsap === 'undefined') {
     console.log('GSAP가 로드되지 않았습니다. 기본 애니메이션을 사용합니다.');
@@ -294,22 +300,34 @@ function initAnimations() {
   // GSAP 플러그인 등록
   gsap.registerPlugin(ScrollTrigger);
 
-  // 스킬바 진행률 애니메이션
-  document.querySelectorAll('.skill-progress').forEach(function (progress) {
+  // 스킬카드 마우스 호버 애니메이션
+  document.querySelectorAll('.skill-card').forEach(function (card) {
+    const progress = card.querySelector('.skill-progress');
     const width = progress.getAttribute('data-width');
+    let currentAnimation = null;
 
-    gsap.to(progress, {
-      scrollTrigger: {
-        trigger: progress.closest('.skill-card'),
-        start: 'top 80%',
-      },
-      width: width + '%',
-      duration: 1.5,
-      ease: 'power2.out'
+    // 마우스 올릴 때 - 100% 채우기
+    card.addEventListener('mouseenter', function () {
+      if (currentAnimation) currentAnimation.kill();
+      currentAnimation = gsap.to(progress, {
+        width: '100%',
+        duration: 1.5,
+        ease: 'power2.out'
+      });
+    });
+
+    // 마우스 뗄 때 - 0%로 비우기
+    card.addEventListener('mouseleave', function () {
+      if (currentAnimation) currentAnimation.kill();
+      currentAnimation = gsap.to(progress, {
+        width: '0%',
+        duration: 1.5,
+        ease: 'power2.out'
+      });
     });
   });
 
-  // 카드 등장 애니메이션
+  // 카드 등장 애니메이션 (스크롤 기반 유지)
   const cards = document.querySelectorAll('.skill-card, .career-item, .project-card');
   cards.forEach(function (card) {
     gsap.from(card, {
@@ -326,7 +344,7 @@ function initAnimations() {
 }
 
 /**
- * 기본 애니메이션 (GSAP 없이)
+ * 기본 애니메이션 (GSAP 없이) - 마우스 호버 기반으로 변경
  */
 function initBasicAnimations() {
   // 스크롤 시 요소 등장 애니메이션
@@ -340,15 +358,6 @@ function initBasicAnimations() {
       if (entry.isIntersecting) {
         entry.target.style.opacity = '1';
         entry.target.style.transform = 'translateY(0)';
-
-        // 스킬바 애니메이션
-        const skillProgress = entry.target.querySelector('.skill-progress');
-        if (skillProgress) {
-          const width = skillProgress.getAttribute('data-width');
-          setTimeout(() => {
-            skillProgress.style.width = width + '%';
-          }, 200);
-        }
       }
     });
   }, observerOptions);
@@ -357,9 +366,27 @@ function initBasicAnimations() {
   const animateElements = document.querySelectorAll('.skill-card, .career-item, .project-card');
   animateElements.forEach(function (el) {
     el.style.opacity = '0';
-    el.style.transform = 'translateY(40px)';
+    el.style.transform = 'translateY(20px)';
     el.style.transition = 'all 0.8s ease';
     observer.observe(el);
+
+    // 스킬카드에만 마우스 호버 효과 추가
+    if (el.classList.contains('skill-card')) {
+      const progress = el.querySelector('.skill-progress');
+      if (progress) {
+        // 마우스 올릴 때 - 100% 채우기
+        el.addEventListener('mouseenter', function () {
+          progress.style.width = '100%';
+          progress.style.transition = 'width 1s ease';
+        });
+
+        // 마우스 뗄 때 - 0%로 비우기
+        el.addEventListener('mouseleave', function () {
+          progress.style.width = '0%';
+          progress.style.transition = 'width 1s ease';
+        });
+      }
+    }
   });
 }
 
@@ -384,6 +411,146 @@ function initParticleToggler() {
   // 모든 섹션을 관찰
   document.querySelectorAll('section').forEach(function (section) {
     observer.observe(section);
+  });
+}
+
+/**
+ * 프로젝트 팝업 기능
+ */
+function initProjectPopup() {
+  console.log('팝업 초기화 시작');
+
+  // 프로젝트 데이터
+  const projectData = {
+    wattsup: {
+      title: 'WattsUp Dashboard',
+      subtitle: '에너지 데이터 시각화 플랫폼',
+      description: '한국전력 API를 활용하여 실시간 에너지 사용량을 모니터링하고 에너지 거래를 할 수 있는 플랫폼입니다. 사용자는 직관적인 대시보드를 통해 에너지 소비 패턴을 분석하고, 효율적인 에너지 관리를 할 수 있습니다.',
+      features: [
+        '실시간 에너지 사용량 모니터링',
+        '에너지 거래 및 매매 기능',
+        '사용량 분석 및 리포트 생성',
+        '반응형 대시보드 인터페이스'
+      ],
+      tech: ['React', 'Next.js', 'TypeScript', 'Recharts', 'Tailwind CSS'],
+      github: 'https://github.com/zerozeroha',
+      demo: 'https://watts-up-n9ow.vercel.app/'
+    },
+    survey: {
+      title: 'SurveyGacha',
+      subtitle: '설문조사 플랫폼',
+      description: '설문 참여 시 포인트를 획득하여 다양한 보상을 받을 수 있는 재미있는 설문조사 플랫폼입니다. 게임적 요소를 도입하여 사용자 참여도를 높였습니다.',
+      features: [
+        '설문 참여 포인트 시스템',
+        '가챠 시스템으로 보상 획득',
+        '다양한 설문 유형 지원',
+        '실시간 결과 확인'
+      ],
+      tech: ['React', 'TypeScript', 'Zustand', 'Supabase'],
+      github: 'https://github.com/zerozeroha',
+      demo: 'https://surveygacha.vercel.app/about'
+    },
+    carini: {
+      title: 'CARINI Web',
+      subtitle: '지도 기반 차량 탐색 플랫폼',
+      description: '카카오맵 API를 활용하여 사용자 위치 기반으로 주변 중고차 매물을 쉽게 검색할 수 있는 플랫폼입니다. 지도 인터페이스로 직관적인 차량 검색이 가능합니다.',
+      features: [
+        '위치 기반 차량 검색',
+        '카카오맵 API 연동',
+        '실시간 매물 정보 업데이트',
+        '필터 기능으로 조건별 검색'
+      ],
+      tech: ['JavaScript', 'Kakao Map API', 'Spring Boot', 'MySQL'],
+      github: 'https://github.com/zerozeroha'
+    }
+  };
+
+  // 팝업 요소들 가져오기
+  const popup = document.getElementById('project-popup');
+  const popupBody = document.getElementById('popup-body');
+  const closeBtn = document.querySelector('.popup-close');
+
+  if (!popup || !popupBody || !closeBtn) {
+    console.error('팝업 요소들을 찾을 수 없습니다!');
+    return;
+  }
+
+  // 프로젝트 카드들에 클릭 이벤트 추가
+  const projectCards = document.querySelectorAll('.project-card');
+  console.log('프로젝트 카드 개수:', projectCards.length);
+
+  projectCards.forEach(function (card, index) {
+    const projectKey = card.getAttribute('data-project');
+    console.log(`카드 ${index}: data-project = ${projectKey}`);
+
+    card.addEventListener('click', function () {
+      console.log('카드 클릭됨:', projectKey);
+      const project = projectData[projectKey];
+
+      if (project) {
+        showPopup(project);
+      } else {
+        console.error('프로젝트 데이터를 찾을 수 없음:', projectKey);
+      }
+    });
+  });
+
+  // 팝업 보여주기
+  function showPopup(project) {
+    console.log('팝업 표시:', project.title);
+
+    const content = `
+      <h2 class="popup-title">${project.title}</h2>
+      <p class="popup-subtitle">${project.subtitle}</p>
+      <p class="popup-description">${project.description}</p>
+
+      <div class="popup-features">
+        <h4>주요 기능</h4>
+        <ul>
+          ${project.features.map(feature => `<li>• ${feature}</li>`).join('')}
+        </ul>
+      </div>
+
+      <div class="popup-tech">
+        ${project.tech.map(tech => `<span>${tech}</span>`).join('')}
+      </div>
+
+      <div class="popup-links">
+        <a href="${project.github}" class="popup-link" target="_blank">
+          <i class="fab fa-github"></i> GitHub
+        </a>
+        <a href="${project.demo}" class="popup-link" target="_blank">
+          <i class="fas fa-external-link-alt"></i> Demo
+        </a>
+      </div>
+    `;
+
+    popupBody.innerHTML = content;
+    popup.style.display = 'block';
+    document.body.style.overflow = 'hidden'; // 스크롤 방지
+  }
+
+  // 팝업 닫기
+  function closePopup() {
+    popup.style.display = 'none';
+    document.body.style.overflow = 'auto'; // 스크롤 복원
+  }
+
+  // 닫기 버튼 클릭
+  closeBtn.addEventListener('click', closePopup);
+
+  // 배경 클릭 시 닫기
+  popup.addEventListener('click', function (e) {
+    if (e.target === popup) {
+      closePopup();
+    }
+  });
+
+  // ESC 키로 닫기
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && popup.style.display === 'block') {
+      closePopup();
+    }
   });
 }
 

@@ -110,6 +110,7 @@ li {
   box-shadow: 0 2px 20px var(--shadow-light);
   z-index: 1000;
   transition: var(--transition);
+  opacity: 0.9;
 }
 
 .navbar .container {
@@ -231,12 +232,9 @@ section {
   font-weight: bold;
   letter-spacing: 1.5px;
   margin-bottom: 16px;
-  display: block;
-  opacity: 0;
-  transform: translateY(30px);
-  animation: fadeInUp 1.2s ease 0.5s forwards;
   font-size: 16px;
 }
+
 
 @keyframes fadeInUp {
   0% {
@@ -259,9 +257,13 @@ section {
 .hero-title .name-ko {
   font-size: 60px;
   font-weight: 900;
-  color: #ffffff;
+  color: #efefef;
   line-height: 1.1;
+  opacity: 0.95;
+  animation: fadeInUp 1.2s ease 0.5s forwards;
+
 }
+
 
 .hero-title .name-en {
   font-size: 22px;
@@ -303,7 +305,7 @@ video {
   display: block;
   margin: 20px auto;
   border-radius: 10px;
-  box-shadow: 0 px 20px rgba(235, 6, 6, 0.833);
+  box-shadow: 0 4px 20px rgba(235, 6, 6, 0.833);
 }
 
 /* 위젯 */
@@ -491,8 +493,15 @@ video {
   background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
   border-radius: 4px;
   width: 0%;
-  transition: width 2s ease;
+  transition: width 0.6s ease;
 }
+
+/* 호버 효과 추가 */
+.skill-card:hover .skill-progress {
+  width: 100% !important;
+  transition: width 0.8s ease;
+}
+
 
 .skill-tags {
   display: flex;
@@ -609,6 +618,7 @@ video {
 .project-card {
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 }
 
 .project-content {
@@ -1046,5 +1056,171 @@ footer .container {
 
   .scroll-down {
     display: none;
+  }
+}
+
+
+/* 프로젝트 팝업 */
+.popup-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 10000;
+  animation: fadeIn 0.3s ease;
+}
+
+.popup-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 16px;
+  max-width: 800px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  animation: slideUp 0.3s ease;
+}
+
+.popup-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 30px;
+  cursor: pointer;
+  color: #999;
+  z-index: 1;
+}
+
+.popup-close:hover {
+  color: var(--primary-color);
+}
+
+#popup-body {
+  padding: 40px;
+}
+
+.popup-title {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: var(--text-primary);
+}
+
+.popup-subtitle {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+}
+
+.popup-description {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 30px;
+}
+
+.popup-features {
+  margin-bottom: 30px;
+}
+
+.popup-features h4 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: var(--text-primary);
+}
+
+.popup-features ul {
+  list-style: none;
+  padding: 0;
+}
+
+.popup-features li {
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.popup-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 30px;
+}
+
+.popup-tech span {
+  background: var(--bg-gray);
+  color: var(--text-primary);
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-size: 14px;
+}
+
+.popup-links {
+  display: flex;
+  gap: 15px;
+}
+
+.popup-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  border-radius: 25px;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.popup-link:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -40%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* 모바일에서 팝업 조정 */
+@media (max-width: 768px) {
+  .popup-content {
+    width: 95%;
+    max-height: 90vh;
+  }
+
+  #popup-body {
+    padding: 30px 20px;
+  }
+
+  .popup-title {
+    font-size: 24px;
+  }
+
+  .popup-links {
+    flex-direction: column;
   }
 }
